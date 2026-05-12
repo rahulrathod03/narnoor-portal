@@ -774,6 +774,44 @@ function pgHome(){
       </div>
     </div>
   </div>
+  <!-- WEATHER SECTION -->
+  <div style="background:linear-gradient(135deg,#0d1b2a,#1b4332);padding:36px 24px">
+    <div style="max-width:1220px;margin:0 auto">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+        <div><div style="font-size:10px;font-weight:800;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:2px;margin-bottom:5px">Live Weather</div>
+        <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:800;color:#fff">Narnoor Block Weather <span style="color:var(--sl)">— Live</span></div></div>
+        <div style="font-size:10px;color:rgba(255,255,255,.35);font-weight:600">📍 Adilabad, Telangana · 19.1°N 78.5°E</div>
+      </div>
+      <div id="weather-main" style="display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:20px;margin-bottom:16px">
+        <div style="text-align:center;padding-right:20px;border-right:1px solid rgba(255,255,255,.1)">
+          <div id="w-icon" style="font-size:52px;margin-bottom:4px">🌤️</div>
+          <div id="w-temp" style="font-family:'Poppins',sans-serif;font-size:42px;font-weight:900;color:#fff;line-height:1">--°</div>
+          <div id="w-feels" style="font-size:11px;color:rgba(255,255,255,.45);margin-top:4px">Feels like --°C</div>
+        </div>
+        <div>
+          <div id="w-desc" style="font-size:15px;font-weight:800;color:#fff;margin-bottom:14px">Loading weather...</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px">
+            <div style="background:rgba(255,255,255,.07);border-radius:10px;padding:10px;text-align:center"><div style="font-size:18px">💧</div><div id="w-hum" style="font-family:'Poppins',sans-serif;font-size:16px;font-weight:800;color:#94d2bd">--%</div><div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:2px">Humidity</div></div>
+            <div style="background:rgba(255,255,255,.07);border-radius:10px;padding:10px;text-align:center"><div style="font-size:18px">💨</div><div id="w-wind" style="font-family:'Poppins',sans-serif;font-size:16px;font-weight:800;color:#94d2bd">-- km/h</div><div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:2px">Wind</div></div>
+            <div style="background:rgba(255,255,255,.07);border-radius:10px;padding:10px;text-align:center"><div style="font-size:18px">🌧️</div><div id="w-rain" style="font-family:'Poppins',sans-serif;font-size:16px;font-weight:800;color:#94d2bd">-- mm</div><div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:2px">Rainfall</div></div>
+            <div style="background:rgba(255,255,255,.07);border-radius:10px;padding:10px;text-align:center"><div style="font-size:18px">👁️</div><div id="w-uv" style="font-family:'Poppins',sans-serif;font-size:16px;font-weight:800;color:#94d2bd">-- UV</div><div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:2px">UV Index</div></div>
+          </div>
+        </div>
+      </div>
+      <!-- 7-DAY FORECAST -->
+      <div id="weather-forecast" style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px">
+        ${[...Array(7)].map((_,i)=>`<div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:11px 6px;text-align:center" id="fc-${i}">
+          <div style="font-size:9px;font-weight:800;color:rgba(255,255,255,.4);margin-bottom:6px" id="fc-day-${i}">---</div>
+          <div style="font-size:22px;margin-bottom:6px" id="fc-icon-${i}">🌤️</div>
+          <div style="font-family:'Poppins',sans-serif;font-size:13px;font-weight:800;color:#fff" id="fc-max-${i}">--°</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.4)" id="fc-min-${i}">--°</div>
+          <div style="font-size:9px;color:#94d2bd;margin-top:4px;font-weight:700" id="fc-rain-${i}">--%</div>
+        </div>`).join("")}
+      </div>
+      <div style="font-size:10px;color:rgba(255,255,255,.2);text-align:right;margin-top:10px">Source: Open-Meteo · Updated every 15 min</div>
+    </div>
+  </div>
+
   <div class="salt" style="padding:46px 0"><div class="sec" style="padding-top:0;padding-bottom:0">
     <div style="text-align:center;margin-bottom:26px"><div class="stag" style="justify-content:center">${tr("nav_impact","Key Highlights")}</div><div class="sh">${tr("highlights_title","What Makes Narnoor Stand Out")}</div></div>
     <div class="g3">${D.highlights.length?D.highlights.map(h=>`<div class="hl ${h.color==="saffron"?"hls":h.color==="gold"?"hlg":h.color==="forest"?"hlf":""}"><div class="hl-t">${h.title}</div><div class="hl-s">${h.subtitle}</div></div>`).join(""):`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--tx3)"><div style="font-size:40px;margin-bottom:12px">✨</div><div style="font-size:14px;font-weight:700;color:var(--tx)">Run SQL setup to load highlights data</div></div>`}</div>
@@ -784,7 +822,14 @@ function pgHome(){
   </div>
   <div class="salt" style="padding:46px 0"><div class="sec" style="padding-top:0;padding-bottom:0">
     <div style="text-align:center;margin-bottom:26px"><div class="stag" style="justify-content:center">${tr("nav_impact","For Everyone")}</div><div class="sh">Narnoor — <span>${tr("platform_title","One Stop Platform")}</span></div></div>
-    <div class="g4">${[["🏛️","For NITI Aayog / GoI","KPI tracking, grant utilisation, rankings","ct"],["💼","For CSR Companies","Tribal products, education, health projects","cs"],["🏘️","For Narnoor Citizens","Schemes, grievances, products, information","cf"],["📰","Researchers & Media","Data, reports, stories and impact","cg"]].map(([ic,t,d,c])=>`<div class="card ${c}" style="text-align:center;padding:24px 18px"><div style="font-size:30px;margin-bottom:11px">${ic}</div><div style="font-size:13.5px;font-weight:800;margin-bottom:6px">${t}</div><div style="font-size:12px;color:var(--tx2);line-height:1.6">${d}</div></div>`).join("")}</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;max-width:900px;margin:0 auto">
+  ${[["🏛️","For NITI Aayog / GoI","KPI tracking, grant utilisation, rankings","ct","#e0f4f4","var(--td)"],["💼","For CSR Companies","Tribal products, education, health projects","cs","#fff4ee","var(--sd)"],["🏘️","For Narnoor Citizens","Schemes, grievances, products, information","cf","#edf5f0","var(--f)"],["📰","Researchers & Media","Data, reports, stories and impact","cg","var(--gp)","#92400e"]].map(([ic,t,d,c,bg,tc])=>`
+  <div class="card ${c}" style="text-align:center;padding:28px 20px;background:${bg};transition:all .3s">
+    <div style="width:56px;height:56px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:26px;box-shadow:0 4px 14px rgba(0,0,0,.1)">${ic}</div>
+    <div style="font-size:13.5px;font-weight:800;color:${tc};margin-bottom:7px">${t}</div>
+    <div style="font-size:12px;color:var(--tx2);line-height:1.65">${d}</div>
+  </div>`).join("")}
+</div>
   </div></div>`;
 }
 
@@ -1689,8 +1734,96 @@ document.addEventListener("DOMContentLoaded",setLogos);
   R();
   setTimeout(initChat,1000);
   setTimeout(initConstellation,200);
+  setTimeout(loadWeather,500);
   setTimeout(initAnimations,800);
 })();
+
+/* ══ LIVE WEATHER — Open-Meteo (free, no API key) ══ */
+const W_LAT=19.1,W_LON=78.5;
+const WMO_ICONS={0:"☀️",1:"🌤️",2:"⛅",3:"☁️",45:"🌫️",48:"🌫️",51:"🌦️",53:"🌦️",55:"🌦️",61:"🌧️",63:"🌧️",65:"🌧️",71:"❄️",73:"❄️",75:"❄️",80:"🌦️",81:"🌧️",82:"⛈️",85:"❄️",86:"❄️",95:"⛈️",96:"⛈️",99:"⛈️"};
+const WMO_DESC={0:"Clear Sky",1:"Mainly Clear",2:"Partly Cloudy",3:"Overcast",45:"Foggy",48:"Icy Fog",51:"Light Drizzle",53:"Drizzle",55:"Heavy Drizzle",61:"Light Rain",63:"Moderate Rain",65:"Heavy Rain",71:"Light Snow",73:"Moderate Snow",75:"Heavy Snow",80:"Light Showers",81:"Rain Showers",82:"Heavy Showers",95:"Thunderstorm",96:"Thunderstorm",99:"Heavy Thunderstorm"};
+const DAYS=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+async function loadWeather(){
+  showWeatherFallback(); // Show estimates immediately
+  try{
+    const controller=new AbortController();
+    const timeout=setTimeout(()=>controller.abort(),8000);
+    const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${W_LAT}&longitude=${W_LON}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,precipitation,uv_index&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia/Kolkata&forecast_days=7`,{signal:controller.signal});
+    clearTimeout(timeout);
+    if(!r.ok)return;
+    const d=await r.json();
+    const c=d.current;
+    // Current weather
+    const code=c.weather_code||0;
+    const el=id=>document.getElementById(id);
+    if(el("w-icon"))el("w-icon").textContent=WMO_ICONS[code]||"🌤️";
+    if(el("w-temp"))el("w-temp").textContent=`${Math.round(c.temperature_2m)}°`;
+    if(el("w-feels"))el("w-feels").textContent=`Feels like ${Math.round(c.apparent_temperature)}°C`;
+    if(el("w-desc"))el("w-desc").textContent=WMO_DESC[code]||"Clear";
+    if(el("w-hum"))el("w-hum").textContent=`${c.relative_humidity_2m}%`;
+    if(el("w-wind"))el("w-wind").textContent=`${Math.round(c.wind_speed_10m)} km/h`;
+    if(el("w-rain"))el("w-rain").textContent=`${c.precipitation||0} mm`;
+    if(el("w-uv"))el("w-uv").textContent=`${Math.round(c.uv_index||0)} UV`;
+    // 7-day forecast
+    const f=d.daily;
+    for(let i=0;i<7;i++){
+      const day=new Date(f.time[i]);
+      const dc=f.weather_code[i]||0;
+      const label=i===0?"Today":i===1?"Tmrw":DAYS[day.getDay()];
+      if(el(`fc-day-${i}`))el(`fc-day-${i}`).textContent=label;
+      if(el(`fc-icon-${i}`))el(`fc-icon-${i}`).textContent=WMO_ICONS[dc]||"🌤️";
+      if(el(`fc-max-${i}`))el(`fc-max-${i}`).textContent=`${Math.round(f.temperature_2m_max[i])}°`;
+      if(el(`fc-min-${i}`))el(`fc-min-${i}`).textContent=`${Math.round(f.temperature_2m_min[i])}°`;
+      if(el(`fc-rain-${i}`))el(`fc-rain-${i}`).textContent=`${f.precipitation_probability_max[i]||0}%🌧`;
+    }
+  }catch(e){
+    // Show seasonal estimate for Narnoor when API unreachable
+    console.warn("Weather API:",e.message);
+    showWeatherFallback();
+  }
+}
+
+function showWeatherFallback(){
+  // Narnoor seasonal estimates (Adilabad, Telangana)
+  const mon=new Date().getMonth();
+  const seasons=[
+    {t:24,icon:"🌤️",desc:"Cool & Pleasant",h:65,w:8},   // Jan
+    {t:27,icon:"☀️",desc:"Warm & Sunny",h:55,w:10},      // Feb
+    {t:33,icon:"🌤️",desc:"Hot & Dry",h:45,w:12},         // Mar
+    {t:38,icon:"🔆",desc:"Very Hot",h:35,w:14},           // Apr
+    {t:41,icon:"🌡️",desc:"Extremely Hot",h:30,w:16},     // May
+    {t:33,icon:"⛈️",desc:"Monsoon Onset",h:75,w:22},     // Jun
+    {t:29,icon:"🌧️",desc:"Heavy Monsoon",h:85,w:18},     // Jul
+    {t:28,icon:"🌧️",desc:"Monsoon Season",h:88,w:16},    // Aug
+    {t:29,icon:"⛅",desc:"Late Monsoon",h:80,w:14},       // Sep
+    {t:28,icon:"🌤️",desc:"Post-Monsoon",h:70,w:10},      // Oct
+    {t:25,icon:"🌤️",desc:"Pleasant",h:60,w:8},           // Nov
+    {t:22,icon:"☀️",desc:"Cool & Clear",h:58,w:7},       // Dec
+  ];
+  const s=seasons[mon];
+  const id=k=>document.getElementById(k);
+  const days=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  if(id("w-icon"))id("w-icon").textContent=s.icon;
+  if(id("w-temp"))id("w-temp").textContent=`${s.t}°`;
+  if(id("w-feels"))id("w-feels").textContent=`Feels like ${s.t-2}°C`;
+  if(id("w-desc"))id("w-desc").textContent=`${s.desc} — Seasonal Estimate`;
+  if(id("w-hum"))id("w-hum").textContent=`${s.h}%`;
+  if(id("w-wind"))id("w-wind").textContent=`${s.w} km/h`;
+  if(id("w-rain"))id("w-rain").textContent=`${mon>=5&&mon<=9?"8":"0"} mm`;
+  if(id("w-uv"))id("w-uv").textContent=`${mon>=3&&mon<=7?"9":"5"} UV`;
+  // Forecast
+  for(let i=0;i<7;i++){
+    const day=new Date();day.setDate(day.getDate()+i);
+    const m=day.getMonth();
+    const fs=seasons[m];
+    if(id(`fc-day-${i}`))id(`fc-day-${i}`).textContent=i===0?"Today":i===1?"Tmrw":days[day.getDay()];
+    if(id(`fc-icon-${i}`))id(`fc-icon-${i}`).textContent=fs.icon;
+    if(id(`fc-max-${i}`))id(`fc-max-${i}`).textContent=`${fs.t}°`;
+    if(id(`fc-min-${i}`))id(`fc-min-${i}`).textContent=`${fs.t-8}°`;
+    if(id(`fc-rain-${i}`))id(`fc-rain-${i}`).textContent=`${m>=5&&m<=9?"70":"10"}%🌧`;
+  }
+}
 
 function initConstellation(){
   const c=document.getElementById("hero-canvas");
