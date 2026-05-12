@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Narnoor Block — NITI Aayog ABP | Adilabad, Telangana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --s:#E8691A;--sd:#c4540f;--sl:#f0833a;--sp:#fff4ee;
+  --t:#0d7377;--td:#085f63;--tl:#14a3a8;--tp:#e6f7f7;
+  --g:#d4a017;--gl:#f0c040;--gp:#fffbeb;
+  --f:#1a4d3a;--fd:#0f2e22;--fl:#2d7a5e;
+  --n:#1a2744;--nl:#243560;
+  --bg:#f2f5f0;--w:#fff;--w2:#f8faf8;
+  --b:#dde8dd;--b2:#c4d8c4;
+  --tx:#0f1e0f;--tx2:#3a5c3a;--tx3:#7a9a7a;
+  --red:#dc2626;--pur:#7c3aed;
+  --r1:14px;--r2:18px;--r3:24px;
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--tx);font-size:14px;line-height:1.6;overflow-x:hidden;}
+/* LOADER */
+#L{position:fixed;inset:0;background:linear-gradient(135deg,var(--fd),var(--n));z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;transition:opacity .6s;}
+#L.out{opacity:0;pointer-events:none;}
+.sp{width:48px;height:48px;border:3px solid rgba(255,255,255,.1);border-top:3px solid var(--sl);border-radius:50%;animation:rot .9s linear infinite;}
+@keyframes rot{to{transform:rotate(360deg);}}
+/* TOAST */
+#toast{position:fixed;bottom:22px;right:22px;background:var(--t);color:#fff;padding:10px 18px;border-radius:12px;font-size:12.5px;font-weight:700;z-index:8000;opacity:0;transition:opacity .3s;pointer-events:none;box-shadow:0 6px 20px rgba(13,115,119,.35);}
+#toast.on{opacity:1;}
+#abg{position:fixed;top:68px;right:14px;background:var(--gp);border:1.5px solid var(--gl);border-radius:10px;padding:5px 13px;font-size:11px;font-weight:700;color:#92400e;z-index:400;display:none;}
+/* TOPBAR */
+.tb{background:var(--fd);color:rgba(255,255,255,.55);padding:5px 22px;font-size:10.5px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;}
+.tb a{color:var(--sl);text-decoration:none;}
+/* NAV */
+.tri3{height:4px;background:linear-gradient(90deg,#FF9933 33%,#fff 33% 66%,#138808 66%);}
+.nav{background:rgba(255,255,255,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(0,0,0,.06),0 4px 20px rgba(0,0,0,.06);position:sticky;top:0;z-index:500;}
+.nw{display:flex;align-items:stretch;max-width:1440px;margin:0 auto;padding:0 18px;}
+.brand{display:flex;align-items:center;gap:11px;padding:8px 16px 8px 0;cursor:pointer;flex-shrink:0;border-right:1px solid var(--b);margin-right:10px;}
+.bic{width:42px;height:42px;background:linear-gradient(135deg,var(--s),var(--sd));border-radius:11px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:17px;flex-shrink:0;box-shadow:0 3px 10px rgba(232,105,26,.3);font-family:'Playfair Display',serif;}
+.b1{font-size:13.5px;font-weight:800;color:var(--fd);line-height:1.2;}
+.b2{font-size:8.5px;color:var(--tx3);font-weight:500;text-transform:uppercase;letter-spacing:.5px;}
+.nls{display:flex;align-items:stretch;flex:1;}
+.ni{position:relative;display:flex;align-items:stretch;}
+.nl{display:flex;align-items:center;gap:4px;padding:0 10px;height:58px;background:none;border:none;border-bottom:3px solid transparent;cursor:pointer;font-size:11.5px;font-weight:700;color:var(--tx2);white-space:nowrap;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;}
+.nl:hover,.nl.on{color:var(--s);border-bottom-color:var(--s);}
+.arr{font-size:7px;opacity:.5;transition:transform .2s;}
+.ni:hover>.nl .arr{transform:rotate(180deg);}
+.dd{display:none;position:absolute;top:100%;left:0;background:#fff;border:1px solid var(--b);border-top:3px solid var(--s);border-radius:0 0 14px 14px;min-width:215px;box-shadow:0 14px 36px rgba(0,0,0,.12);z-index:9999;}
+.ni:hover>.dd{display:block;}
+.ddi{display:flex;align-items:center;gap:9px;width:100%;padding:11px 16px;background:none;border:none;border-bottom:1px solid var(--b);cursor:pointer;font-size:12px;font-weight:600;color:var(--tx);text-align:left;transition:all .15s;font-family:'Plus Jakarta Sans',sans-serif;}
+.ddi:last-child{border-bottom:none;border-radius:0 0 14px 14px;}
+.ddi:hover{background:var(--sp);color:var(--sd);padding-left:20px;}
+.nr{display:flex;align-items:center;gap:6px;padding-left:10px;flex-shrink:0;border-left:1px solid var(--b);margin-left:6px;}
+.lb{padding:5px 10px;border-radius:7px;border:1.5px solid var(--b);background:#fff;cursor:pointer;font-size:10.5px;font-weight:700;color:var(--tx);transition:all .15s;}
+.lb.on{background:var(--t);color:#fff;border-color:var(--t);}
+.badm{padding:6px 13px;border-radius:8px;background:var(--sp);color:var(--sd);border:1.5px solid var(--sl);cursor:pointer;font-size:10.5px;font-weight:700;transition:all .15s;}
+.badm:hover{background:var(--s);color:#fff;border-color:var(--s);}
+.blo{padding:6px 13px;border-radius:8px;background:#fee2e2;color:var(--red);border:1.5px solid #fca5a5;cursor:pointer;font-size:10.5px;font-weight:700;}
+.mb{display:none;background:none;border:none;cursor:pointer;padding:8px;font-size:23px;color:var(--fd);}
+/* MOBILE */
+.mov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:498;backdrop-filter:blur(3px);}
+.mov.on{display:block;}
+.mdr{position:fixed;right:0;top:0;bottom:0;width:295px;background:#fff;z-index:499;overflow-y:auto;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);box-shadow:-6px 0 28px rgba(0,0,0,.15);}
+.mov.on .mdr{transform:translateX(0);}
+.mhd{padding:14px 18px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,var(--fd),var(--n));}
+.mhd span{color:#fff;font-weight:800;font-size:14px;}
+.mcl{background:none;border:none;font-size:22px;cursor:pointer;color:rgba(255,255,255,.7);}
+.ml{display:block;width:100%;padding:12px 20px;background:none;border:none;border-bottom:1px solid #f0f4f0;cursor:pointer;font-size:13px;font-weight:700;color:var(--tx);text-align:left;font-family:'Plus Jakarta Sans',sans-serif;}
+.ml:hover,.ml.on{background:var(--sp);color:var(--sd);}
+.mg{padding:6px 20px 3px;font-size:9px;font-weight:800;color:var(--tx3);text-transform:uppercase;letter-spacing:2px;background:#f8faf8;border-bottom:1px solid var(--b);}
+.ms{display:block;width:100%;padding:10px 32px;background:none;border:none;border-bottom:1px solid #f0f4f0;cursor:pointer;font-size:12.5px;color:var(--tx2);text-align:left;font-family:'Plus Jakarta Sans',sans-serif;}
+.ms:hover{color:var(--s);background:var(--sp);}
+.mft{padding:14px 18px;border-top:1px solid var(--b);display:flex;flex-direction:column;gap:8px;}
+/* MODAL */
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);}
+.mo{background:#fff;border-radius:20px;padding:30px;width:440px;max-width:100%;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.2);}
+.mox{position:absolute;top:14px;right:16px;background:var(--bg);border:none;font-size:18px;cursor:pointer;color:var(--tx2);width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;}
+/* HERO */
+.hero{position:relative;overflow:hidden;min-height:580px;display:flex;align-items:center;justify-content:center;}
+.hbg{position:absolute;inset:0;background:linear-gradient(145deg,#071209 0%,#0f2415 25%,#143020 50%,#0c3b22 70%,#061810 100%);}
+.hg1{position:absolute;top:-80px;right:-80px;width:550px;height:550px;border-radius:50%;background:radial-gradient(circle,rgba(232,105,26,.1) 0%,transparent 60%);}
+.hg2{position:absolute;bottom:-100px;left:-60px;width:450px;height:450px;border-radius:50%;background:radial-gradient(circle,rgba(13,115,119,.1) 0%,transparent 60%);}
+.hgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:56px 56px;}
+.hin{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:58px 24px 50px;text-align:center;}
+.hcrown{display:inline-flex;align-items:center;gap:8px;background:rgba(232,105,26,.12);border:1px solid rgba(232,105,26,.28);border-radius:50px;padding:7px 20px;font-size:10.5px;font-weight:700;color:var(--sl);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:22px;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(26px,5.5vw,52px);font-weight:900;line-height:1.08;margin-bottom:10px;color:#fff;letter-spacing:-.5px;}
+.hs{color:var(--sl);}
+.htl{color:#5ff0f0;}
+.hdesc{font-size:14.5px;color:rgba(255,255,255,.6);margin:0 auto 30px;line-height:1.9;max-width:560px;}
+.hstats{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;max-width:840px;margin:0 auto 28px;}
+.hst{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:13px 7px;text-align:center;backdrop-filter:blur(8px);transition:all .25s;cursor:default;}
+.hst:hover{background:rgba(255,255,255,.1);transform:translateY(-3px);border-color:rgba(232,105,26,.35);}
+.hst-n{font-size:21px;font-weight:900;color:var(--sl);font-family:'Playfair Display',serif;}
+.hst-l{font-size:8px;color:rgba(255,255,255,.5);margin-top:3px;text-transform:uppercase;letter-spacing:.8px;font-weight:600;}
+.hbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.bp{background:linear-gradient(135deg,var(--s),var(--sd));color:#fff;border:none;padding:12px 24px;border-radius:10px;font-weight:800;font-size:13px;cursor:pointer;box-shadow:0 5px 18px rgba(232,105,26,.35);transition:all .25s;font-family:'Plus Jakarta Sans',sans-serif;}
+.bp:hover{transform:translateY(-2px);box-shadow:0 9px 26px rgba(232,105,26,.45);}
+.bt{background:linear-gradient(135deg,var(--t),var(--td));color:#fff;border:none;padding:12px 22px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;transition:all .25s;font-family:'Plus Jakarta Sans',sans-serif;}
+.bt:hover{transform:translateY(-2px);box-shadow:0 7px 18px rgba(13,115,119,.3);}
+.bg{background:rgba(255,255,255,.07);color:#fff;border:1.5px solid rgba(255,255,255,.2);padding:12px 22px;border-radius:10px;font-weight:600;font-size:13px;cursor:pointer;transition:all .25s;font-family:'Plus Jakarta Sans',sans-serif;}
+.bg:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.4);}
+/* RIBBON */
+.tri{height:5px;background:linear-gradient(90deg,#FF9933 33%,#fff 33% 66%,#138808 66%);}
+.rib{background:#fff;border-bottom:1px solid var(--b);overflow:hidden;}
+.ribin{display:flex;overflow-x:auto;max-width:1440px;margin:0 auto;}
+.ribin::-webkit-scrollbar{height:0;}
+.ri{flex-shrink:0;padding:12px 22px;text-align:center;border-right:1px solid var(--b);transition:background .15s;cursor:default;}
+.ri:hover{background:var(--sp);}
+.ri-n{font-size:15px;font-weight:900;color:var(--s);font-family:'Playfair Display',serif;}
+.ri-l{font-size:8px;color:var(--tx3);text-transform:uppercase;letter-spacing:.6px;margin-top:2px;font-weight:600;}
+/* SECTIONS */
+.sec{padding:50px 24px;max-width:1220px;margin:0 auto;}
+.salt{background:linear-gradient(180deg,#eaf0ea,#dfe9df);}
+.sdark{background:linear-gradient(135deg,var(--fd),var(--n));}
+.stag{font-size:10px;font-weight:800;color:var(--s);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.stag::before{content:'';width:20px;height:2px;background:var(--s);border-radius:1px;}
+.sh{font-family:'Playfair Display',serif;font-size:clamp(22px,3.5vw,34px);font-weight:800;color:var(--tx);margin-bottom:6px;line-height:1.15;}
+.sh span{color:var(--t);}
+.ss{font-size:13.5px;color:var(--tx2);max-width:520px;line-height:1.75;}
+/* CARDS */
+.card{background:#fff;border:1px solid var(--b);border-radius:var(--r2);padding:20px;transition:all .25s;}
+.card:hover{box-shadow:0 8px 28px rgba(0,0,0,.09);transform:translateY(-3px);}
+.cs{border-top:4px solid var(--s);}
+.ct{border-top:4px solid var(--t);}
+.cg{border-top:4px solid var(--g);}
+.cf{border-top:4px solid var(--f);}
+.cls{border-left:4px solid var(--s);}
+.clt{border-left:4px solid var(--t);}
+/* GRIDS */
+.g2{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:16px;}
+.g3{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px;}
+.g4{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
+.g2c{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start;}
+.g3c{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+/* PILL */
+.pill{display:inline-flex;align-items:center;padding:3px 11px;border-radius:50px;font-size:10px;font-weight:700;}
+.pg{background:#dcfce7;color:#15803d;}
+.pa{background:var(--sp);color:var(--sd);}
+.pb{background:var(--tp);color:var(--td);}
+.pr{background:#fee2e2;color:var(--red);}
+.pv{background:#f3e8ff;color:var(--pur);}
+.pgold{background:var(--gp);color:#92400e;}
+/* HIGHLIGHT */
+.hl{border-left:4px solid var(--t);background:var(--tp);border-radius:0 13px 13px 0;padding:14px 17px;margin-bottom:11px;transition:all .2s;}
+.hl:hover{transform:translateX(4px);}
+.hls{border-color:var(--s);background:var(--sp);}
+.hlg{border-color:var(--g);background:var(--gp);}
+.hlf{border-color:var(--f);background:#edf5f0;}
+.hl-t{font-size:13.5px;font-weight:700;color:var(--tx);margin-bottom:3px;}
+.hl-s{font-size:12px;color:var(--tx2);line-height:1.65;}
+/* STAT BOX */
+.sb{background:#fff;border:1px solid var(--b);border-radius:14px;padding:15px;display:flex;align-items:center;gap:13px;transition:all .2s;}
+.sb:hover{box-shadow:0 5px 18px rgba(0,0,0,.08);}
+.sbic{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
+.sbn{font-size:22px;font-weight:900;color:var(--tx);line-height:1;font-family:'Playfair Display',serif;}
+.sbl{font-size:10.5px;color:var(--tx2);margin-top:2px;font-weight:600;}
+/* PROGRESS */
+.pb2{height:7px;background:var(--b);border-radius:4px;overflow:hidden;}
+.pbf{height:100%;border-radius:4px;transition:width .8s ease;}
+/* TABS / FILTERS */
+.tabs{display:flex;border-bottom:2px solid var(--b);margin-bottom:22px;overflow-x:auto;}
+.tab{padding:10px 17px;background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;cursor:pointer;font-size:12.5px;font-weight:700;color:var(--tx2);white-space:nowrap;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;}
+.tab:hover,.tab.on{color:var(--s);border-bottom-color:var(--s);}
+.frow{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:17px;}
+.fb{padding:6px 16px;border-radius:50px;border:1.5px solid var(--b);background:#fff;color:var(--tx2);cursor:pointer;font-size:11.5px;font-weight:700;transition:all .18s;font-family:'Plus Jakarta Sans',sans-serif;}
+.fb.on,.fb:hover{background:var(--s);color:#fff;border-color:var(--s);}
+/* FORMS */
+.fi{width:100%;background:#fff;border:1.5px solid var(--b);border-radius:10px;padding:9px 13px;font-size:12.5px;color:var(--tx);outline:none;margin-bottom:10px;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;}
+.fi:focus{border-color:var(--t);box-shadow:0 0 0 3px rgba(13,115,119,.1);}
+textarea.fi{resize:vertical;min-height:78px;margin-bottom:0;}
+select.fi{cursor:pointer;}
+.fl{display:block;font-size:9.5px;font-weight:800;color:var(--tx2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px;}
+/* BUTTONS */
+.btn-g{background:linear-gradient(135deg,var(--t),var(--td));color:#fff;border:none;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;}
+.btn-g:hover{transform:translateY(-1px);box-shadow:0 5px 15px rgba(13,115,119,.3);}
+.btn-s{background:linear-gradient(135deg,var(--s),var(--sd));color:#fff;border:none;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;}
+.btn-wa{background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;border:none;padding:11px 20px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;}
+.btn-wa:hover{transform:translateY(-1px);box-shadow:0 5px 15px rgba(22,163,74,.3);}
+.btn-del{background:#fee2e2;color:var(--red);border:1px solid #fca5a5;padding:5px 12px;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;}
+.btn-e{background:var(--tp);color:var(--td);border:1px solid rgba(13,115,119,.3);padding:5px 12px;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;margin-right:5px;}
+.btn-sv{background:var(--t);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;}
+.btn-ca{background:#f1f5f9;color:var(--tx2);border:1px solid var(--b);padding:8px 18px;border-radius:8px;font-size:12px;cursor:pointer;margin-left:8px;}
+/* ADMIN */
+.arow{background:var(--w2);border:1px solid var(--b);border-radius:12px;padding:11px 15px;display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;flex-wrap:wrap;gap:6px;transition:all .15s;}
+.arow:hover{border-color:rgba(13,115,119,.3);background:var(--tp);}
+.ai{flex:1;min-width:0;font-size:12.5px;}
+.aa{display:flex;gap:5px;flex-shrink:0;}
+.ef{background:var(--tp);border:1.5px solid rgba(13,115,119,.28);border-radius:13px;padding:17px;margin-bottom:11px;}
+.et{font-size:12.5px;font-weight:800;color:var(--td);margin-bottom:13px;}
+.eac{display:flex;gap:8px;margin-top:11px;}
+.as{background:var(--sp);border:1.5px solid rgba(232,105,26,.28);border-radius:13px;padding:17px;margin-bottom:17px;}
+.at{font-size:12.5px;font-weight:800;color:var(--sd);margin-bottom:13px;}
+/* KPI CARD */
+.kc{background:#fff;border:1px solid var(--b);border-radius:14px;padding:15px;border-top:4px solid var(--t);transition:all .25s;position:relative;overflow:hidden;}
+.kc::before{content:'';position:absolute;top:0;right:0;width:55px;height:55px;background:radial-gradient(circle at top right,var(--tp),transparent);border-radius:0 14px 0 55px;}
+.kc:hover{box-shadow:0 7px 25px rgba(0,0,0,.1);transform:translateY(-3px);}
+.kc.sat{border-top-color:#16a34a;}.kc.exc{border-top-color:var(--t);}.kc.ong{border-top-color:var(--s);}
+.kn{font-size:11.5px;font-weight:700;color:var(--tx2);margin-bottom:6px;line-height:1.45;}
+.kv{font-size:21px;font-weight:900;color:var(--tx);font-family:'Playfair Display',serif;}
+.knote{font-size:10px;color:var(--t);margin-top:2px;font-weight:700;}
+.kbase{font-size:10px;color:var(--tx3);}
+/* OFFICER */
+.ofc{background:#fff;border:1px solid var(--b);border-radius:var(--r2);padding:22px 18px;text-align:center;transition:all .25s;position:relative;overflow:hidden;}
+.ofc::before{content:'';position:absolute;top:0;left:0;right:0;height:76px;background:linear-gradient(135deg,var(--fd),var(--n));border-radius:var(--r2) var(--r2) 0 0;}
+.ofc:hover{box-shadow:0 10px 30px rgba(0,0,0,.12);transform:translateY(-4px);}
+.ofav{width:80px;height:80px;border-radius:50%;margin:0 auto 13px;position:relative;z-index:1;border:3px solid #fff;box-shadow:0 4px 16px rgba(0,0,0,.2);overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--s),var(--sd));flex-shrink:0;}
+.ofav img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;}
+.ofav-txt{font-size:24px;font-weight:900;color:#fff;font-family:'Playfair Display',serif;line-height:1;}
+/* AWARD */
+.awc{background:#fff;border:1px solid var(--b);border-radius:var(--r2);padding:19px;text-align:center;transition:all .25s;}
+.awc:hover{box-shadow:0 9px 28px rgba(0,0,0,.09);transform:translateY(-4px);}
+/* CAMPAIGN */
+.cc{background:#fff;border:1px solid var(--b);border-radius:var(--r2);overflow:hidden;transition:all .25s;}
+.cc:hover{box-shadow:0 9px 28px rgba(0,0,0,.1);}
+.cchd{padding:19px;color:#fff;position:relative;overflow:hidden;}
+.cchd::before{content:'';position:absolute;top:-25px;right:-25px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,.09);}
+.cchd h3{font-size:14.5px;font-weight:800;margin-bottom:3px;font-family:'Playfair Display',serif;position:relative;}
+.ctel{font-size:12px;opacity:.8;position:relative;}
+.cper{font-size:9px;opacity:.5;text-transform:uppercase;letter-spacing:.7px;margin-top:5px;font-weight:700;position:relative;}
+/* INITIATIVE */
+.ic{background:#fff;border:1px solid var(--b);border-radius:var(--r2);overflow:hidden;transition:all .25s;}
+.ic:hover{box-shadow:0 9px 28px rgba(0,0,0,.1);transform:translateY(-3px);}
+.ith{height:128px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;position:relative;overflow:hidden;}
+.ith::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.15);}
+.iemj{font-size:36px;position:relative;z-index:1;filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));}
+/* PRODUCT */
+.pc{background:#fff;border:1px solid var(--b);border-radius:var(--r2);overflow:hidden;transition:all .25s;}
+.pc:hover{box-shadow:0 9px 28px rgba(0,0,0,.1);transform:translateY(-3px);}
+.pimg{height:155px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;position:relative;}
+/* TRANSFORM */
+.tr{display:grid;grid-template-columns:1fr 38px 1fr;margin-bottom:11px;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.trb{background:linear-gradient(135deg,#fff5f5,#fee2e2);border:1px solid #fca5a5;padding:13px 15px;}
+.trar{background:#f0f4f0;display:flex;align-items:center;justify-content:center;color:var(--t);font-weight:900;font-size:17px;border-top:1px solid var(--b);border-bottom:1px solid var(--b);}
+.tra{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #86efac;padding:13px 15px;}
+.trlb{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;margin-bottom:4px;}
+.trtx{font-size:12.5px;color:var(--tx);line-height:1.55;}
+/* JOB */
+.jc{background:#fff;border:1px solid var(--b);border-radius:var(--r2);padding:19px;border-left:5px solid var(--s);}
+/* SUCCESS */
+.suc{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #86efac;border-radius:var(--r2);padding:26px;text-align:center;}
+/* MEDIA UPLOAD CARD */
+.upc{background:linear-gradient(135deg,var(--w2),var(--tp));border:2px dashed rgba(13,115,119,.3);border-radius:var(--r3);padding:30px 24px;text-align:center;transition:all .2s;}
+.upc:hover{border-color:var(--t);background:var(--tp);}
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;}
+.tbl th{padding:10px 15px;text-align:left;font-size:10px;font-weight:800;color:var(--tx2);text-transform:uppercase;background:var(--w2);border-bottom:2px solid var(--b);letter-spacing:.5px;}
+.tbl td{padding:10px 15px;font-size:12.5px;border-bottom:1px solid var(--b);}
+.tbl tr:hover td{background:var(--tp);}
+/* TICKET */
+.ticket{background:#fff;border-radius:var(--r2);overflow:hidden;border:1px solid var(--b);box-shadow:0 5px 20px rgba(0,0,0,.07);}
+.tickhd{background:linear-gradient(135deg,var(--fd),var(--n));color:#fff;padding:18px;display:flex;align-items:center;gap:13px;}
+/* FOOTER */
+.footer{background:linear-gradient(145deg,var(--fd),var(--n));color:#fff;padding:34px 24px;position:relative;overflow:hidden;}
+.footer::before{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(232,105,26,.07),transparent);}
+.fin{max-width:940px;margin:0 auto;text-align:center;position:relative;}
+/* RESPONSIVE */
+@media(max-width:960px){.nls,.nr{display:none;}.mb{display:flex;}.hstats{grid-template-columns:repeat(3,1fr);}.g2c{grid-template-columns:1fr;}.g3c{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.hin{padding:42px 16px 36px;}.hstats{grid-template-columns:repeat(2,1fr);}.sec{padding:36px 16px;}.g2{grid-template-columns:1fr;}.g3{grid-template-columns:1fr;}.g4{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}.g3c{grid-template-columns:1fr;}.tr{grid-template-columns:1fr 28px 1fr;}.tb>span:last-child{display:none;}}
+</style>
+</head>
+<body>
+<div id="L"><div class="sp"></div><div style="font-family:'Playfair Display',serif;font-size:26px;color:#fff;font-weight:800">Narnoor <span style="color:var(--sl)">Block</span></div><div style="font-size:11px;color:rgba(255,255,255,.4);letter-spacing:1px;text-transform:uppercase">NITI Aayog · ABP · Adilabad</div></div>
+<div id="toast"></div>
+<div id="abg">🔒 Admin Mode Active</div>
+<div id="app"></div>
+<script>
+/* ══════════════════════════════════════════
+   NARNOOR BLOCK PORTAL — COMPLETE DYNAMIC
+   Supabase: yqqnumqvgqkvlnknbrck.supabase.co
+   Admin: narnoor_abp / Narnoor@2024#ABP
+   ══════════════════════════════════════════ */
+const SU="https://yqqnumqvgqkvlnknbrck.supabase.co";
+const SK="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlxcW51bXF2Z3Frdmxua25icmNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MjA2MTksImV4cCI6MjA5Mzk5NjYxOX0.GZSSnTO8SzR-tlUH9jVE__avtmcrLwJ_ooIzKGEfbe0";
+const WA="919391914941";
+const CR={u:"narnoor_abp",p:"Narnoor@2024#ABP"};
+const SECS=["All","Health & Nutrition","Education","Agriculture","Basic Infrastructure","Social Development","Digital & Governance","Livelihoods"];
+let D={s:{},kpis:[],officers:[],visits:[],articles:[],products:[],campaigns:[],initiatives:[],awards:[],jobs:[],transformation:[],highlights:[]};
+let pg="home",lang="EN",adm=false,mob=false,login=false,lerr=false;
+let ks="All",cf="all",sf="all",gt="overview",at2="awards",grt="grievance",adt="hero";
+let gSent=false,tSent=false;
+const g=k=>D.s[k]||"";
+const WS=m=>window.open(`https://wa.me/${WA}?text=${encodeURIComponent(m)}`,"_blank");
+const pill=(l,c="pg")=>`<span class="pill ${c}">${l}</span>`;
+const hl=(t,s,c="")=>`<div class="hl ${c}"><div class="hl-t">${t}</div><div class="hl-s">${s}</div></div>`;
+const bclr=p=>p>=95?"#16a34a":p>=75?"var(--t)":p>=60?"var(--s)":"var(--red)";
+const STL={sat:{bg:"#dcfce7",tc:"#15803d",l:"Saturated ✓"},exc:{bg:"var(--tp)",tc:"var(--td)",l:"Excellent"},ong:{bg:"var(--sp)",tc:"var(--sd)",l:"Ongoing"}};
+
+/* ── FIX GOOGLE DRIVE PHOTO URLS ── */
+function fixUrl(u){
+  if(!u||!u.trim())return"";
+  // Google Drive share link → thumbnail
+  const m=u.match(/\/file\/d\/([^\/\?]+)/)||u.match(/[?&]id=([^&]+)/);
+  if(m)return`https://drive.google.com/thumbnail?id=${m[1]}&sz=w400`;
+  // drive.google.com/open?id=
+  if(u.includes("drive.google.com/open"))return u.replace("open?","thumbnail?")+"&sz=w400";
+  // Already direct image or other URL
+  return u;
+}
+
+/* ── SUPABASE API ── */
+async function sb(path,method="GET",data=null){
+  const h={
+    "apikey":SK,
+    "Authorization":`Bearer ${SK}`,
+    "Content-Type":"application/json",
+    "Prefer":"return=representation",
+    "Accept":"application/json"
+  };
+  // Try multiple times with exponential backoff
+  for(let attempt=0;attempt<3;attempt++){
+    try{
+      const controller=new AbortController();
+      const timeout=setTimeout(()=>controller.abort(),15000);
+      const r=await fetch(`${SU}/rest/v1/${path}`,{
+        method,
+        headers:h,
+        body:data?JSON.stringify(data):null,
+        signal:controller.signal,
+        mode:"cors",
+        credentials:"omit"
+      });
+      clearTimeout(timeout);
+      if(r.status===403){
+        console.warn("403 Forbidden - Check Supabase API settings. Using fallback data.");
+        return[];
+      }
+      if(!r.ok){const t=await r.text();console.error(path,t);return[];}
+      const t=await r.text();return t?JSON.parse(t):[];
+    }catch(e){
+      console.warn(`Attempt ${attempt+1} failed:`,e.message);
+      if(attempt<2)await new Promise(r=>setTimeout(r,1000*(attempt+1)));
+    }
+  }
+  return[];
+}
+const sG=(t,o="")=>sb(`${t}?select=*${o?`&order=${o}`:""}`);
+const sP=(t,d)=>sb(t,"POST",d);
+const sPa=(t,id,d)=>sb(`${t}?id=eq.${id}`,"PATCH",d);
+const sD=(t,id)=>sb(`${t}?id=eq.${id}`,"DELETE");
+async function sSet(k,v){
+  const ex=await sb(`site_settings?key=eq.${encodeURIComponent(k)}&select=key`);
+  if(ex.length)await sb(`site_settings?key=eq.${encodeURIComponent(k)}`,"PATCH",{value:v});
+  else await sb("site_settings","POST",{key:k,value:v});
+  D.s[k]=v;
+}
+
+/* ── LOAD ALL DATA ── */
+// ── HARDCODED FALLBACK DATA (shown when DB is empty/unreachable) ──
+const FALLBACK={
+  kpis:[
+    {id:1,name:"ANC Registration (1st Trimester)",sector:"Health & Nutrition",current_value:"100%",baseline:"Low",progress:100,status:"sat",note:""},
+    {id:2,name:"Institutional Deliveries",sector:"Health & Nutrition",current_value:"100%",baseline:"Low",progress:100,status:"sat",note:""},
+    {id:3,name:"SAM Reduced 2.06% → 0.10%",sector:"Health & Nutrition",current_value:"0.10%",baseline:"2.06%",progress:95,status:"sat",note:"95% reduction"},
+    {id:4,name:"AWC Water Supply",sector:"Health & Nutrition",current_value:"77/77",baseline:"Partial",progress:100,status:"sat",note:""},
+    {id:5,name:"Supplementary Nutrition (6m–6yr)",sector:"Health & Nutrition",current_value:"2088/2100",baseline:"Low",progress:99,status:"sat",note:"99.4% achieved"},
+    {id:6,name:"Zero Anaemia — Adolescent Girls",sector:"Health & Nutrition",current_value:"Achieved",baseline:"High",progress:100,status:"sat",note:"Governor Gold Medal"},
+    {id:7,name:"Telemedicine Clinic (Daily Ops)",sector:"Health & Nutrition",current_value:"Daily @ CHC",baseline:"None",progress:100,status:"sat",note:"Osmania Hospital"},
+    {id:8,name:"AWC Toilets",sector:"Health & Nutrition",current_value:"52/77",baseline:"0",progress:68,status:"ong",note:"Ongoing"},
+    {id:9,name:"School Girls Toilets",sector:"Education",current_value:"81/81",baseline:"Partial",progress:100,status:"sat",note:""},
+    {id:10,name:"Digital Classrooms",sector:"Education",current_value:"All High Schools",baseline:"0",progress:100,status:"sat",note:""},
+    {id:11,name:"TELC English Literacy",sector:"Education",current_value:"All Schools",baseline:"0",progress:100,status:"sat",note:""},
+    {id:12,name:"ICT Lab",sector:"Education",current_value:"Operational",baseline:"0",progress:100,status:"sat",note:""},
+    {id:13,name:"PM Kisan Seeding",sector:"Agriculture",current_value:"100%",baseline:"Partial",progress:100,status:"sat",note:""},
+    {id:14,name:"Soil Health Cards",sector:"Agriculture",current_value:"100%",baseline:"Partial",progress:100,status:"sat",note:""},
+    {id:15,name:"FPO Formation",sector:"Agriculture",current_value:"2/2",baseline:"0",progress:100,status:"sat",note:""},
+    {id:16,name:"Lac Cultivation",sector:"Agriculture",current_value:"370 families / 3700 trees",baseline:"0",progress:93,status:"sat",note:""},
+    {id:17,name:"FMD Vaccination",sector:"Agriculture",current_value:"8400/11700",baseline:"Low",progress:72,status:"ong",note:""},
+    {id:18,name:"Tap Water Connections",sector:"Basic Infrastructure",current_value:"100%",baseline:"Low",progress:100,status:"sat",note:""},
+    {id:19,name:"ODF Plus Status",sector:"Basic Infrastructure",current_value:"ODF+",baseline:"ODF",progress:100,status:"sat",note:""},
+    {id:20,name:"Water Rejuvenation Tanks",sector:"Basic Infrastructure",current_value:"10/17",baseline:"0",progress:59,status:"ong",note:""},
+    {id:21,name:"Solar Street Lights",sector:"Basic Infrastructure",current_value:"150 Installed",baseline:"0",progress:100,status:"sat",note:""},
+    {id:22,name:"RO Plants",sector:"Basic Infrastructure",current_value:"Multiple",baseline:"0",progress:85,status:"sat",note:""},
+    {id:23,name:"SHG Integration",sector:"Social Development",current_value:"95%",baseline:"Low",progress:95,status:"sat",note:""},
+    {id:24,name:"SHG Bank Linkage",sector:"Social Development",current_value:"100%",baseline:"Partial",progress:100,status:"sat",note:""},
+    {id:25,name:"Women Entrepreneurship",sector:"Social Development",current_value:"100+ Women",baseline:"0",progress:70,status:"ong",note:""},
+    {id:26,name:"Mahua Ladoo Unit",sector:"Social Development",current_value:"Functional",baseline:"None",progress:100,status:"sat",note:""},
+    {id:27,name:"Bamboo Processing Unit",sector:"Social Development",current_value:"Functional",baseline:"None",progress:100,status:"sat",note:""},
+    {id:28,name:"Dal Mill Unit",sector:"Social Development",current_value:"Operational",baseline:"None",progress:100,status:"sat",note:""},
+    {id:29,name:"CSC Model Centers",sector:"Digital & Governance",current_value:"2 Centers",baseline:"0",progress:100,status:"sat",note:"Naddamguda & Malepur"},
+    {id:30,name:"NASSCOM Digital Literacy",sector:"Digital & Governance",current_value:"Active — PVTGs",baseline:"0",progress:75,status:"sat",note:""},
+    {id:31,name:"Gram Sabha Coverage",sector:"Digital & Governance",current_value:"23/23 GPs",baseline:"Partial",progress:100,status:"sat",note:""},
+    {id:32,name:"Prajavani Grievance",sector:"Digital & Governance",current_value:"Operational",baseline:"None",progress:100,status:"sat",note:"Pilot"},
+    {id:33,name:"SHG Credit Linkage",sector:"Livelihoods",current_value:"₹16 Cr+",baseline:"Low",progress:80,status:"sat",note:""},
+    {id:34,name:"WADI Horticulture",sector:"Livelihoods",current_value:"Active",baseline:"0",progress:70,status:"ong",note:""},
+    {id:35,name:"PMFME Food Units",sector:"Livelihoods",current_value:"~12 Units",baseline:"0",progress:80,status:"sat",note:""},
+    {id:36,name:"Diabetic & BP Screening",sector:"Health & Nutrition",current_value:"100%",baseline:"Partial",progress:100,status:"sat",note:""},
+    {id:37,name:"Millet Farming (30 Acres)",sector:"Agriculture",current_value:"30 Acres/15 Villages",baseline:"0",progress:100,status:"sat",note:""},
+    {id:38,name:"AWC Children Measurement",sector:"Health & Nutrition",current_value:"100%",baseline:"Partial",progress:100,status:"sat",note:""},
+    {id:39,name:"School Infra (Water/Toilet/Power)",sector:"Education",current_value:"100%",baseline:"Partial",progress:100,status:"sat",note:""}
+  ],
+  campaigns:[
+    {id:1,name:"Sampoornata Abhiyan",telugu_name:"సంపూర్ణత అభియాన్",period:"July 2024 – September 2024",type:"block",color:"#1a4d2e",description:"First saturation campaign — 100% coverage of 6 key indicators across all 23 GPs. School girls toilets 81/81, AWC water supply 77/77 achieved."},
+    {id:2,name:"Sampoornata Abhiyan 2.0",telugu_name:"సంపూర్ణత అభిమాన్ 2.0",period:"Launched 30 Jan 2026",type:"block",color:"#0d7377",description:"Phase 2 with 23 GP Gram Sabha resolutions. AWC measurement 100%, Nutrition 2088/2100 (99.4%)."},
+    {id:3,name:"Jal Utsav",telugu_name:"జల్ ఉత్సవ్",period:"Completed",type:"block",color:"#1e4d8c",description:"Water conservation — 100% tap connections, ODF+ all villages, community RO plants installed."},
+    {id:4,name:"Girijan Poshan Mitra",telugu_name:"గిరిజన్ పోషణ్ మిత్ర",period:"Ongoing",type:"block",color:"#4a1d7a",description:"Eliminating anaemia among Ashram School girls. Zero anaemia achieved — Governor's Gold Medal 2024."},
+    {id:5,name:"TB Mukt Bharat",telugu_name:"TB ముక్త్ భారత్",period:"Ongoing",type:"central",color:"#7a1d1d",description:"National TB elimination. PM-JANMAN mobile health units, portable X-ray. 13,065+ screened."},
+    {id:6,name:"Naari Saaman",telugu_name:"నారీ సామాన్",period:"Ongoing",type:"block",color:"#7a1d4a",description:"Menstrual hygiene awareness — sanitary vending machines in schools, awareness drives."},
+    {id:7,name:"Poshan Pakwada",telugu_name:"పోషన్ పఖ్వాడా",period:"Twice yearly",type:"central",color:"#7a4a1d",description:"National nutrition fortnight — Godh Bharai, Bala Amrutham Plus at all 77 AWCs."},
+    {id:8,name:"NASSCOM Digital Literacy",telugu_name:"డిజిటల్ సాక్షరత",period:"Ongoing",type:"block",color:"#1a4d7a",description:"Digital literacy for PVTGs via 2 Model CSC centres at Naddamguda & Malepur."},
+    {id:9,name:"Praja Palana — 99 Days",telugu_name:"ప్రజా పాలన",period:"Completed",type:"state",color:"#4a6b1a",description:"Telangana 99-day saturation — door-to-door welfare scheme verification completed."},
+    {id:10,name:"Sankalp Saptah",telugu_name:"సంకల్ప్ సప్తాహ్",period:"Completed",type:"state",color:"#1a6b4a",description:"State week-long resolve — target setting for all frontline workers. Convergence strengthened."}
+  ],
+  initiatives:[
+    {id:1,title:"Tribal Museum",category:"Cultural Heritage",description:"Preserves Gond tribal artifacts & traditions. NITI Aayog ABP grant ₹18 Lakhs. Open Tue–Sun, 9AM–5PM. Entry ₹10/person.",emoji:"🏛️",tag:"Completed",bg_color:"#1a3d1a"},
+    {id:2,title:"Community Study Hall",category:"Education",description:"Dedicated study facility with library. Promotes lifelong learning across all villages.",emoji:"📚",tag:"Completed",bg_color:"#1a2d4d"},
+    {id:3,title:"Digital Library",category:"Education & Digital",description:"E-learning resources, multimedia books. Established with Room to Read & Swashodhan Trust.",emoji:"💻",tag:"Operational",bg_color:"#1a3d6b"},
+    {id:4,title:"Telemedicine Clinic",category:"Health",description:"Daily specialist clinic at CHC Narnoor linked to Osmania Hospital. OPD & IPD daily operational.",emoji:"🏥",tag:"Daily Operations",bg_color:"#6b1a2d"},
+    {id:5,title:"Community RO Plants",category:"Water",description:"1000L fluoride-free RO plants in Bheempur, Kothapally & communities.",emoji:"💧",tag:"Operational",bg_color:"#1a3d5a"},
+    {id:6,title:"Mahua Ladoo Processing Unit",category:"Livelihood",description:"Women-led enterprise at Kharidatwa village. Tribal forest produce by SHG women.",emoji:"🍯",tag:"Functional",bg_color:"#5a2d1a"},
+    {id:7,title:"Bamboo Processing Unit",category:"Livelihood",description:"Bamboo craft & products unit for tribal artisans. NITI Aayog ABP funded.",emoji:"🎋",tag:"Functional",bg_color:"#1a5a1a"},
+    {id:8,title:"Lac Cultivation",category:"Livelihood & Forests",description:"3,700 trees · 370 tribal families. Traditional forest knowledge + commercial market linkage.",emoji:"🌿",tag:"370 Families",bg_color:"#3d1a6b"},
+    {id:9,title:"Digital Classroom",category:"Education",description:"Smart classrooms in all High Schools — offline digital content via Swashodhan Trust.",emoji:"📱",tag:"All High Schools",bg_color:"#1a4d6b"},
+    {id:10,title:"ICT Training Centre",category:"Digital",description:"Youth ICT lab for digital skill building, coding and e-governance services.",emoji:"🖥️",tag:"Operational",bg_color:"#2d1a6b"},
+    {id:11,title:"Girijan Poshan Mitra",category:"Health & Nutrition",description:"Zero anaemia initiative for Ashram School girls. Governor's Gold Medal awarded.",emoji:"💊",tag:"Zero Anaemia ✓",bg_color:"#4a1a4a"},
+    {id:12,title:"Science Laboratory",category:"Education",description:"Strengthened in 2 Local Body + 3 Tribal Schools. NITI Aayog ABP ₹5.68 Lakhs.",emoji:"🔬",tag:"Completed",bg_color:"#1a4a3d"},
+    {id:13,title:"Model Anganwadi Centre",category:"Health & Nutrition",description:"6 Model AWCs — play materials, Nutri Gardens, RO water. NITI Aayog funded.",emoji:"🏠",tag:"6 AWCs",bg_color:"#5a1a1a"},
+    {id:14,title:"WADI 3-Tier Farming",category:"Agriculture",description:"Mango, Guava, Custard Apple, Dragon Fruit — BAIF agroforestry. 1000+ farmers benefited.",emoji:"🌳",tag:"Active",bg_color:"#2a4a1a"},
+    {id:15,title:"Narnoor Monitoring App",category:"Digital Governance",description:"Real-time app — ASHA tracking, IFA distribution, school reporting, EHR integration.",emoji:"📲",tag:"Live App",bg_color:"#1a3a4d"}
+  ],
+  awards:[
+    {id:1,icon:"🥈",title:"2nd Rank — South Zone",subtitle:"ABP Delta Ranking, 1st cycle",year:"June 2023",grant_info:"₹1 Crore"},
+    {id:2,icon:"🏅",title:"PM Award — Top 5 India",subtitle:"Convergence-driven tribal development",year:"2024",grant_info:"National"},
+    {id:3,icon:"🥇",title:"Governor's Gold Medal",subtitle:"100% of 6 Sampoornata indicators",year:"2024",grant_info:"6 Awards"},
+    {id:4,icon:"🏆",title:"NITI Aayog Use Case Winner",subtitle:"National winner — Education Sector",year:"2024–25",grant_info:"National"},
+    {id:5,icon:"📜",title:"ISO Certification",subtitle:"Narnoor GP — first ISO certified GP in Telangana",year:"2024–25",grant_info:"Certified"},
+    {id:6,icon:"⭐",title:"Super 60 — NITI Aayog",subtitle:"PVTG special focus · 1 of 60 blocks nationally",year:"2025",grant_info:"National"},
+    {id:7,icon:"🔬",title:"Frontier Technology — NITI Aayog",subtitle:"Separate advanced tech programme",year:"2025",grant_info:"National"},
+    {id:8,icon:"🥇",title:"1st Rank — South Zone",subtitle:"ABP Delta Ranking September 2025",year:"Sept 2025",grant_info:"₹1.5 Crore"},
+    {id:9,icon:"🏥",title:"2 NQAS Certified Centres",subtitle:"National Quality Assurance Standards",year:"2024–25",grant_info:"Healthcare"}
+  ],
+  highlights:[
+    {id:1,title:"🏆 1st Rank — South Zone, September 2025",subtitle:"Narnoor topped South Zone in NITI Aayog ABP Delta Ranking. ₹1.5 Crore grant awarded.",color:""},
+    {id:2,title:"📉 SAM: 2.06% → 0.10%",subtitle:"95% reduction through Pulihorara, Mahua Ladoo support and Girijan Poshan Mitra campaign.",color:"gold"},
+    {id:3,title:"💧 100% Tap Water — All 46 Habitations",subtitle:"100% functional tap water connections across all 46 habitations. ODF Plus in all villages.",color:""},
+    {id:4,title:"⭐ Super 60 — NITI Aayog (PVTG Focus)",subtitle:"One of 60 blocks nationally. Special focus on PVTGs under PM-JANMAN. Separate from Frontier Technology.",color:"saffron"},
+    {id:5,title:"🔬 Frontier Technology — NITI Aayog (Separate)",subtitle:"A distinct NITI programme from Super 60. Advanced tech adoption. Narnoor is part of BOTH.",color:"saffron"},
+    {id:6,title:"👩 Zero Anaemia — Adolescent Girls",subtitle:"Girijan Poshan Mitra campaign achieved zero anaemia in Ashram School girls. Governor's Gold Medal.",color:"gold"}
+  ],
+  officers:[
+    {id:1,name:"Sri Rajrshi Shah, I.A.S.",role:"District Collector",department:"Adilabad District, Telangana",photo_url:""},
+    {id:2,name:"Sri Ravinder Rathod",role:"Project Director, DRDA",department:"District Rural Development Agency",photo_url:""},
+    {id:3,name:"Sri Rahul Rathod",role:"Programme Officer",department:"NITI Aayog ABP — Narnoor",photo_url:""}
+  ],
+  products:[
+    {id:1,name:"Mahua Ladoo",price:"₹150",unit:"per 250g pack",description:"Traditional tribal sweet from Mahua flowers by SHG women. 100% natural, no preservatives. Fresh batch weekly.",emoji:"🍯",available:true},
+    {id:2,name:"Bamboo Artcrafts",price:"₹200",unit:"per piece",description:"Handcrafted bamboo products — baskets, trays, decorative items. Made by tribal artisans using traditional techniques.",emoji:"🎋",available:true}
+  ],
+  visits:[
+    {id:1,visitor_name:"Additional Secretary, NITI Aayog",organisation:"NITI Aayog, Govt. of India",visit_date:"March 2025",purpose:"ABP Progress Review & Delta Ranking Assessment"},
+    {id:2,visitor_name:"Chief Programme Officer (CPO)",organisation:"NITI Aayog ABP Team",visit_date:"January 2025",purpose:"Field Visit — KPI Verification & Block Review"},
+    {id:3,visitor_name:"Additional Mission Director",organisation:"National Rural Livelihood Mission",visit_date:"November 2024",purpose:"SHG & Livelihood Programme Review"},
+    {id:4,visitor_name:"Consultant — Water Wing",organisation:"NITI Aayog",visit_date:"September 2024",purpose:"Water Rejuvenation Project — Tank Site Inspection"},
+    {id:5,visitor_name:"AT Chandra Foundation Team",organisation:"AT Chandra Foundation",visit_date:"October 2024",purpose:"CSR Partnership Discussion & Initiative Review"},
+    {id:6,visitor_name:"NITI Aayog Consultant Team",organisation:"NITI Aayog ABP",visit_date:"June 2024",purpose:"Mid-term Review — 39 KPIs field verification"}
+  ],
+  transformation:[
+    {id:1,before_text:"Water Scarcity — seasonal tank depletion",after_text:"10 tanks rejuvenated — 79,300 cu.m silt removed, 54+ farmers benefited"},
+    {id:2,before_text:"SAM High — 2.06% severe malnutrition",after_text:"SAM reduced to 0.10% — 95% reduction through targeted nutrition"},
+    {id:3,before_text:"No antenatal care access",after_text:"100% ANC registration in first trimester + 100% institutional deliveries"},
+    {id:4,before_text:"Digital divide — no ICT in schools",after_text:"ICT labs, smart classrooms, digital library, TELC literacy in all schools"},
+    {id:5,before_text:"Zero telemedicine access",after_text:"Daily Osmania Hospital specialist clinic at CHC Narnoor — OPD & IPD"},
+    {id:6,before_text:"PVTG communities isolated from services",after_text:"Super 60 + Frontier Technology + PM-JANMAN convergence"},
+    {id:7,before_text:"Siloed scheme delivery with no convergence",after_text:"39 KPIs improved simultaneously — convergence governance model"},
+    {id:8,before_text:"Low SHG participation & no bank linkage",after_text:"₹16 Cr+ SHG credit · 100% bank linkage · 100+ women entrepreneurs"}
+  ],
+  articles:[
+    {id:1,title:"Narnoor ranked 1st South Zone — ABP Delta Ranking September 2025",type:"Achievement",url:"http://www.abpnarnoor.in"},
+    {id:2,title:"PM Award 2024 — Narnoor among Top 5 Aspirational Blocks in India",type:"National Award",url:"http://www.abpnarnoor.in"},
+    {id:3,title:"Tribal Museum inaugurated — Preserving Gond Heritage in Narnoor",type:"Article",url:"http://www.abpnarnoor.in"},
+    {id:4,title:"Zero Anaemia achieved — Girijan Poshan Mitra programme",type:"Health Report",url:"http://www.abpnarnoor.in"}
+  ],
+  jobs:[
+    {id:1,title:"Data Entry Operator",department:"Block Admin, Narnoor",type:"Contract",last_date:"30 May 2026",description:"Proficiency in MS Office, Telugu & English typing required. Salary: ₹15,000/month. Contact Block Office."},
+    {id:2,title:"Community Resource Person (CRP)",department:"NRLM / DRDA",type:"Contract",last_date:"15 May 2026",description:"Graduate with field experience preferred. 5 positions available. Salary: ₹12,000/month."}
+  ]
+};
+
+let DB_LIVE=false; // tracks if we got real DB data
+
+async function loadAll(){
+  try{
+    const [sets,kpis,off,vis,art,prod,camps,inits,aw,jobs,trans,hi]=await Promise.all([
+      sG("site_settings"),sG("kpis","sort_order"),sG("officers","sort_order"),
+      sG("official_visits","id.desc"),sG("articles","id.desc"),sG("products","id"),
+      sG("campaigns","sort_order"),sG("initiatives","sort_order"),sG("awards","sort_order"),
+      sG("jobs","id.desc"),sG("transformation","sort_order"),sG("highlights","sort_order")
+    ]);
+    D.s={};(sets||[]).forEach(s=>D.s[s.key]=s.value);
+    // Use DB data if available, else use hardcoded fallback
+    D.kpis=(kpis&&kpis.length>0)?kpis:FALLBACK.kpis;
+    D.officers=(off&&off.length>0)?off:FALLBACK.officers;
+    D.visits=(vis&&vis.length>0)?vis:FALLBACK.visits;
+    D.articles=(art&&art.length>0)?art:FALLBACK.articles;
+    D.products=(prod&&prod.length>0)?prod:FALLBACK.products;
+    D.campaigns=(camps&&camps.length>0)?camps:FALLBACK.campaigns;
+    D.initiatives=(inits&&inits.length>0)?inits:FALLBACK.initiatives;
+    D.awards=(aw&&aw.length>0)?aw:FALLBACK.awards;
+    D.jobs=(jobs&&jobs.length>0)?jobs:FALLBACK.jobs;
+    D.transformation=(trans&&trans.length>0)?trans:FALLBACK.transformation;
+    D.highlights=(hi&&hi.length>0)?hi:FALLBACK.highlights;
+    DB_LIVE=(kpis&&kpis.length>0)||(camps&&camps.length>0);
+  }catch(e){
+    console.error("Load error, using fallback data:",e);
+    // Load all fallback data
+    D.kpis=FALLBACK.kpis;D.officers=FALLBACK.officers;D.visits=FALLBACK.visits;
+    D.articles=FALLBACK.articles;D.products=FALLBACK.products;
+    D.campaigns=FALLBACK.campaigns;D.initiatives=FALLBACK.initiatives;
+    D.awards=FALLBACK.awards;D.jobs=FALLBACK.jobs;
+    D.transformation=FALLBACK.transformation;D.highlights=FALLBACK.highlights;
+    DB_LIVE=false;
+  }
+}
+function toast(m="✓ Saved"){const t=document.getElementById("toast");t.textContent=m;t.classList.add("on");setTimeout(()=>t.classList.remove("on"),2800);}
+async function saveHero(){
+  const fs=["heroTitle","heroSub","heroDesc","siteEmail","sitePhone","siteWeb","siteAddress","stat1n","stat1l","stat2n","stat2l","stat3n","stat3l","stat4n","stat4l","stat5n","stat5l","stat6n","stat6l"];
+  for(const f of fs){const el=document.getElementById(`hs-${f}`);if(el)await sSet(f,el.value);}
+  toast("✓ Site settings saved!");R();
+}
+
+/* ── NAV ── */
+const NAV=[
+  {id:"home",l:"Home"},
+  {id:"profile",l:"Block Profile"},
+  {id:"dashboard",l:"Dashboard"},
+  {id:"impact",l:"Impact & Progress",dd:[{id:"campaigns",l:"📋 Campaigns"},{id:"initiatives",l:"✨ Initiatives"},{id:"transform",l:"🔄 Transformation"},{id:"grants",l:"📁 Grants"}]},
+  {id:"aD",l:"Awards",dd:[{id:"awards",l:"🏆 Awards"},{id:"schemes",l:"📋 Schemes"}]},
+  {id:"tS",l:"Tourism & Shop",dd:[{id:"tourism",l:"🏛️ Tourism"},{id:"shop",l:"🛒 Shop"}]},
+  {id:"ww",l:"Who's Who",dd:[{id:"whoswho",l:"👤 Officers"},{id:"partners",l:"🤝 Partners"},{id:"visits",l:"🚗 Visits"},{id:"media",l:"📰 Media"}]},
+  {id:"gr",l:"Grievance & Opp.",dd:[{id:"grievance",l:"📝 File Grievance"},{id:"opp",l:"💼 Opportunities"}]},
+];
+const AP={home:"home",profile:"profile",dashboard:"dashboard",campaigns:"impact",initiatives:"impact",transform:"impact",grants:"impact",awards:"aD",schemes:"aD",tourism:"tS",shop:"tS",whoswho:"ww",partners:"ww",visits:"ww",media:"ww",grievance:"gr",opp:"gr",admin:"admin"};
+
+function R(){
+  if(pg==="schemes")at2="schemes"; if(pg==="awards")at2="awards";
+  if(pg==="grievance")grt="grievance"; if(pg==="opp")grt="opp";
+  document.getElementById("abg").style.display=adm?"block":"none";
+  document.getElementById("app").innerHTML=bNav()+bMob()+(login?bLogin():"")+bPage()+bFoot();
+  window.scrollTo(0,0);
+}
+
+function bNav(){
+  const ap=AP[pg]||pg;
+  const lks=NAV.map(x=>{
+    if(x.dd){const ds=x.dd.map(d=>`<button class="ddi" onclick="go('${d.id}')">${d.l}</button>`).join("");return`<div class="ni"><button class="nl ${ap===x.id?"on":""}">${x.l}<span class="arr">▾</span></button><div class="dd">${ds}</div></div>`;}
+    return`<div class="ni"><button class="nl ${ap===x.id?"on":""}" onclick="go('${x.id}')">${x.l}</button></div>`;
+  }).join("");
+  const ab=adm?`<button class="badm" onclick="go('admin')">⚙ Panel</button><button class="blo" onclick="doOut()">Logout</button>`:`<button class="badm" onclick="openL()">⚙ Admin</button>`;
+  return`<div class="tri3"></div><div class="tb"><span>Govt. of Telangana · Adilabad · NITI Aayog Aspirational Blocks Programme</span><span><a href="mailto:${g("siteEmail")||"abpnarnoor@gmail.com"}">${g("siteEmail")||"abpnarnoor@gmail.com"}</a></span></div>
+  <nav class="nav"><div class="nw">
+    <div class="brand" onclick="go('home')"><div class="bic">न</div><div><div class="b1">Narnoor Block</div><div class="b2">ABP · NITI Aayog · Adilabad, TS</div></div></div>
+    <div class="nls">${lks}</div>
+    <div class="nr"><button class="lb ${lang==="EN"?"on":""}" onclick="setL('EN')">EN</button><button class="lb ${lang==="TE"?"on":""}" onclick="setL('TE')">తె</button>${ab}</div>
+    <button class="mb" onclick="openMob()">☰</button>
+  </div></nav>`;
+}
+function bMob(){
+  const ap=AP[pg]||pg;let l="";
+  NAV.forEach(x=>{if(x.dd){l+=`<div class="mg">${x.l}</div>`;x.dd.forEach(d=>{l+=`<button class="ms" onclick="go('${d.id}')">${d.l}</button>`;});}else l+=`<button class="ml ${ap===x.id?"on":""}" onclick="go('${x.id}')">${x.l}</button>`;});
+  const ab=adm?`<button class="btn-s" style="width:100%;padding:11px;border-radius:10px" onclick="go('admin');cMob()">⚙ Admin Panel</button><button class="blo" style="width:100%;border-radius:10px;padding:11px;margin-top:8px" onclick="doOut()">Logout</button>`:`<button class="bp" style="width:100%;border-radius:10px;padding:11px" onclick="openL()">⚙ Admin Login</button>`;
+  return`<div class="mov ${mob?"on":""}" onclick="cMob()"><div class="mdr" onclick="event.stopPropagation()"><div class="mhd"><span>Narnoor Block</span><button class="mcl" onclick="cMob()">✕</button></div>${l}<div class="mft"><div style="display:flex;gap:8px;margin-bottom:8px"><button class="lb ${lang==="EN"?"on":""}" onclick="setL('EN')">EN</button><button class="lb ${lang==="TE"?"on":""}" onclick="setL('TE')">తె</button></div>${ab}</div></div></div>`;
+}
+function bLogin(){
+  return`<div class="mbg" onclick="this===event.target&&closeL()"><div class="mo"><button class="mox" onclick="closeL()">✕</button>
+    <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:800;color:var(--fd);margin-bottom:4px">Admin Login</div>
+    <div style="font-size:12.5px;color:var(--tx2);margin-bottom:20px">Secure access — Narnoor Block Administration only</div>
+    ${lerr?`<div style="background:#fee2e2;color:#dc2626;border-radius:10px;padding:10px 14px;font-size:12px;margin-bottom:14px">❌ Invalid credentials. Try again.</div>`:""}
+    <label class="fl">Username</label><input class="fi" id="lu" placeholder="Username" onkeydown="if(event.key==='Enter')doIn()">
+    <label class="fl">Password</label><input class="fi" id="lp" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')doIn()">
+    <button class="btn-g" style="width:100%;padding:12px;font-size:14px" onclick="doIn()">Login to Admin Panel →</button>
+  </div></div>`;
+}
+function bFoot(){
+  return`<div class="tri"></div><div class="footer"><div class="fin">
+    <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:800;color:#fff;margin-bottom:7px">Narnoor <span style="color:var(--sl)">Block</span> — Aspirational Block Programme</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:14px">NITI Aayog ABP · Adilabad District, Telangana · Government of India & Government of Telangana</div>
+    <div style="display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:13px">
+      <span style="color:var(--sl);font-size:11.5px;font-weight:700">${g("siteEmail")||"abpnarnoor@gmail.com"}</span>
+      <span style="color:var(--sl);font-size:11.5px;font-weight:700">${g("sitePhone")||"+91 93919 14941"}</span>
+      <span style="color:var(--sl);font-size:11.5px;font-weight:700">${g("siteWeb")||"www.abpnarnoor.in"}</span>
+    </div>
+    <div style="font-size:9px;color:rgba(255,255,255,.2)">Last Updated: ${new Date().toLocaleDateString("en-IN",{day:"2-digit",month:"long",year:"numeric"})} · © ${new Date().getFullYear()} Block Administration, Narnoor</div>
+  </div></div>`;
+}
+function bPage(){
+  const m={home:pgHome,profile:pgProfile,dashboard:pgDash,campaigns:pgCamps,initiatives:pgInits,transform:pgTransform,grants:pgGrants,awards:pgAwards,schemes:pgAwards,tourism:pgTourism,shop:pgShop,whoswho:pgWho,partners:pgPartners,visits:pgVisits,media:pgMedia,grievance:pgGriev,opp:pgGriev,admin:pgAdmin};
+  return(m[pg]||pgHome)();
+}
+</script>
+<script>
+/* ══ PAGE FUNCTIONS ══ */
+function pgHome(){
+  const def=[["29,152","Population"],["61.8%","Tribal ST"],["23","GPs"],["39/39","KPIs"],["#1","South Zone"],["₹2.5Cr+","Grants"]];
+  const sk=[["stat1n","stat1l"],["stat2n","stat2l"],["stat3n","stat3l"],["stat4n","stat4l"],["stat5n","stat5l"],["stat6n","stat6l"]];
+  return`
+  <div class="hero">
+    <div class="hbg"></div><div class="hg1"></div><div class="hg2"></div><div class="hgrid"></div>
+    <div class="hin">
+      <div class="hcrown">🇮🇳 NITI Aayog · Aspirational Blocks Programme · 2023–2026</div>
+      <h1>${g("heroTitle")||"Narnoor Aspirational Block"}<br><span class="hs">${g("heroSub")||"A Model for Inclusive Growth"}</span></h1>
+      <p class="hdesc">${g("heroDesc")||"Strengthening Governance · Ensuring Service Delivery · Community-Led Transformation · Adilabad District, Telangana"}</p>
+      <div class="hstats">${sk.map(([n,l],i)=>`<div class="hst"><div class="hst-n">${g(n)||def[i][0]}</div><div class="hst-l">${g(l)||def[i][1]}</div></div>`).join("")}</div>
+      <div class="hbtns">
+        <button class="bp" onclick="go('dashboard')">📊 KPI Dashboard</button>
+        <button class="bt" onclick="go('campaigns')">📋 Campaigns</button>
+        <button class="bg" onclick="go('initiatives')">✨ Initiatives</button>
+        <button class="bg" onclick="go('shop')">🛒 Shop</button>
+        <button class="bg" onclick="go('tourism')">🏛️ Museum Ticket</button>
+        <button class="bg" onclick="go('grievance')">📝 Grievance</button>
+      </div>
+    </div>
+  </div>
+  <div class="tri"></div>
+  <div class="rib"><div class="ribin">
+    ${[["1st","South Zone Sep 2025"],["₹1.5Cr","Latest Grant"],["Super 60","PVTG Focus"],["Frontier Tech","Separate Prog."],["PM Award","Top 5 India '24"],["0.10%","SAM from 2.06%"],["ISO ✓","Certified GP"],["39 KPIs","All Improved"]].map(([n,l])=>`<div class="ri"><div class="ri-n">${n}</div><div class="ri-l">${l}</div></div>`).join("")}
+  </div></div>
+  <div class="sec">
+    <div class="g2c">
+      <div>
+        <div class="stag">Block Overview</div><div class="sh">About <span>Narnoor</span> Block</div>
+        <p style="font-size:13.5px;color:var(--tx2);line-height:1.85;margin:14px 0 22px">Narnoor is a remote tribal block in Adilabad District selected under NITI Aayog's <strong style="color:var(--td)">Aspirational Blocks Programme (ABP) in 2023</strong>. With <strong>61.8% Scheduled Tribe population</strong> across 23 GPs, Narnoor achieved top ranking through convergence governance.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px">
+          ${[["🏫","#fff4ee","var(--s)","83","Schools"],["🤱","var(--tp)","var(--t)","77","AWCs"],["🏥","var(--gp)","var(--g)","1+5","PHC+Sub-Centres"],["📈","#f3e8ff","var(--pur)","39/39","KPIs Improved"]].map(([ic,bg,co,n,l])=>`<div class="sb"><div class="sbic" style="background:${bg};color:${co}">${ic}</div><div><div class="sbn">${n}</div><div class="sbl">${l}</div></div></div>`).join("")}
+        </div>
+        <button class="btn-g" onclick="go('profile')">View Full Block Profile →</button>
+      </div>
+      <div style="background:linear-gradient(145deg,var(--fd),var(--n));border-radius:var(--r3);padding:26px;color:#fff;position:relative;overflow:hidden">
+        <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(232,105,26,.1),transparent)"></div>
+        <div style="font-size:9.5px;font-weight:800;color:var(--sl);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px">ABP Journey 2023–2026</div>
+        ${[["2023","Enrolled in NITI Aayog Aspirational Blocks Programme","#5fffb0"],["Jun 2023","2nd Rank South Zone — ₹1 Crore grant received & utilised","#5fffb0"],["Jul–Sep 2024","Sampoornata Abhiyan — 6 indicators saturated across 23 GPs","#5ff0ff"],["2024","PM Award Top 5 India + Governor's Gold Medal + ISO + Use Case Win","var(--sl)"],["Jan 2026","Sampoornata Abhiyan 2.0 — 23 GP Gram Sabha resolutions","#5ff0ff"],["Sept 2025","1st Rank South Zone + Super 60 + Frontier Tech + ₹1.5 Crore","#5fffb0"]].map(([y,e,c])=>`<div style="display:flex;gap:11px;align-items:flex-start;margin-bottom:12px"><div style="min-width:72px;font-size:9.5px;font-weight:800;color:${c};margin-top:1px">${y}</div><div style="width:7px;height:7px;border-radius:50%;background:${c};margin-top:4px;flex-shrink:0;box-shadow:0 0 6px ${c}44"></div><div style="font-size:12px;color:rgba(255,255,255,.75);line-height:1.65">${e}</div></div>`).join("")}
+      </div>
+    </div>
+  </div>
+  <div class="salt" style="padding:46px 0"><div class="sec" style="padding-top:0;padding-bottom:0">
+    <div style="text-align:center;margin-bottom:26px"><div class="stag" style="justify-content:center">Key Highlights</div><div class="sh">What Makes Narnoor <span>Stand Out</span></div></div>
+    <div class="g3">${D.highlights.length?D.highlights.map(h=>`<div class="hl ${h.color==="saffron"?"hls":h.color==="gold"?"hlg":h.color==="forest"?"hlf":""}"><div class="hl-t">${h.title}</div><div class="hl-s">${h.subtitle}</div></div>`).join(""):`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--tx3)"><div style="font-size:40px;margin-bottom:12px">✨</div><div style="font-size:14px;font-weight:700;color:var(--tx)">Run SQL setup to load highlights data</div></div>`}</div>
+  </div></div>
+  <div class="sec">
+    <div style="text-align:center;margin-bottom:26px"><div class="stag" style="justify-content:center">National Recognition</div><div class="sh">Awards & <span>Achievements</span></div></div>
+    <div class="g4">${D.awards.slice(0,8).map(a=>`<div class="awc cg"><div style="font-size:30px;margin-bottom:9px">${a.icon}</div><div style="font-size:13px;font-weight:800;margin-bottom:4px;font-family:'Playfair Display',serif">${a.title}</div><div style="font-size:11px;color:var(--tx2);line-height:1.55;margin-bottom:7px">${a.subtitle}</div><div style="font-size:9px;font-weight:800;color:var(--s);text-transform:uppercase;margin-bottom:7px;letter-spacing:.5px">${a.year}</div>${pill(a.grant_info,"pgold")}</div>`).join("")||`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--tx3)">Run SQL setup to load awards</div>`}</div>
+  </div>
+  <div class="salt" style="padding:46px 0"><div class="sec" style="padding-top:0;padding-bottom:0">
+    <div style="text-align:center;margin-bottom:26px"><div class="stag" style="justify-content:center">For Everyone</div><div class="sh">Narnoor — <span>One Stop Platform</span></div></div>
+    <div class="g4">${[["🏛️","For NITI Aayog / GoI","KPI tracking, grant utilisation, rankings","ct"],["💼","For CSR Companies","Tribal products, education, health projects","cs"],["🏘️","For Narnoor Citizens","Schemes, grievances, products, information","cf"],["📰","Researchers & Media","Data, reports, stories and impact","cg"]].map(([ic,t,d,c])=>`<div class="card ${c}" style="text-align:center;padding:24px 18px"><div style="font-size:30px;margin-bottom:11px">${ic}</div><div style="font-size:13.5px;font-weight:800;margin-bottom:6px">${t}</div><div style="font-size:12px;color:var(--tx2);line-height:1.6">${d}</div></div>`).join("")}</div>
+  </div></div>`;
+}
+
+function pgProfile(){
+  return`<div class="sec">
+  <div class="stag">Block Profile</div><div class="sh" style="margin-bottom:22px">Narnoor — <span>Key Facts</span></div>
+  <div class="g2c">
+    <div>
+      <div class="card ct" style="margin-bottom:14px">
+        <div style="font-size:10px;font-weight:800;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:15px">Demographics & Administration</div>
+        ${[["Population","29,152"],["ST (Tribal) Share","61.8%"],["Gram Panchayats","23"],["Habitations","46"],["Schools","83"],["Anganwadi Centres","77"],["PHC","1"],["Sub-Centres","5"],["KPIs Improved","39/39"]].map(([l,v])=>`<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--b);font-size:13.5px"><span style="color:var(--tx2)">${l}</span><span style="font-weight:800">${v}</span></div>`).join("")}
+      </div>
+      <div class="card cs">
+        <div style="font-size:10px;font-weight:800;color:var(--sd);text-transform:uppercase;letter-spacing:1px;margin-bottom:13px">Contact Information</div>
+        <div style="font-size:13px;margin-bottom:9px">📧 <a href="mailto:${g("siteEmail")||"abpnarnoor@gmail.com"}" style="color:var(--td);font-weight:600">${g("siteEmail")||"abpnarnoor@gmail.com"}</a></div>
+        <div style="font-size:13px;margin-bottom:9px">📞 <strong>${g("sitePhone")||"+91 93919 14941"}</strong></div>
+        <div style="font-size:13px;margin-bottom:9px">🌐 <strong>${g("siteWeb")||"www.abpnarnoor.in"}</strong></div>
+        <div style="font-size:12.5px;color:var(--tx2);line-height:1.7">${g("siteAddress")||"Block Development Office, Narnoor Village, Adilabad District, Telangana"}</div>
+      </div>
+    </div>
+    <div>
+      <div style="background:linear-gradient(145deg,var(--fd),var(--n));border-radius:var(--r3);padding:26px;color:#fff;margin-bottom:14px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:-30px;right:-30px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(232,105,26,.1),transparent)"></div>
+        <div style="font-size:9.5px;font-weight:800;color:var(--sl);text-transform:uppercase;letter-spacing:2px;margin-bottom:15px">ABP Journey 2023–2026</div>
+        ${[["2023","Enrolled in NITI Aayog ABP","#5fffb0"],["Jun 2023","2nd Rank South Zone — ₹1 Crore grant utilised","#5fffb0"],["Jul–Sep 2024","Sampoornata Abhiyan — 23 GPs saturated","#5ff0ff"],["2024","PM Award + Governor's Gold + ISO + Use Case Win","var(--sl)"],["Jan 2026","Sampoornata Abhiyan 2.0 launched","#5ff0ff"],["Sept 2025","1st Rank South Zone + Super 60 + ₹1.5 Crore","#5fffb0"]].map(([y,e,c])=>`<div style="display:flex;gap:11px;align-items:flex-start;margin-bottom:11px"><div style="min-width:70px;font-size:9.5px;font-weight:800;color:${c};margin-top:1px">${y}</div><div style="width:7px;height:7px;border-radius:50%;background:${c};margin-top:4px;flex-shrink:0"></div><div style="font-size:12px;color:rgba(255,255,255,.75);line-height:1.65">${e}</div></div>`).join("")}
+      </div>
+      <div style="background:linear-gradient(145deg,#1a2030,#2a1a30);border-radius:var(--r2);height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;gap:10px;cursor:pointer;border:2px dashed rgba(255,255,255,.1)">
+        <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--s),var(--sd));display:flex;align-items:center;justify-content:center;font-size:20px">▶</div>
+        <div style="font-size:14px;font-weight:800;font-family:'Playfair Display',serif">Narnoor Journey Video 2023–2026</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.35)">Upload video via Admin → Media tab</div>
+      </div>
+    </div>
+  </div></div>`;
+}
+
+function pgDash(){
+  const fl=ks==="All"?D.kpis:D.kpis.filter(k=>k.sector===ks);
+  const sat=D.kpis.filter(k=>k.status==="sat").length,exc=D.kpis.filter(k=>k.status==="exc").length,ong=D.kpis.filter(k=>k.status==="ong").length;
+  return`<div class="sec">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+    <div><div class="stag">Performance Dashboard</div><div class="sh">KPI <span>Tracker</span></div></div>
+    <div style="font-size:11px;color:var(--tx3);margin-top:8px;font-weight:600">🟢 Live from database · ${D.kpis.length} KPIs</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(225px,1fr));gap:14px;margin-bottom:24px">
+    ${[{l:"Saturated ✓",n:sat,bg:"linear-gradient(135deg,#f0fdf4,#dcfce7)",bc:"#86efac",tc:"#15803d",ic:"✅"},{l:"Excellent",n:exc,bg:"linear-gradient(135deg,var(--tp),#b2f0f2)",bc:"rgba(13,115,119,.3)",tc:"var(--td)",ic:"⭐"},{l:"Ongoing",n:ong,bg:"linear-gradient(135deg,var(--sp),#ffd5b8)",bc:"rgba(232,105,26,.3)",tc:"var(--sd)",ic:"🔄"},{l:"Total KPIs",n:D.kpis.length,bg:"linear-gradient(135deg,#f3e8ff,#e9d5ff)",bc:"rgba(124,58,237,.3)",tc:"var(--pur)",ic:"📊"}].map(s=>`
+      <div style="background:${s.bg};border:1.5px solid ${s.bc};border-radius:var(--r2);padding:19px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:-15px;right:-10px;font-size:55px;opacity:.08">${s.ic}</div>
+        <div style="font-size:10.5px;font-weight:800;color:${s.tc};text-transform:uppercase;letter-spacing:.8px;margin-bottom:9px">${s.l}</div>
+        <div style="font-size:34px;font-weight:900;color:${s.tc};line-height:1;font-family:'Playfair Display',serif">${s.n}</div>
+        <div class="pb2" style="margin-top:13px;background:rgba(0,0,0,.07)"><div class="pbf" style="width:${D.kpis.length?Math.round(s.n/D.kpis.length*100):0}%;background:${s.tc}"></div></div>
+      </div>`).join("")}
+  </div>
+  <div class="frow">${SECS.map(s=>`<button class="fb ${ks===s?"on":""}" onclick="setKS('${s}')">${s}</button>`).join("")}</div>
+  ${fl.length?`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:13px">
+    ${fl.map(k=>`<div class="kc ${k.status}">
+      <div class="kn">${k.name}</div><div class="kv">${k.current_value}</div>
+      <div class="kbase" style="margin-top:3px">Baseline: ${k.baseline}</div>
+      ${k.note?`<div class="knote">★ ${k.note}</div>`:""}
+      <div class="pb2" style="margin:9px 0 8px"><div class="pbf" style="width:${k.progress}%;background:${bclr(k.progress)}"></div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span class="pill" style="background:${STL[k.status]?.bg||"#f1f5f9"};color:${STL[k.status]?.tc||"#475569"}">${STL[k.status]?.l||k.status}</span>
+        <span style="font-size:10.5px;color:var(--tx3);font-weight:700">${k.progress}%</span>
+      </div>
+    </div>`).join("")}
+  </div>`:`<div style="text-align:center;padding:60px;color:var(--tx3)"><div style="font-size:46px;margin-bottom:14px">📊</div><div style="font-size:15px;font-weight:800;margin-bottom:8px;color:var(--tx)">Database Empty — Run SQL Setup</div><div style="font-size:13px;max-width:400px;margin:0 auto;line-height:1.7;color:var(--tx2)">Go to <strong>Supabase → SQL Editor</strong> → paste and run <strong>STEP1_run_this_sql.sql</strong> to populate all 39 KPIs.</div>${adm?`<button class="btn-s" style="margin-top:16px" onclick="go('admin')">Go to Admin → Setup Guide</button>`:""}</div>`}
+  </div>`;
+}
+
+function pgCamps(){
+  const fl=cf==="all"?D.campaigns:D.campaigns.filter(c=>c.type===cf);
+  return`<div class="sec">
+  <div class="stag">Campaigns Conducted</div><div class="sh" style="margin-bottom:6px">Block <span>Campaigns</span></div>
+  <div class="ss" style="margin-bottom:22px">All official campaigns — Block level, Central Govt & Telangana State</div>
+  <div class="tabs">${[["all","All"],["block","Block Level"],["central","Central Govt"],["state","State — Telangana"]].map(([v,l])=>`<button class="tab ${cf===v?"on":""}" onclick="setCF('${v}')">${l}</button>`).join("")}</div>
+  ${fl.length?`<div class="g2">${fl.map(c=>`<div class="cc">
+    <div class="cchd" style="background:linear-gradient(135deg,${c.color||"var(--t)"},${c.color||"var(--t)"}bb)">
+      <h3>${c.name}</h3><div class="ctel">${c.telugu_name||""}</div><div class="cper">${c.period}</div>
+    </div>
+    <div style="padding:17px"><p style="font-size:13px;color:var(--tx2);line-height:1.75;margin-bottom:11px">${c.description}</p>
+    ${pill(c.type==="block"?"Block Level":c.type==="central"?"Central Govt":"State — Telangana",c.type==="central"?"pb":c.type==="state"?"pg":"pa")}</div>
+  </div>`).join("")}</div>`:`<div style="text-align:center;padding:60px;color:var(--tx3)"><div style="font-size:46px;margin-bottom:14px">📋</div><div style="font-size:14px;font-weight:700;color:var(--tx)">No campaigns data</div><div style="font-size:12.5px;margin-top:8px">Run STEP1_run_this_sql.sql in Supabase SQL Editor</div></div>`}
+  </div>`;
+}
+
+function pgInits(){
+  return`<div class="sec">
+  <div class="stag">Key Initiatives</div><div class="sh" style="margin-bottom:6px">Narnoor's <span>Flagship Initiatives</span></div>
+  <div class="ss" style="margin-bottom:22px">Ground-level programmes making real impact across all sectors</div>
+  ${D.initiatives.length?`<div class="g3">${D.initiatives.map(x=>`<div class="ic">
+    <div class="ith" style="background:linear-gradient(135deg,${x.bg_color||"var(--fd)"},${x.bg_color||"var(--fd)"}88)"><span class="iemj">${x.emoji||"✨"}</span></div>
+    <div style="padding:15px"><div style="font-size:9.5px;font-weight:800;color:var(--s);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px">${x.category}</div>
+    <div style="font-size:13.5px;font-weight:800;margin-bottom:6px;font-family:'Playfair Display',serif">${x.title}</div>
+    <div style="font-size:12.5px;color:var(--tx2);line-height:1.7;margin-bottom:9px">${x.description}</div>${pill(x.tag)}</div>
+  </div>`).join("")}</div>`:`<div style="text-align:center;padding:60px;color:var(--tx3)"><div style="font-size:46px;margin-bottom:14px">✨</div><div style="font-size:14px;font-weight:700;color:var(--tx)">No initiatives data</div><div style="font-size:12.5px;margin-top:8px">Run SQL setup file in Supabase</div></div>`}
+  </div>`;
+}
+
+function pgTransform(){
+  return`<div class="sec">
+  <div style="text-align:center;margin-bottom:28px"><div class="stag" style="justify-content:center">Before & After 2023–2026</div><div class="sh">Narnoor's <span>Transformation</span></div></div>
+  ${D.transformation.length?`<div style="display:flex;flex-direction:column;gap:11px;margin-bottom:26px">${D.transformation.map(x=>`<div class="tr">
+    <div class="trb"><div class="trlb" style="color:#dc2626">Before 2023</div><div class="trtx">${x.before_text}</div></div>
+    <div class="trar">→</div>
+    <div class="tra"><div class="trlb" style="color:#15803d">After 2026</div><div class="trtx">${x.after_text}</div></div>
+  </div>`).join("")}</div>`:`<div style="text-align:center;padding:60px;color:var(--tx3)"><div style="font-size:46px;margin-bottom:14px">🔄</div><div>Run SQL setup to load transformation data</div></div>`}
+  <div style="background:linear-gradient(145deg,var(--fd),var(--n));border-radius:var(--r3);height:195px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;gap:11px;border:2px dashed rgba(255,255,255,.1)">
+    <div style="width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--s),var(--sd));display:flex;align-items:center;justify-content:center;font-size:20px">▶</div>
+    <div style="font-size:14.5px;font-weight:800;font-family:'Playfair Display',serif">Narnoor Block Journey — 2023 to 2026</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.3)">Upload video URL via Admin → Media tab</div>
+  </div></div>`;
+}
+
+function pgGrants(){
+  const P=[{n:"Anganwadi Play Materials",b:"₹10,08,000",p:100,s:"Completed"},{n:"Model AWCs (6 Centres)",b:"₹15,00,000",p:70,s:"Ongoing"},{n:"Science Labs — Tribal & Local Body",b:"₹5,68,000",p:100,s:"Completed"},{n:"Tribal Museum, Narnoor",b:"₹18,00,000",p:100,s:"Completed"},{n:"Community Study Hall",b:"₹12,00,000",p:100,s:"Completed"},{n:"RO Plant at CHC Narnoor",b:"₹5,00,000",p:100,s:"Completed"},{n:"Mahua Ladoo Processing Unit",b:"₹5,64,000",p:100,s:"Completed"},{n:"Bamboo Processing Unit",b:"₹6,00,000",p:100,s:"Completed"},{n:"Water Rejuvenation — 17 Tanks",b:"₹40,20,000",p:59,s:"Ongoing"}];
+  const U=[{n:"Super 60 — NITI Aayog (PVTG Focus)",t:"1 of 60 Nationally",d:"Special PVTG focus via PM-JANMAN. Separate from Frontier Technology.",b:"Funds Awaited",c:"var(--t)"},{n:"Frontier Technology — NITI Aayog (Separate)",t:"Separate Programme",d:"Distinct from Super 60. AI health, digital governance. Narnoor is in BOTH.",b:"Proposal Stage",c:"var(--pur)"},{n:"Sept 2025 Grant — ₹1.5 Crore Proposals",t:"Submitted",d:"Skill ₹51L + AWC ₹17.93L + Agri ₹8.05L + Health ₹6.5L + Bore Well ₹10L",b:"₹1,50,00,000",c:"var(--f)"},{n:"Water Rejuvenation Phase 2",t:"Phase 2",d:"Remaining 7 tanks — Balanpur, Gangapur-II, Bheempur, Gundala, Bethalguda, Tadihatnoor.",b:"₹7,71,000 Pending",c:"var(--td)"}];
+  return`<div class="sec">
+  <div class="stag">NITI Aayog Funding</div><div class="sh" style="margin-bottom:22px">Grants, Projects & <span>Upcoming</span></div>
+  <div class="tabs">${[["overview","Grants Overview"],["projects","Projects"],["upcoming","Upcoming"]].map(([v,l])=>`<button class="tab ${gt===v?"on":""}" onclick="setGT('${v}')">${l}</button>`).join("")}</div>
+  ${gt==="overview"?`<div class="g3c" style="margin-bottom:18px">${[{cy:"June 2023",rk:"2nd Rank, South Zone",am:"₹1,00,00,000",st:"Received & Utilised",c:"var(--t)"},{cy:"Sept 2025",rk:"1st Rank, South Zone",am:"₹1,50,00,000",st:"Proposals Submitted",c:"var(--s)"},{cy:"Water Rejuvenation",rk:"NITI Aayog Separate",am:"₹40,20,000",st:"Phase 1 — 10 Tanks Done",c:"var(--f)"}].map(x=>`<div class="card" style="border-top:4px solid ${x.c}"><div style="font-size:9.5px;color:${x.c};font-weight:800;text-transform:uppercase;margin-bottom:5px;letter-spacing:.5px">${x.cy}</div><div style="font-size:13.5px;font-weight:800;margin-bottom:6px">${x.rk}</div><div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:800;color:${x.c};margin-bottom:9px">${x.am}</div>${pill(x.st)}</div>`).join("")}</div>`:""}
+  ${gt==="projects"?`<div style="display:flex;flex-direction:column;gap:11px">${P.map(x=>{const c=x.s==="Completed"?"#15803d":"var(--s)";return`<div class="card" style="display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center"><div><div style="font-size:13.5px;font-weight:800;margin-bottom:3px">${x.n}</div><div style="font-size:12.5px;color:var(--tx2);font-weight:600">${x.b}</div></div><div style="min-width:165px;text-align:right"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px"><span style="color:var(--tx2);font-weight:600">Progress</span><span style="font-weight:800;color:${c}">${x.p}%</span></div><div class="pb2"><div class="pbf" style="width:${x.p}%;background:${c}"></div></div><div style="margin-top:6px">${pill(x.s,x.s==="Completed"?"pg":"pa")}</div></div></div>`;}).join("")}</div>`:""}
+  ${gt==="upcoming"?`<div class="g2">${U.map(x=>`<div class="card" style="border-left:5px solid ${x.c}"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px"><div style="font-size:14px;font-weight:800;line-height:1.3;flex:1">${x.n}</div><span style="margin-left:10px">${pill(x.t,"pb")}</span></div><div style="font-size:13px;color:var(--tx2);line-height:1.75;margin-bottom:9px">${x.d}</div><div style="font-size:13.5px;font-weight:800;color:${x.c}">Budget: ${x.b}</div></div>`).join("")}</div>`:""}
+  </div>`;
+}
+</script>
+<script>
+const SCH=[{n:"PM Kisan Samman Nidhi",ty:"central",dp:"Agriculture",d:"₹6,000/year direct income. 100% seeding completed.",ic:"🌾"},{n:"PM Awas Yojana (Gramin)",ty:"central",dp:"Rural Dev.",d:"Pucca housing for rural homeless families.",ic:"🏠"},{n:"Jal Jeevan Mission",ty:"central",dp:"PHE",d:"100% functional tap water across all 46 habitations.",ic:"💧"},{n:"MNREGA",ty:"central",dp:"Labour",d:"100-day employment guarantee per household.",ic:"⛏️"},{n:"PM Jan Dhan Yojana",ty:"central",dp:"Finance",d:"Universal banking — zero-balance accounts.",ic:"🏦"},{n:"Ujjwala Yojana",ty:"central",dp:"Petroleum",d:"Free LPG connections to BPL women.",ic:"🔥"},{n:"PMFME Scheme",ty:"central",dp:"Food Processing",d:"~12 food processing units operational.",ic:"🏭"},{n:"PM-JANMAN",ty:"central",dp:"Tribal Affairs",d:"PVTG welfare. Narnoor in Super 60.",ic:"🏕️"},{n:"Rythu Bandhu / Barosa",ty:"state",dp:"Agriculture",d:"Investment support per acre per season.",ic:"🌿"},{n:"Aasara Pension",ty:"state",dp:"Social Welfare",d:"Monthly pension — elderly, widows, disabled.",ic:"👴"},{n:"KCR Kits (Bangaru Thalli)",ty:"state",dp:"Health",d:"Delivery kit for institutional births.",ic:"🤱"},{n:"Kalyana Lakshmi / Shaadi Mubarak",ty:"state",dp:"Social Welfare",d:"Financial assistance for SC/ST girl marriage.",ic:"💍"},{n:"Rajiv Aarogya Sri",ty:"state",dp:"Health",d:"₹5 Lakh health insurance per BPL family.",ic:"🏥"},{n:"TS-iPASS",ty:"state",dp:"Industries",d:"Single window for self-employment.",ic:"📋"}];
+
+function pgAwards(){
+  return`<div class="sec">
+  <div class="tabs">${[["awards","🏆 Awards & Recognition"],["schemes","📋 Schemes Awareness"]].map(([v,l])=>`<button class="tab ${at2===v?"on":""}" onclick="setAT('${v}')">${l}</button>`).join("")}</div>
+  ${at2==="awards"?`
+    <div class="stag">National Recognition</div><div class="sh" style="margin-bottom:22px">Awards & <span>Achievements</span></div>
+    <div class="g4" style="margin-bottom:26px">${D.awards.map(a=>`<div class="awc cg"><div style="font-size:30px;margin-bottom:9px">${a.icon}</div><div style="font-size:13px;font-weight:800;margin-bottom:4px;font-family:'Playfair Display',serif">${a.title}</div><div style="font-size:11.5px;color:var(--tx2);line-height:1.55;margin-bottom:7px">${a.subtitle}</div><div style="font-size:9px;font-weight:800;color:var(--s);text-transform:uppercase;margin-bottom:7px;letter-spacing:.5px">${a.year}</div>${pill(a.grant_info,"pgold")}</div>`).join("")||`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--tx3)">No awards data. Run SQL setup.</div>`}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="background:linear-gradient(145deg,var(--fd),var(--n));border-radius:var(--r3);padding:22px;color:#fff"><div style="font-size:26px;margin-bottom:11px">⭐</div><div style="font-size:16.5px;font-weight:800;color:var(--sl);margin-bottom:9px;font-family:'Playfair Display',serif">Super 60 — NITI Aayog (PVTG Focus)</div><div style="font-size:12.5px;color:rgba(255,255,255,.75);line-height:1.85;margin-bottom:13px">One of <strong style="color:var(--sl)">60 blocks nationally</strong>. Special focus on <strong style="color:var(--sl)">PVTGs</strong> under PM-JANMAN. SEPARATE from Frontier Technology.</div><div style="display:flex;gap:6px;flex-wrap:wrap">${pill("PVTG Special Focus","pa")}${pill("PM-JANMAN","pg")}${pill("National Selection","pb")}</div></div>
+      <div style="background:linear-gradient(145deg,#1e1a4d,#2d1a4d);border-radius:var(--r3);padding:22px;color:#fff"><div style="font-size:26px;margin-bottom:11px">🔬</div><div style="font-size:16.5px;font-weight:800;color:#c4b5fd;margin-bottom:9px;font-family:'Playfair Display',serif">Frontier Technology — NITI Aayog (Separate)</div><div style="font-size:12.5px;color:rgba(255,255,255,.75);line-height:1.85;margin-bottom:13px">Completely <strong style="color:#c4b5fd">separate from Super 60</strong>. Advanced tech — AI health, digital governance. Narnoor is part of <strong style="color:#c4b5fd">BOTH programmes.</strong></div><div style="display:flex;gap:6px;flex-wrap:wrap">${pill("Advanced Technology","pv")}${pill("Digital Governance","pb")}${pill("Separate from Super 60","pa")}</div></div>
+    </div>`:""}
+  ${at2==="schemes"?`
+    <div class="stag">Scheme Awareness</div><div class="sh" style="margin-bottom:20px">Central & State <span>Government Schemes</span></div>
+    <div class="frow">${[["all","All Schemes"],["central","🇮🇳 Central Govt"],["state","🌿 Telangana State"]].map(([v,l])=>`<button class="fb ${sf===v?"on":""}" onclick="setSF('${v}')">${l}</button>`).join("")}</div>
+    <div class="g3">${SCH.filter(x=>sf==="all"||x.ty===sf).map(x=>`<div class="card ${x.ty==="central"?"ct":"cf"}"><div style="display:flex;justify-content:space-between;margin-bottom:9px"><span style="font-size:24px">${x.ic}</span>${pill(x.ty==="central"?"Central":"Telangana",x.ty==="central"?"pb":"pg")}</div><div style="font-size:13.5px;font-weight:800;margin-bottom:4px">${x.n}</div><div style="font-size:9.5px;color:var(--sd);font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px">${x.dp}</div><div style="font-size:12.5px;color:var(--tx2);line-height:1.7">${x.d}</div></div>`).join("")}</div>`:""}
+  </div>`;
+}
+
+function pgTourism(){
+  const tF=tSent?`<div class="suc"><div style="font-size:30px;margin-bottom:11px">✅</div><div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:800;margin-bottom:7px">Ticket Booked!</div><div style="font-size:13px;color:var(--tx2);line-height:1.75;margin-bottom:15px">WhatsApp opened for confirmation. Pay via UPI: <strong>abpnarnoor@upi</strong> or at museum counter.</div><button class="btn-g" onclick="tSent=false;R()">Book Another</button></div>`
+  :`<div class="ticket"><div class="tickhd"><div style="font-size:26px">🏛️</div><div><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:800">Tribal Museum, Narnoor</div><div style="font-size:11px;opacity:.65;margin-top:3px">₹10 per person · Tue–Sun · 9 AM – 5 PM</div></div></div><div style="padding:19px">${[["Timings","9 AM – 5 PM · Tue–Sun"],["Location","Narnoor Village, Adilabad"],["Entry Fee","₹10 per person"]].map(([l,v])=>`<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--b);font-size:13.5px"><span style="color:var(--tx2)">${l}</span><span style="font-weight:700">${v}</span></div>`).join("")}<div style="height:1px;background:var(--b);margin:15px 0"></div><label class="fl">Your Name</label><input class="fi" id="tn" placeholder="Full name"><label class="fl">WhatsApp Mobile</label><input class="fi" id="tp" placeholder="+91 XXXXXXXXXX"><label class="fl">Number of Visitors</label><select class="fi" id="tc"><option value="1">1 person — ₹10</option><option value="2">2 persons — ₹20</option><option value="5">5 persons — ₹50</option><option value="10">10 persons — ₹100</option></select><label class="fl">Visit Date</label><input class="fi" type="date" id="td2"><div style="background:linear-gradient(135deg,var(--w2),var(--tp));border:1px solid rgba(13,115,119,.2);border-radius:11px;padding:13px;display:flex;align-items:center;gap:13px;margin-bottom:13px"><div style="width:68px;height:68px;background:#fff;border:2px solid var(--fd);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-direction:column;flex-shrink:0"><div style="font-size:11px;font-weight:800;color:var(--t)">UPI</div><div style="font-size:7.5px;color:var(--tx2);text-align:center;margin-top:2px">abpnarnoor<br>@upi</div></div><div><div style="font-size:12.5px;font-weight:800;margin-bottom:3px">Pay via UPI / GPay / PhonePe</div><div style="font-size:11.5px;color:var(--tx2);margin-bottom:3px">UPI ID: <strong style="color:var(--td)">abpnarnoor@upi</strong></div><div style="font-size:10.5px;color:var(--sd);font-weight:700">OR pay ₹10 at museum counter on arrival</div></div></div><button class="btn-wa" onclick="bkTicket()">📲 Confirm via WhatsApp</button><div style="font-size:10px;color:var(--tx3);text-align:center;margin-top:7px">Confirmation sent to +91 93919 14941</div></div></div>`;
+  return`<div class="sec">
+  <div class="stag">Tourism</div><div class="sh" style="margin-bottom:6px">Explore <span>Narnoor</span></div><div class="ss" style="margin-bottom:22px">Tribal heritage, culture and natural beauty — Adilabad's gem</div>
+  <div class="g2c">
+    <div>
+      ${hl("🏛️ Tribal Museum — Narnoor","Built under NITI Aayog ABP grant (₹18 Lakhs). Preserves Gond tribal artifacts. Open Tue–Sun, 9 AM – 5 PM. Entry ₹10/person.","hls")}
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:15px 0">${[["🏕️","Gond Villages","Authentic tribal life","var(--sp)"],["🌊","Godavari River","Scenic beauty","var(--tp)"],["🎨","Tribal Handicrafts","Bamboo & Mahua crafts","var(--gp)"],["🐯","Kawal Tiger Reserve","Wildlife nearby","#f3e8ff"]].map(([ic,t,d,bg])=>`<div class="card" style="text-align:center;padding:15px;background:${bg}"><div style="font-size:24px;margin-bottom:6px">${ic}</div><div style="font-size:12.5px;font-weight:800">${t}</div><div style="font-size:11.5px;color:var(--tx2)">${d}</div></div>`).join("")}</div>
+      ${hl("🛒 Buy Narnoor Tribal Products","Mahua Ladoo and Bamboo artcrafts — authentic tribal products from SHG women.","hlf")}
+      <button class="btn-g" style="width:100%;margin-top:11px;padding:12px" onclick="go('shop')">Visit Narnoor Shop →</button>
+    </div>
+    <div><div style="font-size:15px;font-weight:800;margin-bottom:13px;font-family:'Playfair Display',serif">🎟 Book Museum Entry Ticket</div>${tF}</div>
+  </div></div>`;
+}
+
+function pgShop(){
+  return`<div class="sec">
+  <div class="stag">Narnoor E-Commerce</div><div class="sh" style="margin-bottom:6px">Narnoor <span>Tribal Products Shop</span></div><div class="ss" style="margin-bottom:20px">Authentic products from SHG women. 100% natural. Direct from source.</div>
+  ${hl("🌿 Why Buy Narnoor Products?","Every purchase supports tribal SHG women, preserves traditional skills and contributes to livelihoods for 370+ families.","hlg")}
+  <div class="g3" style="margin-top:17px">${D.products.filter(x=>x.available).map(x=>`<div class="pc">
+    <div class="pimg" style="background:linear-gradient(145deg,var(--fd),var(--n))"><span style="font-size:44px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.3));position:relative;z-index:1">${x.emoji||"🌿"}</span></div>
+    <div style="padding:17px">
+      <div style="font-family:'Playfair Display',serif;font-size:15.5px;font-weight:800;margin-bottom:5px">${x.name}</div>
+      <div style="font-size:12.5px;color:var(--tx2);line-height:1.75;margin-bottom:13px">${x.description}</div>
+      <div style="font-family:'Playfair Display',serif;font-size:23px;font-weight:800;color:var(--td);margin-bottom:7px">${x.price} <span style="font-size:12px;font-weight:500;color:var(--tx2);font-family:'Plus Jakarta Sans',sans-serif">${x.unit}</span></div>
+      ${pill("In Stock","pg")}
+      <button class="btn-wa" style="margin-top:13px" onclick="WS('Order — Narnoor Block\\n\\nProduct: ${x.name}\\nPrice: ${x.price} (${x.unit})\\n\\nPlease confirm availability and delivery.\\nwww.abpnarnoor.in')">📲 Order via WhatsApp</button>
+    </div>
+  </div>`).join("")||`<div style="text-align:center;padding:60px;color:var(--tx3);grid-column:1/-1"><div style="font-size:46px;margin-bottom:14px">🛒</div><div style="font-size:14px;font-weight:700;color:var(--tx)">No products yet</div><div style="font-size:12.5px;margin-top:8px">Add products via Admin → Shop tab</div></div>`}</div>
+  ${hl("🏭 For Bulk Orders & CSR","Companies — WhatsApp +91 93919 14941 or email "+(g("siteEmail")||"abpnarnoor@gmail.com"),"hls")}
+  ${hl("📦 More Products Coming Soon","Bamboo furniture, tribal art, Mahua-based products, forest honey and more.")}
+  </div>`;
+}
+
+function pgWho(){
+  const ini=n=>n.split(" ").filter(w=>w).map(w=>w[0]).join("").substring(0,2).toUpperCase();
+  const bgs=["linear-gradient(135deg,var(--s),var(--sd))","linear-gradient(135deg,var(--t),var(--td))","linear-gradient(135deg,var(--f),var(--fd))","linear-gradient(135deg,#7c3aed,#6d28d9)","linear-gradient(135deg,var(--n),#0f1e3d)"];
+  return`<div class="sec">
+  <div style="text-align:center;margin-bottom:28px"><div class="stag" style="justify-content:center">Leadership</div><div class="sh">Who's <span>Who</span></div><div class="ss" style="margin:8px auto 0">Key officers steering Narnoor's transformation</div></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;max-width:820px;margin:0 auto 28px">
+    ${D.officers.map((o,i)=>{
+      const photo=fixUrl(o.photo_url||"");
+      return`<div class="ofc">
+        <div class="ofav" style="background:${bgs[i%bgs.length]}">
+          ${photo?`<img src="${photo}" alt="${o.name}" onload="this.style.opacity=1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" style="opacity:0;transition:opacity .3s"><div class="ofav-txt" style="display:none">${ini(o.name||"N")}</div>`:`<div class="ofav-txt">${ini(o.name||"N")}</div>`}
+        </div>
+        <div style="font-family:'Playfair Display',serif;font-size:14.5px;font-weight:700;margin-bottom:5px">${o.name}</div>
+        <div style="font-size:9.5px;font-weight:800;color:var(--sd);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">${o.role}</div>
+        <div style="font-size:11.5px;color:var(--tx2)">${o.department}</div>
+      </div>`;
+    }).join("")||`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--tx3)">No officers data. Run SQL setup.</div>`}
+  </div>
+  <div class="upc" style="max-width:480px;margin:0 auto">
+    <div style="font-size:32px;margin-bottom:11px">📸</div>
+    <div style="font-size:15px;font-weight:800;margin-bottom:6px">Add Officer Photos</div>
+    <div style="font-size:12.5px;color:var(--tx2);margin-bottom:6px;line-height:1.75">Upload photo to Google Drive → Share → Anyone with link → Copy link → Paste in Admin → Officers → Photo URL field. The photo will show automatically.</div>
+    <button class="btn-g" style="margin-top:10px" onclick="${adm?"go('admin')":`openL()`}">Admin Panel → Officers</button>
+  </div>
+  </div>`;
+}
+
+function pgPartners(){
+  const P=[{i:"🌾",n:"BAIF Dev. Research Foundation",s:"Agriculture & Water",w:"Fluoride-safe water, RO plants, WADI horticulture, soil health"},{i:"💻",n:"Swashodhan Trust",s:"Digital Education",w:"ICT Lab, Digital Smart Classrooms for tribal schools"},{i:"📚",n:"TELC",s:"English Literacy",w:"English Literacy Programme across all schools"},{i:"🗣️",n:"LeapForWord",s:"English Literacy",w:"Young Orators Club — Friday & Saturday sessions"},{i:"😊",n:"Smile Foundation",s:"Education",w:"Volunteer-led coaching for 10th-grade students"},{i:"💧",n:"Bala Vikasa",s:"Water & Sanitation",w:"1000L RO Plants in Bheempur, Kothapally & communities"},{i:"📖",n:"Room to Read",s:"Education",w:"Books for TWPS Schools — library and digital learning"},{i:"🖥️",n:"NASSCOM Foundation",s:"Digital Literacy",w:"PVTG digital literacy — multilingual via CSC centres"},{i:"🏥",n:"Osmania Hospital",s:"Telemedicine",w:"Daily specialist telemedicine — OPD & IPD at CHC Narnoor"},{i:"🌱",n:"CPF Organization",s:"Agriculture",w:"Crop diversification and farmer capacity building"},{i:"♀️",n:"PinkShie Foundation",s:"Women Health",w:"Menstrual health — vending machines, awareness"},{i:"💳",n:"Flipkart",s:"Financial Literacy",w:"Financial Literacy for 6th–9th grade students"},{i:"👩‍💼",n:"EDII",s:"Entrepreneurship",w:"Women Entrepreneurship Training"},{i:"🏗️",n:"Nirmaan",s:"Health Infrastructure",w:"PHC Narnoor & 3 Sub-Centre upgradation"},{i:"🔬",n:"IIT BHU",s:"Innovation Research",w:"Converting agricultural waste into sanitary napkins"}];
+  return`<div class="sec">
+  <div class="stag">NGO & Civil Society</div><div class="sh" style="margin-bottom:6px">Partner <span>Organisations</span></div><div class="ss" style="margin-bottom:22px">15+ organisations driving holistic development in Narnoor</div>
+  <div class="g3">${P.map(p=>`<div class="card clt"><div style="display:flex;gap:13px;align-items:flex-start"><div style="width:40px;height:40px;background:var(--tp);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${p.i}</div><div><div style="font-size:13.5px;font-weight:800;margin-bottom:4px">${p.n}</div><div style="font-size:9.5px;color:var(--sd);font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">${p.s}</div><div style="font-size:12px;color:var(--tx2);line-height:1.65">${p.w}</div></div></div></div>`).join("")}</div>
+  </div>`;
+}
+
+function pgVisits(){
+  return`<div class="sec">
+  <div class="stag">Official Visits</div><div class="sh" style="margin-bottom:6px">High-Level <span>Visits to Narnoor</span></div><div class="ss" style="margin-bottom:22px">Senior officials, NITI Aayog teams and consultants who visited</div>
+  ${D.visits.length?`<div class="g2">${D.visits.map(v=>`<div class="card clt"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px;flex-wrap:wrap;gap:6px"><div><div style="font-family:'Playfair Display',serif;font-size:14px;font-weight:700">${v.visitor_name}</div><div style="font-size:12px;color:var(--td);font-weight:700">${v.organisation}</div></div>${pill(v.visit_date,"pb")}</div><div style="font-size:13px;color:var(--tx2);line-height:1.7">Purpose: ${v.purpose}</div></div>`).join("")}</div>`:`<div style="text-align:center;padding:60px;color:var(--tx3)"><div style="font-size:46px;margin-bottom:14px">🚗</div><div style="font-size:14px;font-weight:700;color:var(--tx)">No visits data</div><div style="font-size:12.5px;margin-top:8px">Run SQL setup or add via Admin → Visits tab</div></div>`}
+  </div>`;
+}
+
+function pgMedia(){
+  return`<div class="sec">
+  <div class="stag">Photos, Videos & Reports</div><div class="sh" style="margin-bottom:22px">Narnoor in the <span>Media</span></div>
+  <div class="upc" style="margin-bottom:22px">
+    <div style="font-size:34px;margin-bottom:11px">📁</div>
+    <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:800;margin-bottom:6px">Upload Photos, Videos & Reports</div>
+    <div style="font-size:13px;color:var(--tx2);margin-bottom:4px;line-height:1.7">Add any media — photos, videos, PDF reports, articles — via Admin Panel → Media tab</div>
+    <div style="font-size:12px;color:var(--td);font-weight:700;margin-bottom:15px">Paste Google Drive links, YouTube links, or PDF URLs. All content becomes clickable.</div>
+    <button class="btn-g" onclick="${adm?"go('admin')":`openL()`}">Go to Admin Panel → Media</button>
+  </div>
+  ${D.articles.length?`<div class="g3">${D.articles.map(a=>`<div class="card cs"><div style="font-size:9.5px;font-weight:800;color:var(--sd);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px">${a.type}</div><div style="font-family:'Playfair Display',serif;font-size:14px;font-weight:700;margin-bottom:11px;line-height:1.4">${a.title}</div><a href="${a.url}" target="_blank" style="font-size:12.5px;color:var(--td);font-weight:700;text-decoration:none;display:flex;align-items:center;gap:5px">Open / View →</a></div>`).join("")}</div>`:`<div style="text-align:center;padding:30px;color:var(--tx3)">No media yet. Add via Admin → Media tab or run SQL setup.</div>`}
+  </div>`;
+}
+
+function pgGriev(){
+  const gF=gSent?`<div class="suc"><div style="font-size:30px;margin-bottom:11px">✅</div><div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:800;margin-bottom:7px">Grievance Submitted</div><div style="font-size:13px;color:var(--tx2);line-height:1.75;margin-bottom:15px">Sent to ${g("siteEmail")||"abpnarnoor@gmail.com"}. Response within 7 working days.</div><button class="btn-g" onclick="gSent=false;R()">Submit Another</button></div>`
+  :`<div class="card cs"><div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:800;margin-bottom:17px">File Your Grievance</div><label class="fl">Full Name</label><input class="fi" id="gn" placeholder="Your full name"><label class="fl">Mobile Number</label><input class="fi" id="gp" placeholder="+91 XXXXXXXXXX"><label class="fl">Village / Habitation</label><input class="fi" id="gv" placeholder="Your village"><label class="fl">Category</label><select class="fi" id="gc"><option>Health & Nutrition</option><option>Education</option><option>Water & Sanitation</option><option>Agriculture</option><option>Government Scheme</option><option>Infrastructure</option><option>Social Development</option><option>Other</option></select><label class="fl" style="margin-top:4px">Description</label><textarea class="fi" id="gd" placeholder="Describe your issue clearly..." style="margin-bottom:13px"></textarea><button class="btn-wa" onclick="subGriev()">📲 Submit via WhatsApp</button></div>`;
+  return`<div class="sec">
+  <div class="tabs">${[["grievance","📝 File Grievance"],["opp","💼 Opportunities & Notices"]].map(([v,l])=>`<button class="tab ${grt===v?"on":""}" onclick="setGRT('${v}')">${l}</button>`).join("")}</div>
+  ${grt==="grievance"?`<div class="g2c"><div style="display:flex;flex-direction:column;gap:11px">
+    ${hl("📧 Email","<a href='mailto:"+(g("siteEmail")||"abpnarnoor@gmail.com")+"' style='color:var(--td);font-weight:700'>"+(g("siteEmail")||"abpnarnoor@gmail.com")+"</a>","hls")}
+    ${hl("📞 WhatsApp","<strong>"+(g("sitePhone")||"+91 93919 14941")+"</strong>")}
+    ${hl("🌐 Website","<strong>"+(g("siteWeb")||"www.abpnarnoor.in")+"</strong>","hlf")}
+    ${hl("🏛️ Office",(g("siteAddress")||"Block Development Office, Narnoor Village, Adilabad District, Telangana"),"hlg")}
+    ${hl("⏱️ Response Time","Within 7 working days")}
+    ${hl("✓ Prajavani — Pilot Programme","Pilot citizen grievance redressal ensuring transparency at block level.","hls")}
+  </div>${gF}</div>`:""}
+  ${grt==="opp"?`
+    <div class="stag">Opportunities & Notices</div><div class="sh" style="margin-bottom:6px">Jobs, Tenders & <span>Notifications</span></div><div class="ss" style="margin-bottom:20px">Official notifications from Narnoor Block Administration</div>
+    ${D.jobs.length?`<div style="display:flex;flex-direction:column;gap:13px">${D.jobs.map(j=>`<div class="jc"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px;flex-wrap:wrap;gap:7px"><div><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:800">${j.title}</div><div style="font-size:12.5px;color:var(--sd);font-weight:700">${j.department}</div></div><div style="display:flex;gap:6px">${pill(j.type,"pb")}${pill("Last Date: "+j.last_date,"pr")}</div></div><div style="font-size:13px;color:var(--tx2);line-height:1.75;margin-bottom:13px">${j.description}</div><button class="btn-wa" style="width:auto;padding:10px 20px" onclick="WS('Enquiry — ${j.title}\\nDept: ${j.department}\\nLast Date: ${j.last_date}\\n\\nPlease share details.\\nwww.abpnarnoor.in')">📲 Enquire via WhatsApp</button></div>`).join("")}</div>`:`<div style="text-align:center;padding:60px;color:var(--tx3)"><div style="font-size:46px;margin-bottom:14px">💼</div><div style="font-size:14px;font-weight:700;color:var(--tx)">No jobs or notices</div><div style="font-size:12.5px;margin-top:8px">Add via Admin → Jobs tab</div></div>`}
+  `:""}
+  </div>`;
+}
+
+function bkTicket(){
+  const nm=document.getElementById("tn")?.value.trim(),ph=document.getElementById("tp")?.value.trim(),ct=document.getElementById("tc")?.value||"1",dt=document.getElementById("td2")?.value;
+  if(!nm||!ph||!dt){alert("Please fill all fields.");return;}
+  WS(`Tribal Museum Ticket — Narnoor Block\n\nName: ${nm}\nMobile: ${ph}\nVisitors: ${ct}\nDate: ${dt}\nAmount: ₹${parseInt(ct)*10}\n\nPay via UPI: abpnarnoor@upi or at museum counter.\n\nwww.abpnarnoor.in`);
+  tSent=true;R();
+}
+function subGriev(){
+  const nm=document.getElementById("gn")?.value.trim();if(!nm){alert("Enter your name.");return;}
+  const ph=document.getElementById("gp")?.value||"",vl=document.getElementById("gv")?.value||"",ct=document.getElementById("gc")?.value||"",dc=document.getElementById("gd")?.value||"";
+  WS(`Grievance — Narnoor Block ABP Portal\n\nName: ${nm}\nMobile: ${ph}\nVillage: ${vl}\nCategory: ${ct}\nDescription: ${dc}\n\nPlease respond within 7 working days.\n${g("siteEmail")||"abpnarnoor@gmail.com"}`);
+  gSent=true;R();
+}
+</script>
+<script>
+function pgAdmin(){
+  if(!adm)return`<div class="sec" style="text-align:center;padding:80px 24px"><div style="font-size:46px;margin-bottom:15px">🔐</div><div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:800;margin-bottom:12px">Admin Access Required</div><button class="bp" onclick="openL()">Login to Admin Panel</button></div>`;
+  const tabs=[["hero","🏠 Hero & Site"],["kpi","📊 KPIs"],["campaigns","📋 Campaigns"],["initiatives","✨ Initiatives"],["transformation","🔄 Transformation"],["highlights","💡 Highlights"],["awards","🏆 Awards"],["officers","👤 Officers"],["visits","🚗 Visits"],["products","🛒 Shop"],["media","📰 Media"],["jobs","💼 Jobs"],["creds","🔐 Credentials"]];
+  let c="";
+  if(adt==="hero")c=`<div class="as"><div class="at">✏️ Edit Hero Section & Site-wide Settings</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div><label class="fl">Hero Main Title</label><input class="fi" id="hs-heroTitle" value="${g("heroTitle")}" style="margin-bottom:0"></div>
+      <div><label class="fl">Hero Subtitle (Orange text)</label><input class="fi" id="hs-heroSub" value="${g("heroSub")}" style="margin-bottom:0"></div>
+      <div style="grid-column:1/-1"><label class="fl">Hero Description</label><textarea class="fi" id="hs-heroDesc" style="min-height:60px;margin-bottom:0">${g("heroDesc")}</textarea></div>
+      ${[1,2,3,4,5,6].map(i=>`<div><label class="fl">Stat ${i} Number</label><input class="fi" id="hs-stat${i}n" value="${g("stat"+i+"n")}" style="margin-bottom:0"></div><div><label class="fl">Stat ${i} Label</label><input class="fi" id="hs-stat${i}l" value="${g("stat"+i+"l")}" style="margin-bottom:0"></div>`).join("")}
+    </div>
+    <div style="height:1px;background:var(--b);margin:15px 0"></div>
+    <div style="font-size:12px;font-weight:800;margin-bottom:11px;color:var(--sd)">📞 Contact Information</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div><label class="fl">Email</label><input class="fi" id="hs-siteEmail" value="${g("siteEmail")}" style="margin-bottom:0"></div>
+      <div><label class="fl">Phone / WhatsApp</label><input class="fi" id="hs-sitePhone" value="${g("sitePhone")}" style="margin-bottom:0"></div>
+      <div><label class="fl">Website</label><input class="fi" id="hs-siteWeb" value="${g("siteWeb")}" style="margin-bottom:0"></div>
+      <div><label class="fl">Office Address</label><input class="fi" id="hs-siteAddress" value="${g("siteAddress")}" style="margin-bottom:0"></div>
+    </div>
+    <button class="btn-g" style="margin-top:15px;width:100%;padding:12px;font-size:14px" onclick="saveHero()">💾 Save All Site Settings to Database</button></div>`;
+  if(adt==="kpi")c=`<div class="as"><div class="at">➕ Add New KPI</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:8px;align-items:end">
+      <div><label class="fl">KPI Name</label><input class="fi" id="ak-n" placeholder="KPI name" style="margin-bottom:0"></div>
+      <div><label class="fl">Current Value</label><input class="fi" id="ak-v" placeholder="e.g. 100%" style="margin-bottom:0"></div>
+      <div><label class="fl">Sector</label><select class="fi" id="ak-s" style="margin-bottom:0">${SECS.slice(1).map(s=>`<option>${s}</option>`).join("")}</select></div>
+      <div><label class="fl">Progress %</label><input class="fi" type="number" id="ak-p" placeholder="0-100" min="0" max="100" style="margin-bottom:0"></div>
+      <button class="btn-g" onclick="aKPI()">Add</button>
+    </div></div>
+    <div style="max-height:440px;overflow-y:auto">${D.kpis.map(k=>`
+      <div class="arow" id="ki-${k.id}"><div class="ai"><span style="font-weight:700">${k.name}</span><span style="font-size:10px;color:var(--tx3);margin-left:8px">${k.current_value} · ${k.sector} · ${k.progress}%</span></div><div class="aa"><button class="btn-e" onclick="tE('ki',${k.id})">✏️</button><button class="btn-del" onclick="dKPI(${k.id})">🗑</button></div></div>
+      <div id="ki-e${k.id}" style="display:none" class="ef"><div class="et">Edit KPI</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:8px">
+          <div style="grid-column:1/-1"><label class="fl">KPI Name</label><input class="fi" id="kn${k.id}" value="${k.name}" style="margin-bottom:0"></div>
+          <div><label class="fl">Current Value</label><input class="fi" id="kv${k.id}" value="${k.current_value}" style="margin-bottom:0"></div>
+          <div><label class="fl">Baseline</label><input class="fi" id="kb${k.id}" value="${k.baseline}" style="margin-bottom:0"></div>
+          <div><label class="fl">Progress %</label><input class="fi" type="number" id="kp${k.id}" value="${k.progress}" min="0" max="100" style="margin-bottom:0"></div>
+          <div><label class="fl">Status</label><select class="fi" id="kst${k.id}" style="margin-bottom:0"><option value="sat" ${k.status==="sat"?"selected":""}>Saturated</option><option value="exc" ${k.status==="exc"?"selected":""}>Excellent</option><option value="ong" ${k.status==="ong"?"selected":""}>Ongoing</option></select></div>
+          <div><label class="fl">Sector</label><select class="fi" id="ks${k.id}" style="margin-bottom:0">${SECS.slice(1).map(s=>`<option ${k.sector===s?"selected":""}>${s}</option>`).join("")}</select></div>
+          <div style="grid-column:2/-1"><label class="fl">Note</label><input class="fi" id="kno${k.id}" value="${k.note||""}" placeholder="Optional" style="margin-bottom:0"></div>
+        </div>
+        <div class="eac"><button class="btn-sv" onclick="sKPI(${k.id})">💾 Save</button><button class="btn-ca" onclick="tE('ki',${k.id})">Cancel</button></div>
+      </div>`).join("")}`;
+  if(adt==="officers")c=`<div class="as"><div class="at">➕ Add Officer</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div><label class="fl">Full Name</label><input class="fi" id="ao-n" placeholder="Full name" style="margin-bottom:0"></div>
+      <div><label class="fl">Designation / Role</label><input class="fi" id="ao-r" placeholder="Designation" style="margin-bottom:0"></div>
+      <div><label class="fl">Department</label><input class="fi" id="ao-d" placeholder="Department" style="margin-bottom:0"></div>
+      <div><label class="fl">Photo URL (Google Drive or direct)</label><input class="fi" id="ao-ph" placeholder="Paste Drive share link or image URL" style="margin-bottom:0"></div>
+    </div>
+    <div style="background:var(--tp);border:1px solid rgba(13,115,119,.2);border-radius:10px;padding:11px 13px;margin-bottom:11px;font-size:11.5px;color:var(--td);line-height:1.7">
+      📸 <strong>Google Drive Photo:</strong> Upload photo → Right-click → Share → Anyone with link → Copy link → Paste above.<br>
+      ✅ Supported: Google Drive share links, direct image URLs (jpg/png/webp), Dropbox links.
+    </div>
+    <button class="btn-g" onclick="aOff()">Add Officer</button></div>
+    ${D.officers.map(o=>{const pv=fixUrl(o.photo_url||"");return`
+      <div class="arow" id="of-${o.id}"><div class="ai" style="display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:50%;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--s),var(--sd));font-weight:800;color:#fff;font-size:12px">${pv?`<img src="${pv}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`:o.name?o.name.split(" ").map(w=>w[0]).join("").substring(0,2).toUpperCase():"N"}</div><span style="font-weight:700">${o.name}</span><span style="font-size:10px;color:var(--tx3);margin-left:5px">${o.role}</span></div><div class="aa"><button class="btn-e" onclick="tE('of',${o.id})">✏️</button><button class="btn-del" onclick="dOff(${o.id})">🗑</button></div></div>
+      <div id="of-e${o.id}" style="display:none" class="ef"><div class="et">Edit Officer</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <div><label class="fl">Name</label><input class="fi" id="oen${o.id}" value="${o.name}" style="margin-bottom:0"></div>
+          <div><label class="fl">Role</label><input class="fi" id="oer${o.id}" value="${o.role}" style="margin-bottom:0"></div>
+          <div><label class="fl">Department</label><input class="fi" id="oed${o.id}" value="${o.department}" style="margin-bottom:0"></div>
+          <div><label class="fl">Photo URL (Drive link or direct)</label><input class="fi" id="oeph${o.id}" value="${o.photo_url||""}" placeholder="Google Drive share link" style="margin-bottom:0"></div>
+        </div>
+        <div class="eac"><button class="btn-sv" onclick="sOff(${o.id})">💾 Save</button><button class="btn-ca" onclick="tE('of',${o.id})">Cancel</button></div>
+      </div>`;}).join("")}`;
+  if(adt==="campaigns")c=`<div class="as"><div class="at">➕ Add Campaign</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+      <div><label class="fl">Name</label><input class="fi" id="ac-n" placeholder="Campaign name" style="margin-bottom:0"></div>
+      <div><label class="fl">Telugu Name</label><input class="fi" id="ac-tn" placeholder="Telugu" style="margin-bottom:0"></div>
+      <div><label class="fl">Period</label><input class="fi" id="ac-p" placeholder="e.g. July 2024 – Sep 2024" style="margin-bottom:0"></div>
+      <div><label class="fl">Type</label><select class="fi" id="ac-t" style="margin-bottom:0"><option value="block">Block Level</option><option value="central">Central Govt</option><option value="state">State</option></select></div>
+      <div><label class="fl">Color (hex)</label><input class="fi" id="ac-c" value="#0d7377" style="margin-bottom:0"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end">
+      <div><label class="fl">Description</label><textarea class="fi" id="ac-d" style="min-height:55px;margin-bottom:0"></textarea></div>
+      <button class="btn-g" style="align-self:flex-end" onclick="aCamp()">Add</button>
+    </div></div>
+    ${D.campaigns.map(x=>`
+      <div class="arow" id="ca-${x.id}"><div class="ai"><span style="display:inline-block;width:10px;height:10px;background:${x.color};border-radius:50%;margin-right:8px"></span><span style="font-weight:700">${x.name}</span><span style="font-size:10px;color:var(--tx3);margin-left:8px">· ${x.type} · ${x.period}</span></div><div class="aa"><button class="btn-e" onclick="tE('ca',${x.id})">✏️</button><button class="btn-del" onclick="dCamp(${x.id})">🗑</button></div></div>
+      <div id="ca-e${x.id}" style="display:none" class="ef"><div class="et">Edit Campaign</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <div><label class="fl">Name</label><input class="fi" id="cen${x.id}" value="${x.name}" style="margin-bottom:0"></div>
+          <div><label class="fl">Telugu Name</label><input class="fi" id="cetn${x.id}" value="${x.telugu_name||""}" style="margin-bottom:0"></div>
+          <div><label class="fl">Period</label><input class="fi" id="cep${x.id}" value="${x.period}" style="margin-bottom:0"></div>
+          <div><label class="fl">Type</label><select class="fi" id="cet${x.id}" style="margin-bottom:0"><option value="block" ${x.type==="block"?"selected":""}>Block Level</option><option value="central" ${x.type==="central"?"selected":""}>Central</option><option value="state" ${x.type==="state"?"selected":""}>State</option></select></div>
+          <div><label class="fl">Color</label><input class="fi" id="cec${x.id}" value="${x.color}" style="margin-bottom:0"></div>
+          <div style="grid-column:1/-1"><label class="fl">Description</label><textarea class="fi" id="ced${x.id}" style="min-height:55px;margin-bottom:0">${x.description}</textarea></div>
+        </div>
+        <div class="eac"><button class="btn-sv" onclick="sCamp(${x.id})">💾 Save</button><button class="btn-ca" onclick="tE('ca',${x.id})">Cancel</button></div>
+      </div>`).join("")}`;
+  if(adt==="initiatives")c=`<div class="as"><div class="at">➕ Add Initiative</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
+      <div><label class="fl">Title</label><input class="fi" id="ai-t" placeholder="Title" style="margin-bottom:0"></div>
+      <div><label class="fl">Category</label><input class="fi" id="ai-c" placeholder="Category" style="margin-bottom:0"></div>
+      <div><label class="fl">Tag</label><input class="fi" id="ai-tag" placeholder="e.g. Completed" style="margin-bottom:0"></div>
+      <div><label class="fl">Emoji</label><input class="fi" id="ai-e" value="✨" style="margin-bottom:0"></div>
+      <div><label class="fl">BG Color (dark hex)</label><input class="fi" id="ai-bg" value="#0d4a30" style="margin-bottom:0"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end">
+      <div><label class="fl">Description</label><textarea class="fi" id="ai-d" style="min-height:55px;margin-bottom:0"></textarea></div>
+      <button class="btn-g" style="align-self:flex-end" onclick="aInit()">Add</button>
+    </div></div>
+    ${D.initiatives.map(x=>`
+      <div class="arow" id="in-${x.id}"><div class="ai"><span style="font-size:16px;margin-right:8px">${x.emoji}</span><span style="font-weight:700">${x.title}</span><span style="font-size:10px;color:var(--tx3);margin-left:8px">· ${x.category} · ${x.tag}</span></div><div class="aa"><button class="btn-e" onclick="tE('in',${x.id})">✏️</button><button class="btn-del" onclick="dInit(${x.id})">🗑</button></div></div>
+      <div id="in-e${x.id}" style="display:none" class="ef"><div class="et">Edit Initiative</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
+          <div><label class="fl">Title</label><input class="fi" id="it${x.id}" value="${x.title}" style="margin-bottom:0"></div>
+          <div><label class="fl">Category</label><input class="fi" id="ic${x.id}" value="${x.category}" style="margin-bottom:0"></div>
+          <div><label class="fl">Tag</label><input class="fi" id="itag${x.id}" value="${x.tag}" style="margin-bottom:0"></div>
+          <div><label class="fl">Emoji</label><input class="fi" id="ie${x.id}" value="${x.emoji}" style="margin-bottom:0"></div>
+          <div><label class="fl">BG Color</label><input class="fi" id="ibg${x.id}" value="${x.bg_color}" style="margin-bottom:0"></div>
+          <div style="grid-column:1/-1"><label class="fl">Description</label><textarea class="fi" id="id${x.id}" style="min-height:55px;margin-bottom:0">${x.description}</textarea></div>
+        </div>
+        <div class="eac"><button class="btn-sv" onclick="sInit(${x.id})">💾 Save</button><button class="btn-ca" onclick="tE('in',${x.id})">Cancel</button></div>
+      </div>`).join("")}`;
+  if(adt==="transformation")c=`<div class="as"><div class="at">➕ Add Transformation Row</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div><label class="fl">Before 2023 (Challenge)</label><textarea class="fi" id="at-b" style="min-height:60px;margin-bottom:0"></textarea></div>
+      <div><label class="fl">After 2026 (Achievement)</label><textarea class="fi" id="at-a" style="min-height:60px;margin-bottom:0"></textarea></div>
+    </div><button class="btn-g" onclick="aTr()">Add Row</button></div>
+    ${D.transformation.map(x=>`
+      <div class="arow" id="tx-${x.id}"><div class="ai" style="font-size:12px"><span style="color:#dc2626;font-weight:700">B:</span> ${x.before_text.substring(0,45)}... <span style="color:#15803d;font-weight:700;margin-left:8px">A:</span> ${x.after_text.substring(0,45)}...</div><div class="aa"><button class="btn-e" onclick="tE('tx',${x.id})">✏️</button><button class="btn-del" onclick="dTr(${x.id})">🗑</button></div></div>
+      <div id="tx-e${x.id}" style="display:none" class="ef"><div class="et">Edit Row</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <div><label class="fl">Before 2023</label><textarea class="fi" id="tb${x.id}" style="min-height:60px;margin-bottom:0">${x.before_text}</textarea></div>
+          <div><label class="fl">After 2026</label><textarea class="fi" id="ta${x.id}" style="min-height:60px;margin-bottom:0">${x.after_text}</textarea></div>
+        </div>
+        <div class="eac"><button class="btn-sv" onclick="sTr(${x.id})">💾 Save</button><button class="btn-ca" onclick="tE('tx',${x.id})">Cancel</button></div>
+      </div>`).join("")}`;
+  if(adt==="highlights")c=`<div class="as"><div class="at">➕ Add Highlight Card</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+      <div><label class="fl">Title (with emoji)</label><input class="fi" id="ah-t" placeholder="🏆 1st Rank..." style="margin-bottom:0"></div>
+      <div><label class="fl">Color: blank / saffron / gold / forest</label><input class="fi" id="ah-c" placeholder="saffron / gold / forest" style="margin-bottom:0"></div>
+      <div style="grid-column:1/-1"><label class="fl">Subtitle</label><textarea class="fi" id="ah-s" style="min-height:55px;margin-bottom:0"></textarea></div>
+    </div><button class="btn-g" onclick="aHL()">Add Highlight</button></div>
+    ${D.highlights.map(h=>`
+      <div class="arow" id="hi-${h.id}"><div class="ai"><span style="font-weight:700">${h.title}</span><span style="font-size:10px;color:var(--tx3);margin-left:8px">${h.color||"default"}</span></div><div class="aa"><button class="btn-e" onclick="tE('hi',${h.id})">✏️</button><button class="btn-del" onclick="dHL(${h.id})">🗑</button></div></div>
+      <div id="hi-e${h.id}" style="display:none" class="ef"><div class="et">Edit Highlight</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <div><label class="fl">Title</label><input class="fi" id="ht${h.id}" value="${h.title}" style="margin-bottom:0"></div>
+          <div><label class="fl">Color</label><input class="fi" id="hc${h.id}" value="${h.color||""}" style="margin-bottom:0"></div>
+          <div style="grid-column:1/-1"><label class="fl">Subtitle</label><textarea class="fi" id="hs2${h.id}" style="min-height:55px;margin-bottom:0">${h.subtitle}</textarea></div>
+        </div>
+        <div class="eac"><button class="btn-sv" onclick="sHL(${h.id})">💾 Save</button><button class="btn-ca" onclick="tE('hi',${h.id})">Cancel</button></div>
+      </div>`).join("")}`;
+  if(adt==="awards")c=`<div class="as"><div class="at">➕ Add Award</div>
+    <div style="display:grid;grid-template-columns:55px 1fr 1fr 70px;gap:8px;margin-bottom:8px">
+      <div><label class="fl">Icon</label><input class="fi" id="aw-ic" placeholder="🏆" style="margin-bottom:0"></div>
+      <div><label class="fl">Title</label><input class="fi" id="aw-t" placeholder="Award title" style="margin-bottom:0"></div>
+      <div><label class="fl">Subtitle</label><input class="fi" id="aw-s" placeholder="Details" style="margin-bottom:0"></div>
+      <div><label class="fl">Year</label><input class="fi" id="aw-y" placeholder="2024" style="margin-bottom:0"></div>
+      <div style="grid-column:2/4"><label class="fl">Grant / Recognition</label><input class="fi" id="aw-g" placeholder="e.g. ₹1 Crore" style="margin-bottom:0"></div>
+      <div style="align-self:flex-end"><button class="btn-g" onclick="aAw()">Add</button></div>
+    </div></div>
+    ${D.awards.map(a=>`
+      <div class="arow" id="aw-${a.id}"><div class="ai"><span style="font-size:16px;margin-right:8px">${a.icon}</span><span style="font-weight:700">${a.title}</span><span style="font-size:10px;color:var(--tx3);margin-left:8px">· ${a.year} · ${a.grant_info}</span></div><div class="aa"><button class="btn-e" onclick="tE('aw',${a.id})">✏️</button><button class="btn-del" onclick="dAw(${a.id})">🗑</button></div></div>
+      <div id="aw-e${a.id}" style="display:none" class="ef"><div class="et">Edit Award</div>
+        <div style="display:grid;grid-template-columns:55px 1fr 1fr;gap:8px;margin-bottom:8px">
+          <div><label class="fl">Icon</label><input class="fi" id="awic${a.id}" value="${a.icon}" style="margin-bottom:0"></div>
+          <div><label class="fl">Title</label><input class="fi" id="awt${a.id}" value="${a.title}" style="margin-bottom:0"></div>
+          <div><label class="fl">Year</label><input class="fi" id="awy${a.id}" value="${a.year}" style="margin-bottom:0"></div>
+          <div style="grid-column:2/4"><label class="fl">Subtitle</label><input class="fi" id="aws${a.id}" value="${a.subtitle}" style="margin-bottom:0"></div>
+          <div style="grid-column:2/4"><label class="fl">Grant Info</label><input class="fi" id="awg${a.id}" value="${a.grant_info}" style="margin-bottom:0"></div>
+        </div>
+        <div class="eac"><button class="btn-sv" onclick="sAw(${a.id})">💾 Save</button><button class="btn-ca" onclick="tE('aw',${a.id})">Cancel</button></div>
+      </div>`).join("")}`;
+  if(adt==="visits")c=`<div class="as"><div class="at">➕ Add Official Visit</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div><label class="fl">Visitor Name & Designation</label><input class="fi" id="av-n" placeholder="Name" style="margin-bottom:0"></div>
+      <div><label class="fl">Organisation</label><input class="fi" id="av-o" placeholder="Organisation" style="margin-bottom:0"></div>
+      <div><label class="fl">Date of Visit</label><input class="fi" id="av-d" placeholder="e.g. March 2025" style="margin-bottom:0"></div>
+      <div><label class="fl">Purpose</label><input class="fi" id="av-p" placeholder="Purpose" style="margin-bottom:0"></div>
+    </div><button class="btn-g" onclick="aVis()">Add Visit</button></div>
+    ${D.visits.map(v=>`
+      <div class="arow" id="vi-${v.id}"><div class="ai"><span style="font-weight:700">${v.visitor_name}</span><span style="font-size:10px;color:var(--tx3);margin-left:8px">${v.organisation} · ${v.visit_date}</span></div><div class="aa"><button class="btn-e" onclick="tE('vi',${v.id})">✏️</button><button class="btn-del" onclick="dVis(${v.id})">🗑</button></div></div>
+      <div id="vi-e${v.id}" style="display:none" class="ef"><div class="et">Edit Visit</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <div><label class="fl">Visitor Name</label><input class="fi" id="vn${v.id}" value="${v.visitor_name}" style="margin-bottom:0"></div>
+          <div><label class="fl">Organisation</label><input class="fi" id="vo${v.id}" value="${v.organisation}" style="margin-bottom:0"></div>
+          <div><label class="fl">Date</label><input class="fi" id="vd${v.id}" value="${v.visit_date}" style="margin-bottom:0"></div>
+          <div><label class="fl">Purpose</label><input class="fi" id="vp${v.id}" value="${v.purpose}" style="margin-bottom:0"></div>
+        </div>
+        <div class="eac"><button class="btn-sv" onclick="sVis(${v.id})">💾 Save</button><button class="btn-ca" onclick="tE('vi',${v.id})">Cancel</button></div>
+      </div>`).join("")}`;
+  if(adt==="products")c=`<div class="as"><div class="at">➕ Add Product</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
+      <div><label class="fl">Product Name</label><input class="fi" id="ap-n" placeholder="e.g. Mahua Ladoo" style="margin-bottom:0"></div>
+      <div><label class="fl">Price</label><input class="fi" id="ap-pr" placeholder="e.g. ₹150" style="margin-bottom:0"></div>
+      <div><label class="fl">Unit</label><input class="fi" id="ap-u" placeholder="per 250g pack" style="margin-bottom:0"></div>
+    </div>
+    <div><label class="fl">Description</label><textarea class="fi" id="ap-d" style="min-height:55px;margin-bottom:10px"></textarea></div>
+    <button class="btn-g" onclick="aProd()">Add Product</button></div>
+    ${D.products.map(x=>`
+      <div class="arow" id="pr-${x.id}"><div class="ai"><span style="font-size:16px;margin-right:8px">${x.emoji||"🌿"}</span><span style="font-weight:700">${x.name}</span><span style="font-size:10px;color:var(--tx3);margin-left:8px">${x.price} ${x.unit}</span></div><div class="aa"><button class="btn-e" onclick="tE('pr',${x.id})">✏️</button><button class="btn-del" onclick="dProd(${x.id})">🗑</button></div></div>
+      <div id="pr-e${x.id}" style="display:none" class="ef"><div class="et">Edit Product</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
+          <div><label class="fl">Name</label><input class="fi" id="pn${x.id}" value="${x.name}" style="margin-bottom:0"></div>
+          <div><label class="fl">Price</label><input class="fi" id="ppr${x.id}" value="${x.price}" style="margin-bottom:0"></div>
+          <div><label class="fl">Unit</label><input class="fi" id="pu${x.id}" value="${x.unit}" style="margin-bottom:0"></div>
+          <div style="grid-column:1/-1"><label class="fl">Description</label><textarea class="fi" id="pd${x.id}" style="min-height:55px;margin-bottom:0">${x.description}</textarea></div>
+        </div>
+        <div class="eac"><button class="btn-sv" onclick="sProd(${x.id})">💾 Save</button><button class="btn-ca" onclick="tE('pr',${x.id})">Cancel</button></div>
+      </div>`).join("")}`;
+  if(adt==="media")c=`<div class="as"><div class="at">➕ Add Article / Photo / Video / PDF</div>
+    <div style="background:var(--tp);border:1px solid rgba(13,115,119,.2);border-radius:10px;padding:11px 13px;margin-bottom:12px;font-size:11.5px;color:var(--td);line-height:1.8">
+      📸 <strong>Photos:</strong> Upload to Google Drive → Share → Anyone with link → Copy link → paste as URL below<br>
+      🎬 <strong>Videos:</strong> Upload to YouTube (unlisted ok) → Copy video URL → paste below<br>
+      📄 <strong>PDFs/Reports:</strong> Upload to Google Drive → Share → paste link below. Or link to any external URL.
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+      <div style="grid-column:1/-1"><label class="fl">Title</label><input class="fi" id="am-t" placeholder="Article / Photo / Video / Report title" style="margin-bottom:0"></div>
+      <div><label class="fl">Type</label><select class="fi" id="am-ty" style="margin-bottom:0"><option>Article</option><option>Photo Report</option><option>Video</option><option>PDF Report</option><option>Official Report</option><option>Press Coverage</option></select></div>
+      <div><label class="fl">URL / Link (Drive, YouTube, web)</label><input class="fi" id="am-u" placeholder="https://..." style="margin-bottom:0"></div>
+    </div><button class="btn-g" onclick="aArt()">Add Media</button></div>
+    ${D.articles.map(a=>`
+      <div class="arow" id="ar-${a.id}"><div class="ai"><span style="font-weight:700">${a.title}</span><span style="font-size:10px;color:var(--tx3);margin-left:8px">${a.type}</span></div><div class="aa"><button class="btn-e" onclick="tE('ar',${a.id})">✏️</button><button class="btn-del" onclick="dArt(${a.id})">🗑</button></div></div>
+      <div id="ar-e${a.id}" style="display:none" class="ef"><div class="et">Edit Media</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <div style="grid-column:1/-1"><label class="fl">Title</label><input class="fi" id="at2${a.id}" value="${a.title}" style="margin-bottom:0"></div>
+          <div><label class="fl">Type</label><select class="fi" id="aty${a.id}" style="margin-bottom:0"><option ${a.type==="Article"?"selected":""}>Article</option><option ${a.type==="Photo Report"?"selected":""}>Photo Report</option><option ${a.type==="Video"?"selected":""}>Video</option><option ${a.type==="PDF Report"?"selected":""}>PDF Report</option></select></div>
+          <div><label class="fl">URL</label><input class="fi" id="au${a.id}" value="${a.url}" style="margin-bottom:0"></div>
+        </div>
+        <div class="eac"><button class="btn-sv" onclick="sArt(${a.id})">💾 Save</button><button class="btn-ca" onclick="tE('ar',${a.id})">Cancel</button></div>
+      </div>`).join("")}`;
+  if(adt==="jobs")c=`<div class="as"><div class="at">➕ Add Job / Notice / Tender</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+      <div><label class="fl">Title</label><input class="fi" id="aj-t" placeholder="Title" style="margin-bottom:0"></div>
+      <div><label class="fl">Department</label><input class="fi" id="aj-d" placeholder="Department" style="margin-bottom:0"></div>
+      <div><label class="fl">Type</label><select class="fi" id="aj-ty" style="margin-bottom:0"><option>Contract</option><option>Regular</option><option>Tender</option><option>Notice</option></select></div>
+      <div><label class="fl">Last Date</label><input class="fi" id="aj-ld" placeholder="e.g. 30 May 2026" style="margin-bottom:0"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end">
+      <div><label class="fl">Description</label><textarea class="fi" id="aj-dc" style="min-height:55px;margin-bottom:0"></textarea></div>
+      <button class="btn-g" style="align-self:flex-end" onclick="aJob()">Add</button>
+    </div></div>
+    ${D.jobs.map(j=>`
+      <div class="arow" id="jo-${j.id}"><div class="ai"><span style="font-weight:700">${j.title}</span><span style="font-size:10px;color:var(--tx3);margin-left:8px">· ${j.department} · ${j.last_date}</span></div><div class="aa"><button class="btn-e" onclick="tE('jo',${j.id})">✏️</button><button class="btn-del" onclick="dJob(${j.id})">🗑</button></div></div>
+      <div id="jo-e${j.id}" style="display:none" class="ef"><div class="et">Edit Job</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <div><label class="fl">Title</label><input class="fi" id="jt${j.id}" value="${j.title}" style="margin-bottom:0"></div>
+          <div><label class="fl">Department</label><input class="fi" id="jd${j.id}" value="${j.department}" style="margin-bottom:0"></div>
+          <div><label class="fl">Type</label><select class="fi" id="jty${j.id}" style="margin-bottom:0"><option ${j.type==="Contract"?"selected":""}>Contract</option><option ${j.type==="Regular"?"selected":""}>Regular</option><option ${j.type==="Tender"?"selected":""}>Tender</option><option ${j.type==="Notice"?"selected":""}>Notice</option></select></div>
+          <div><label class="fl">Last Date</label><input class="fi" id="jld${j.id}" value="${j.last_date}" style="margin-bottom:0"></div>
+          <div style="grid-column:1/-1"><label class="fl">Description</label><textarea class="fi" id="jdc${j.id}" style="min-height:55px;margin-bottom:0">${j.description}</textarea></div>
+        </div>
+        <div class="eac"><button class="btn-sv" onclick="sJob(${j.id})">💾 Save</button><button class="btn-ca" onclick="tE('jo',${j.id})">Cancel</button></div>
+      </div>`).join("")}`;
+  if(adt==="creds")c=`
+    <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #86efac;border-radius:var(--r2);padding:22px;max-width:500px;margin-bottom:22px">
+      <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:800;color:var(--fd);margin-bottom:6px">🔐 Admin Credentials</div>
+      <div style="background:#fff;border:1px solid #86efac;border-radius:11px;padding:13px;margin:11px 0"><div style="font-size:9.5px;font-weight:800;color:#15803d;text-transform:uppercase;margin-bottom:4px">Username</div><div style="font-family:monospace;font-size:17px;font-weight:700">${CR.u}</div></div>
+      <div style="background:#fff;border:1px solid #86efac;border-radius:11px;padding:13px;margin-bottom:11px"><div style="font-size:9.5px;font-weight:800;color:#15803d;text-transform:uppercase;margin-bottom:4px">Password</div><div style="font-family:monospace;font-size:17px;font-weight:700">${CR.p}</div></div>
+      <div style="font-size:11.5px;color:#166534">⚠️ Only visible inside Admin Panel when logged in.</div>
+    </div>
+    <div style="background:linear-gradient(135deg,var(--sp),#ffe4c9);border:2px solid rgba(232,105,26,.28);border-radius:var(--r2);padding:20px;margin-bottom:18px">
+      <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:800;color:var(--sd);margin-bottom:13px">🚨 Database Empty? Run SQL Setup</div>
+      ${[["1","Open Supabase","supabase.com → your project → SQL Editor"],["2","Paste SQL File","Open STEP1_run_this_sql.sql → copy all → paste in editor"],["3","Click Run","12 tables created and all data populated"],["4","Refresh Website","Open narnoor_live.html — all KPIs, campaigns, awards appear"]].map(([n,t,d])=>`<div style="background:#fff;border-radius:10px;padding:10px 13px;margin-bottom:8px;display:flex;gap:11px"><span style="background:var(--s);color:#fff;border-radius:50%;width:23px;height:23px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">${n}</span><div><div style="font-size:12.5px;font-weight:800;margin-bottom:2px">${t}</div><div style="font-size:11.5px;color:var(--tx2)">${d}</div></div></div>`).join("")}
+    </div>
+    <div style="background:linear-gradient(135deg,var(--tp),#b2f0f2);border:2px solid rgba(13,115,119,.22);border-radius:var(--r2);padding:20px">
+      <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:800;color:var(--td);margin-bottom:13px">🌐 Make abpnarnoor.in Live — 6 Steps</div>
+      ${[["1 — GitHub","Free account → New repo → Upload narnoor_live.html → Commit"],["2 — Vercel (Free)","vercel.com → Import repo → Deploy → get live URL in 2 min"],["3 — Buy Domain","godaddy.com → search abpnarnoor.in → Buy ₹600–900/year via UPI"],["4 — Connect Domain","Vercel → Settings → Domains → Add abpnarnoor.in"],["5 — DNS in GoDaddy","A record: 76.76.21.21 · CNAME: cname.vercel-dns.com"],["6 — Live in 60 min","Free SSL auto-configured. Total annual cost: Under ₹1,000"]].map(([t,d])=>`<div style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(13,115,119,.15)"><div style="font-size:12.5px;font-weight:800;color:var(--tx);margin-bottom:2px">Step ${t}</div><div style="font-size:11.5px;color:var(--tx2)">${d}</div></div>`).join("")}
+      <div style="background:#fff;border-radius:10px;padding:12px"><div style="font-size:12.5px;font-weight:800;color:#15803d;margin-bottom:3px">💰 Total Annual Cost</div><div style="font-size:12px;color:var(--tx2)">GoDaddy .in domain: ₹600–900 · Vercel: FREE · Supabase: FREE · SSL: FREE · <strong>Total: Under ₹1,000/year</strong></div></div>
+    </div>`;
+  return`<div class="sec">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:22px">
+      <div><div class="stag">Secure Admin Panel</div><div class="sh">Admin <span>Dashboard</span></div><div style="font-size:13px;color:var(--tx2);margin-top:4px">All changes save instantly to Supabase database</div></div>
+      <button class="blo" onclick="doOut()">🔒 Logout</button>
+    </div>
+    <div class="tabs" style="flex-wrap:wrap">${tabs.map(([v,l])=>`<button class="tab ${adt===v?"on":""}" onclick="setADT('${v}')">${l}</button>`).join("")}</div>
+    ${c}
+  </div>`;
+}
+</script>
+<script>
+/* ══ CRUD ACTIONS ══ */
+function tE(t,id){const e=document.getElementById(`${t}-e${id}`);if(e)e.style.display=e.style.display==="none"?"block":"none";}
+const v=id=>document.getElementById(id)?.value.trim()||"";
+const vi=id=>parseInt(document.getElementById(id)?.value)||0;
+
+async function aKPI(){const n=v("ak-n"),val=v("ak-v"),s=v("ak-s"),p=vi("ak-p");if(!n||!val){alert("Enter name and value.");return;}const r=await sP("kpis",{name:n,current_value:val,sector:s,baseline:"—",progress:p,status:p>=95?"sat":p>=80?"exc":"ong",note:"",sort_order:D.kpis.length});if(r[0]){D.kpis.push(r[0]);toast("✓ KPI added");R();}else toast("❌ Error — run SQL setup first");}
+async function sKPI(id){const n=v(`kn${id}`),val=v(`kv${id}`),b=v(`kb${id}`),p=vi(`kp${id}`),st=v(`kst${id}`),s=v(`ks${id}`),no=v(`kno${id}`);await sPa("kpis",id,{name:n,current_value:val,baseline:b,progress:p,status:st,sector:s,note:no});D.kpis=D.kpis.map(k=>k.id===id?{...k,name:n,current_value:val,baseline:b,progress:p,status:st,sector:s,note:no}:k);toast("✓ KPI updated");R();}
+async function dKPI(id){if(!confirm("Delete this KPI?"))return;await sD("kpis",id);D.kpis=D.kpis.filter(k=>k.id!==id);toast("🗑 Deleted");R();}
+
+async function aCamp(){const n=v("ac-n"),tn=v("ac-tn"),p=v("ac-p"),t=v("ac-t"),col=v("ac-c"),d=v("ac-d");if(!n){alert("Enter campaign name.");return;}const r=await sP("campaigns",{name:n,telugu_name:tn,period:p,type:t,color:col||"#0d7377",description:d,sort_order:D.campaigns.length});if(r[0]){D.campaigns.push(r[0]);toast("✓ Campaign added");R();}else toast("❌ Error — run SQL setup first");}
+async function sCamp(id){const n=v(`cen${id}`),tn=v(`cetn${id}`),p=v(`cep${id}`),t=v(`cet${id}`),col=v(`cec${id}`),d=v(`ced${id}`);await sPa("campaigns",id,{name:n,telugu_name:tn,period:p,type:t,color:col,description:d});D.campaigns=D.campaigns.map(c=>c.id===id?{...c,name:n,telugu_name:tn,period:p,type:t,color:col,description:d}:c);toast("✓ Updated");R();}
+async function dCamp(id){if(!confirm("Delete?"))return;await sD("campaigns",id);D.campaigns=D.campaigns.filter(c=>c.id!==id);toast("🗑 Deleted");R();}
+
+async function aInit(){const t=v("ai-t"),cat=v("ai-c"),tag=v("ai-tag"),e=v("ai-e"),bg=v("ai-bg"),d=v("ai-d");if(!t){alert("Enter title.");return;}const r=await sP("initiatives",{title:t,category:cat,tag:tag||"Active",emoji:e||"✨",bg_color:bg||"#0d4a30",description:d,sort_order:D.initiatives.length});if(r[0]){D.initiatives.push(r[0]);toast("✓ Initiative added");R();}else toast("❌ Error");}
+async function sInit(id){const t=v(`it${id}`),cat=v(`ic${id}`),tag=v(`itag${id}`),e=v(`ie${id}`),bg=v(`ibg${id}`),d=v(`id${id}`);await sPa("initiatives",id,{title:t,category:cat,tag,emoji:e,bg_color:bg,description:d});D.initiatives=D.initiatives.map(x=>x.id===id?{...x,title:t,category:cat,tag,emoji:e,bg_color:bg,description:d}:x);toast("✓ Updated");R();}
+async function dInit(id){if(!confirm("Delete?"))return;await sD("initiatives",id);D.initiatives=D.initiatives.filter(x=>x.id!==id);toast("🗑 Deleted");R();}
+
+async function aTr(){const b=v("at-b"),a=v("at-a");if(!b||!a){alert("Enter before and after.");return;}const r=await sP("transformation",{before_text:b,after_text:a,sort_order:D.transformation.length});if(r[0]){D.transformation.push(r[0]);toast("✓ Row added");R();}}
+async function sTr(id){const b=v(`tb${id}`),a=v(`ta${id}`);await sPa("transformation",id,{before_text:b,after_text:a});D.transformation=D.transformation.map(t=>t.id===id?{...t,before_text:b,after_text:a}:t);toast("✓ Updated");R();}
+async function dTr(id){if(!confirm("Delete?"))return;await sD("transformation",id);D.transformation=D.transformation.filter(t=>t.id!==id);toast("🗑 Deleted");R();}
+
+async function aHL(){const t=v("ah-t"),s=v("ah-s"),col=v("ah-c");if(!t){alert("Enter title.");return;}const r=await sP("highlights",{title:t,subtitle:s,color:col,sort_order:D.highlights.length});if(r[0]){D.highlights.push(r[0]);toast("✓ Highlight added");R();}}
+async function sHL(id){const t=v(`ht${id}`),s=v(`hs2${id}`),col=v(`hc${id}`);await sPa("highlights",id,{title:t,subtitle:s,color:col});D.highlights=D.highlights.map(h=>h.id===id?{...h,title:t,subtitle:s,color:col}:h);toast("✓ Updated");R();}
+async function dHL(id){if(!confirm("Delete?"))return;await sD("highlights",id);D.highlights=D.highlights.filter(h=>h.id!==id);toast("🗑 Deleted");R();}
+
+async function aAw(){const ic=v("aw-ic")||"🏆",t=v("aw-t"),s=v("aw-s"),y=v("aw-y"),g2=v("aw-g");if(!t){alert("Enter title.");return;}const r=await sP("awards",{icon:ic,title:t,subtitle:s,year:y,grant_info:g2,sort_order:D.awards.length});if(r[0]){D.awards.unshift(r[0]);toast("✓ Award added");R();}}
+async function sAw(id){const ic=v(`awic${id}`),t=v(`awt${id}`),s=v(`aws${id}`),y=v(`awy${id}`),g2=v(`awg${id}`);await sPa("awards",id,{icon:ic,title:t,subtitle:s,year:y,grant_info:g2});D.awards=D.awards.map(a=>a.id===id?{...a,icon:ic,title:t,subtitle:s,year:y,grant_info:g2}:a);toast("✓ Updated");R();}
+async function dAw(id){if(!confirm("Delete?"))return;await sD("awards",id);D.awards=D.awards.filter(a=>a.id!==id);toast("🗑 Deleted");R();}
+
+async function aOff(){const n=v("ao-n"),r=v("ao-r"),d=v("ao-d"),ph=v("ao-ph");if(!n){alert("Enter name.");return;}const res=await sP("officers",{name:n,role:r,department:d,photo_url:ph,sort_order:D.officers.length});if(res[0]){D.officers.push(res[0]);toast("✓ Officer added");R();}}
+async function sOff(id){const n=v(`oen${id}`),r=v(`oer${id}`),d=v(`oed${id}`),ph=v(`oeph${id}`);await sPa("officers",id,{name:n,role:r,department:d,photo_url:ph});D.officers=D.officers.map(o=>o.id===id?{...o,name:n,role:r,department:d,photo_url:ph}:o);toast("✓ Updated");R();}
+async function dOff(id){if(!confirm("Delete?"))return;await sD("officers",id);D.officers=D.officers.filter(o=>o.id!==id);toast("🗑 Deleted");R();}
+
+async function aVis(){const n=v("av-n"),o=v("av-o"),d=v("av-d"),p=v("av-p");if(!n){alert("Enter visitor name.");return;}const r=await sP("official_visits",{visitor_name:n,organisation:o,visit_date:d,purpose:p});if(r[0]){D.visits.unshift(r[0]);toast("✓ Visit added");R();}}
+async function sVis(id){const n=v(`vn${id}`),o=v(`vo${id}`),d=v(`vd${id}`),p=v(`vp${id}`);await sPa("official_visits",id,{visitor_name:n,organisation:o,visit_date:d,purpose:p});D.visits=D.visits.map(x=>x.id===id?{...x,visitor_name:n,organisation:o,visit_date:d,purpose:p}:x);toast("✓ Updated");R();}
+async function dVis(id){if(!confirm("Delete?"))return;await sD("official_visits",id);D.visits=D.visits.filter(x=>x.id!==id);toast("🗑 Deleted");R();}
+
+async function aProd(){const n=v("ap-n"),pr=v("ap-pr"),u=v("ap-u"),d=v("ap-d");if(!n||!pr){alert("Enter name and price.");return;}const r=await sP("products",{name:n,price:pr,unit:u||"per unit",description:d,emoji:"🌿",available:true});if(r[0]){D.products.push(r[0]);toast("✓ Product added");R();}}
+async function sProd(id){const n=v(`pn${id}`),pr=v(`ppr${id}`),u=v(`pu${id}`),d=v(`pd${id}`);await sPa("products",id,{name:n,price:pr,unit:u,description:d});D.products=D.products.map(p=>p.id===id?{...p,name:n,price:pr,unit:u,description:d}:p);toast("✓ Updated");R();}
+async function dProd(id){if(!confirm("Delete?"))return;await sD("products",id);D.products=D.products.filter(p=>p.id!==id);toast("🗑 Deleted");R();}
+
+async function aArt(){const t=v("am-t"),ty=v("am-ty"),u=v("am-u")||"http://www.abpnarnoor.in";if(!t){alert("Enter title.");return;}const r=await sP("articles",{title:t,type:ty,url:u});if(r[0]){D.articles.unshift(r[0]);toast("✓ Media added");R();}}
+async function sArt(id){const t=v(`at2${id}`),ty=v(`aty${id}`),u=v(`au${id}`);await sPa("articles",id,{title:t,type:ty,url:u});D.articles=D.articles.map(a=>a.id===id?{...a,title:t,type:ty,url:u}:a);toast("✓ Updated");R();}
+async function dArt(id){if(!confirm("Delete?"))return;await sD("articles",id);D.articles=D.articles.filter(a=>a.id!==id);toast("🗑 Deleted");R();}
+
+async function aJob(){const t=v("aj-t"),d=v("aj-d"),ty=v("aj-ty"),ld=v("aj-ld"),dc=v("aj-dc");if(!t){alert("Enter title.");return;}const r=await sP("jobs",{title:t,department:d,type:ty,last_date:ld||"Open",description:dc});if(r[0]){D.jobs.unshift(r[0]);toast("✓ Job added");R();}}
+async function sJob(id){const t=v(`jt${id}`),d=v(`jd${id}`),ty=v(`jty${id}`),ld=v(`jld${id}`),dc=v(`jdc${id}`);await sPa("jobs",id,{title:t,department:d,type:ty,last_date:ld,description:dc});D.jobs=D.jobs.map(j=>j.id===id?{...j,title:t,department:d,type:ty,last_date:ld,description:dc}:j);toast("✓ Updated");R();}
+async function dJob(id){if(!confirm("Delete?"))return;await sD("jobs",id);D.jobs=D.jobs.filter(j=>j.id!==id);toast("🗑 Deleted");R();}
+
+/* ══ NAVIGATION ══ */
+function go(p){pg=p;mob=false;R();}
+function openMob(){mob=true;R();}
+function cMob(){mob=false;R();}
+function openL(){login=true;R();}
+function closeL(){login=false;lerr=false;R();}
+function setL(l){lang=l;R();}
+function setKS(s){ks=s;R();}
+function setCF(f){cf=f;R();}
+function setSF(f){sf=f;R();}
+function setGT(t){gt=t;R();}
+function setAT(t){at2=t;R();}
+function setGRT(t){grt=t;R();}
+function setADT(t){adt=t;R();}
+
+function doIn(){
+  const u=document.getElementById("lu")?.value.trim(),p=document.getElementById("lp")?.value.trim();
+  if(u===CR.u&&p===CR.p){adm=true;login=false;lerr=false;pg="admin";R();}
+  else{lerr=true;R();}
+}
+function doOut(){adm=false;pg="home";R();}
+
+/* ══ BOOT ══ */
+(async()=>{
+  await loadAll();
+  const L=document.getElementById("L");L.classList.add("out");setTimeout(()=>L.style.display="none",600);
+  R();
+})();
+</script>
+</body>
+</html>
