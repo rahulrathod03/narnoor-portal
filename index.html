@@ -444,8 +444,8 @@ const FALLBACK={
     {id:3,name:"Sri Rahul Rathod",role:"Programme Officer",department:"NITI Aayog ABP — Narnoor",photo_url:""}
   ],
   products:[
-    {id:1,name:"Mahua Ladoo",price:"₹150",unit:"per 250g pack",description:"Traditional tribal sweet from Mahua flowers by SHG women. 100% natural, no preservatives. Fresh batch weekly.",emoji:"🍯",available:true},
-    {id:2,name:"Bamboo Artcrafts",price:"₹200",unit:"per piece",description:"Handcrafted bamboo products — baskets, trays, decorative items. Made by tribal artisans using traditional techniques.",emoji:"🎋",available:true}
+    {id:1,name:"Mahua Ladoo",price:"₹150",unit:"per 250g pack",description:"Traditional tribal sweet from Mahua flowers by SHG women. 100% natural, no preservatives. Fresh batch weekly.",emoji:"🍯",available:true,photo_url:""},
+    {id:2,name:"Bamboo Artcrafts",price:"₹200",unit:"per piece",description:"Handcrafted bamboo products — baskets, trays, decorative items. Made by tribal artisans using traditional techniques.",emoji:"🎋",available:true,photo_url:""}
   ],
   visits:[
     {id:1,visitor_name:"Additional Secretary, NITI Aayog",organisation:"NITI Aayog, Govt. of India",visit_date:"March 2025",purpose:"ABP Progress Review & Delta Ranking Assessment"},
@@ -717,13 +717,14 @@ function pgCamps(){
   <div class="stag">Campaigns Conducted</div><div class="sh" style="margin-bottom:6px">Block <span>Campaigns</span></div>
   <div class="ss" style="margin-bottom:22px">All official campaigns — Block level, Central Govt & Telangana State</div>
   <div class="tabs">${[["all","All"],["block","Block Level"],["central","Central Govt"],["state","State — Telangana"]].map(([v,l])=>`<button class="tab ${cf===v?"on":""}" onclick="setCF('${v}')">${l}</button>`).join("")}</div>
-  ${fl.length?`<div class="g2">${fl.map(c=>`<div class="cc">
-    <div class="cchd" style="background:linear-gradient(135deg,${c.color||"var(--t)"},${c.color||"var(--t)"}bb)">
-      <h3>${c.name}</h3><div class="ctel">${c.telugu_name||""}</div><div class="cper">${c.period}</div>
+  ${fl.length?`<div class="g2">${fl.map(c=>{const cp=fixUrl(c.photo_url||"");return`<div class="cc">
+    <div class="cchd" style="background:linear-gradient(135deg,${c.color||"var(--t)"},${c.color||"var(--t)"}bb);position:relative;overflow:hidden">
+      ${cp?`<img src="${cp}" alt="${c.name}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.25" onerror="this.style.display='none'">`:""}
+      <h3 style="position:relative">${c.name}</h3><div class="ctel" style="position:relative">${c.telugu_name||""}</div><div class="cper" style="position:relative">${c.period}</div>
     </div>
     <div style="padding:17px"><p style="font-size:13px;color:var(--tx2);line-height:1.75;margin-bottom:11px">${c.description}</p>
     ${pill(c.type==="block"?"Block Level":c.type==="central"?"Central Govt":"State — Telangana",c.type==="central"?"pb":c.type==="state"?"pg":"pa")}</div>
-  </div>`).join("")}</div>`:`<div style="text-align:center;padding:60px;color:var(--tx3)"><div style="font-size:46px;margin-bottom:14px">📋</div><div style="font-size:14px;font-weight:700;color:var(--tx)">No campaigns data</div><div style="font-size:12.5px;margin-top:8px">Run STEP1_run_this_sql.sql in Supabase SQL Editor</div></div>`}
+  </div>`;}).join("")}</div>`:`<div style="text-align:center;padding:60px;color:var(--tx3)"><div style="font-size:46px;margin-bottom:14px">📋</div><div style="font-size:14px;font-weight:700;color:var(--tx)">No campaigns data</div><div style="font-size:12.5px;margin-top:8px">Run STEP1_run_this_sql.sql in Supabase SQL Editor</div></div>`}
   </div>`;
 }
 
@@ -731,12 +732,14 @@ function pgInits(){
   return`<div class="sec">
   <div class="stag">Key Initiatives</div><div class="sh" style="margin-bottom:6px">Narnoor's <span>Flagship Initiatives</span></div>
   <div class="ss" style="margin-bottom:22px">Ground-level programmes making real impact across all sectors</div>
-  ${D.initiatives.length?`<div class="g3">${D.initiatives.map(x=>`<div class="ic">
-    <div class="ith" style="background:linear-gradient(135deg,${x.bg_color||"var(--fd)"},${x.bg_color||"var(--fd)"}88)"><span class="iemj">${x.emoji||"✨"}</span></div>
+  ${D.initiatives.length?`<div class="g3">${D.initiatives.map(x=>{const ip=fixUrl(x.photo_url||"");return`<div class="ic">
+    <div class="ith" style="background:linear-gradient(135deg,${x.bg_color||"var(--fd)"},${x.bg_color||"var(--fd)"}88);overflow:hidden">
+      ${ip?`<img src="${ip}" alt="${x.title}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.7" onerror="this.style.display='none'">`:""}
+      <span class="iemj">${x.emoji||"✨"}</span></div>
     <div style="padding:15px"><div style="font-size:9.5px;font-weight:800;color:var(--s);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px">${x.category}</div>
     <div style="font-size:13.5px;font-weight:800;margin-bottom:6px;font-family:'Playfair Display',serif">${x.title}</div>
     <div style="font-size:12.5px;color:var(--tx2);line-height:1.7;margin-bottom:9px">${x.description}</div>${pill(x.tag)}</div>
-  </div>`).join("")}</div>`:`<div style="text-align:center;padding:60px;color:var(--tx3)"><div style="font-size:46px;margin-bottom:14px">✨</div><div style="font-size:14px;font-weight:700;color:var(--tx)">No initiatives data</div><div style="font-size:12.5px;margin-top:8px">Run SQL setup file in Supabase</div></div>`}
+  </div>`;}).join("")}</div>`:`<div style="text-align:center;padding:60px;color:var(--tx3)"><div style="font-size:46px;margin-bottom:14px">✨</div><div style="font-size:14px;font-weight:700;color:var(--tx)">No initiatives data</div><div style="font-size:12.5px;margin-top:8px">Run SQL setup file in Supabase</div></div>`}
   </div>`;
 }
 
@@ -807,8 +810,9 @@ function pgShop(){
   return`<div class="sec">
   <div class="stag">Narnoor E-Commerce</div><div class="sh" style="margin-bottom:6px">Narnoor <span>Tribal Products Shop</span></div><div class="ss" style="margin-bottom:20px">Authentic products from SHG women. 100% natural. Direct from source.</div>
   ${hl("🌿 Why Buy Narnoor Products?","Every purchase supports tribal SHG women, preserves traditional skills and contributes to livelihoods for 370+ families.","hlg")}
-  <div class="g3" style="margin-top:17px">${D.products.filter(x=>x.available).map(x=>`<div class="pc">
-    <div class="pimg" style="background:linear-gradient(145deg,var(--fd),var(--n))"><span style="font-size:44px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.3));position:relative;z-index:1">${x.emoji||"🌿"}</span></div>
+  <div class="g3" style="margin-top:17px">${D.products.filter(x=>x.available).map(x=>{const pp=fixUrl(x.photo_url||"");return`<div class="pc">
+    <div class="pimg" style="background:linear-gradient(145deg,var(--fd),var(--n));overflow:hidden">${pp?`<img src="${pp}" alt="${x.name}" style="width:100%;height:100%;object-fit:cover;border-radius:0" onerror="this.style.display='none';this.nextSibling.style.display='flex'">`:""}
+    <span style="font-size:44px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.3));position:relative;z-index:1;${pp?"display:none":""}">${x.emoji||"🌿"}</span></div>
     <div style="padding:17px">
       <div style="font-family:'Playfair Display',serif;font-size:15.5px;font-weight:800;margin-bottom:5px">${x.name}</div>
       <div style="font-size:12.5px;color:var(--tx2);line-height:1.75;margin-bottom:13px">${x.description}</div>
@@ -816,7 +820,7 @@ function pgShop(){
       ${pill("In Stock","pg")}
       <button class="btn-wa" style="margin-top:13px" onclick="WS('Order — Narnoor Block\\n\\nProduct: ${x.name}\\nPrice: ${x.price} (${x.unit})\\n\\nPlease confirm availability and delivery.\\nwww.abpnarnoor.in')">📲 Order via WhatsApp</button>
     </div>
-  </div>`).join("")||`<div style="text-align:center;padding:60px;color:var(--tx3);grid-column:1/-1"><div style="font-size:46px;margin-bottom:14px">🛒</div><div style="font-size:14px;font-weight:700;color:var(--tx)">No products yet</div><div style="font-size:12.5px;margin-top:8px">Add products via Admin → Shop tab</div></div>`}</div>
+  </div>`;}).join("")||`<div style="text-align:center;padding:60px;color:var(--tx3);grid-column:1/-1"><div style="font-size:46px;margin-bottom:14px">🛒</div><div style="font-size:14px;font-weight:700;color:var(--tx)">No products yet</div><div style="font-size:12.5px;margin-top:8px">Add products via Admin → Shop tab</div></div>`}</div>
   ${hl("🏭 For Bulk Orders & CSR","Companies — WhatsApp +91 93919 14941 or email "+(g("siteEmail")||"abpnarnoor@gmail.com"),"hls")}
   ${hl("📦 More Products Coming Soon","Bamboo furniture, tribal art, Mahua-based products, forest honey and more.")}
   </div>`;
@@ -860,7 +864,7 @@ function pgPartners(){
 function pgVisits(){
   return`<div class="sec">
   <div class="stag">Official Visits</div><div class="sh" style="margin-bottom:6px">High-Level <span>Visits to Narnoor</span></div><div class="ss" style="margin-bottom:22px">Senior officials, NITI Aayog teams and consultants who visited</div>
-  ${D.visits.length?`<div class="g2">${D.visits.map(v=>`<div class="card clt"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px;flex-wrap:wrap;gap:6px"><div><div style="font-family:'Playfair Display',serif;font-size:14px;font-weight:700">${v.visitor_name}</div><div style="font-size:12px;color:var(--td);font-weight:700">${v.organisation}</div></div>${pill(v.visit_date,"pb")}</div><div style="font-size:13px;color:var(--tx2);line-height:1.7">Purpose: ${v.purpose}</div></div>`).join("")}</div>`:`<div style="text-align:center;padding:60px;color:var(--tx3)"><div style="font-size:46px;margin-bottom:14px">🚗</div><div style="font-size:14px;font-weight:700;color:var(--tx)">No visits data</div><div style="font-size:12.5px;margin-top:8px">Run SQL setup or add via Admin → Visits tab</div></div>`}
+  ${D.visits.length?`<div class="g2">${D.visits.map(v=>{const vp=fixUrl(v.photo_url||"");return`<div class="card clt">${vp?`<img src="${vp}" style="width:100%;height:140px;object-fit:cover;border-radius:10px;margin-bottom:12px" onerror="this.style.display='none'">`:""}<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px;flex-wrap:wrap;gap:6px"><div><div style="font-family:'Playfair Display',serif;font-size:14px;font-weight:700">${v.visitor_name}</div><div style="font-size:12px;color:var(--td);font-weight:700">${v.organisation}</div></div>${pill(v.visit_date,"pb")}</div><div style="font-size:13px;color:var(--tx2);line-height:1.7">Purpose: ${v.purpose}</div></div>`;}).join("")}</div>`:`<div style="text-align:center;padding:60px;color:var(--tx3)"><div style="font-size:46px;margin-bottom:14px">🚗</div><div style="font-size:14px;font-weight:700;color:var(--tx)">No visits data</div><div style="font-size:12.5px;margin-top:8px">Run SQL setup or add via Admin → Visits tab</div></div>`}
   </div>`;
 }
 
@@ -984,6 +988,7 @@ function pgAdmin(){
       <div><label class="fl">Period</label><input class="fi" id="ac-p" placeholder="e.g. July 2024 – Sep 2024" style="margin-bottom:0"></div>
       <div><label class="fl">Type</label><select class="fi" id="ac-t" style="margin-bottom:0"><option value="block">Block Level</option><option value="central">Central Govt</option><option value="state">State</option></select></div>
       <div><label class="fl">Color (hex)</label><input class="fi" id="ac-c" value="#0d7377" style="margin-bottom:0"></div>
+      <div><label class="fl">Photo URL (Drive/imgbb)</label><input class="fi" id="ac-ph" placeholder="https://drive.google.com/... or imgbb link" style="margin-bottom:0"></div>
     </div>
     <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end">
       <div><label class="fl">Description</label><textarea class="fi" id="ac-d" style="min-height:55px;margin-bottom:0"></textarea></div>
@@ -998,17 +1003,22 @@ function pgAdmin(){
           <div><label class="fl">Period</label><input class="fi" id="cep${x.id}" value="${x.period}" style="margin-bottom:0"></div>
           <div><label class="fl">Type</label><select class="fi" id="cet${x.id}" style="margin-bottom:0"><option value="block" ${x.type==="block"?"selected":""}>Block Level</option><option value="central" ${x.type==="central"?"selected":""}>Central</option><option value="state" ${x.type==="state"?"selected":""}>State</option></select></div>
           <div><label class="fl">Color</label><input class="fi" id="cec${x.id}" value="${x.color}" style="margin-bottom:0"></div>
+          <div><label class="fl">Photo URL (Drive/imgbb)</label><input class="fi" id="ceph${x.id}" value="${x.photo_url||''}" placeholder="Paste Drive or imgbb link" style="margin-bottom:0"></div>
           <div style="grid-column:1/-1"><label class="fl">Description</label><textarea class="fi" id="ced${x.id}" style="min-height:55px;margin-bottom:0">${x.description}</textarea></div>
         </div>
         <div class="eac"><button class="btn-sv" onclick="sCamp(${x.id})">💾 Save</button><button class="btn-ca" onclick="tE('ca',${x.id})">Cancel</button></div>
       </div>`).join("")}`;
   if(adt==="initiatives")c=`<div class="as"><div class="at">➕ Add Initiative</div>
+    <div style="background:var(--tp);border:1px solid rgba(13,115,119,.2);border-radius:10px;padding:11px 13px;margin-bottom:12px;font-size:11.5px;color:var(--td);line-height:1.7">
+      📸 <strong>Initiative Photo:</strong> Google Drive → Share → Anyone with link → Copy → Paste in Photo URL. Or use imgbb.com for free image hosting.
+    </div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
       <div><label class="fl">Title</label><input class="fi" id="ai-t" placeholder="Title" style="margin-bottom:0"></div>
       <div><label class="fl">Category</label><input class="fi" id="ai-c" placeholder="Category" style="margin-bottom:0"></div>
       <div><label class="fl">Tag</label><input class="fi" id="ai-tag" placeholder="e.g. Completed" style="margin-bottom:0"></div>
       <div><label class="fl">Emoji</label><input class="fi" id="ai-e" value="✨" style="margin-bottom:0"></div>
       <div><label class="fl">BG Color (dark hex)</label><input class="fi" id="ai-bg" value="#0d4a30" style="margin-bottom:0"></div>
+      <div><label class="fl">Photo URL (Drive/imgbb link)</label><input class="fi" id="ai-ph" placeholder="https://drive.google.com/... or imgbb link" style="margin-bottom:0"></div>
     </div>
     <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end">
       <div><label class="fl">Description</label><textarea class="fi" id="ai-d" style="min-height:55px;margin-bottom:0"></textarea></div>
@@ -1023,6 +1033,7 @@ function pgAdmin(){
           <div><label class="fl">Tag</label><input class="fi" id="itag${x.id}" value="${x.tag}" style="margin-bottom:0"></div>
           <div><label class="fl">Emoji</label><input class="fi" id="ie${x.id}" value="${x.emoji}" style="margin-bottom:0"></div>
           <div><label class="fl">BG Color</label><input class="fi" id="ibg${x.id}" value="${x.bg_color}" style="margin-bottom:0"></div>
+          <div style="grid-column:1/-1"><label class="fl">Photo URL (Drive/imgbb)</label><input class="fi" id="iph${x.id}" value="${x.photo_url||''}" placeholder="Paste Drive or imgbb link" style="margin-bottom:0"></div>
           <div style="grid-column:1/-1"><label class="fl">Description</label><textarea class="fi" id="id${x.id}" style="min-height:55px;margin-bottom:0">${x.description}</textarea></div>
         </div>
         <div class="eac"><button class="btn-sv" onclick="sInit(${x.id})">💾 Save</button><button class="btn-ca" onclick="tE('in',${x.id})">Cancel</button></div>
@@ -1075,6 +1086,7 @@ function pgAdmin(){
           <div><label class="fl">Year</label><input class="fi" id="awy${a.id}" value="${a.year}" style="margin-bottom:0"></div>
           <div style="grid-column:2/4"><label class="fl">Subtitle</label><input class="fi" id="aws${a.id}" value="${a.subtitle}" style="margin-bottom:0"></div>
           <div style="grid-column:2/4"><label class="fl">Grant Info</label><input class="fi" id="awg${a.id}" value="${a.grant_info}" style="margin-bottom:0"></div>
+          <div style="grid-column:2/4"><label class="fl">Photo URL (optional)</label><input class="fi" id="awph${a.id}" value="${a.photo_url||''}" placeholder="Drive or imgbb link" style="margin-bottom:0"></div>
         </div>
         <div class="eac"><button class="btn-sv" onclick="sAw(${a.id})">💾 Save</button><button class="btn-ca" onclick="tE('aw',${a.id})">Cancel</button></div>
       </div>`).join("")}`;
@@ -1093,14 +1105,20 @@ function pgAdmin(){
           <div><label class="fl">Organisation</label><input class="fi" id="vo${v.id}" value="${v.organisation}" style="margin-bottom:0"></div>
           <div><label class="fl">Date</label><input class="fi" id="vd${v.id}" value="${v.visit_date}" style="margin-bottom:0"></div>
           <div><label class="fl">Purpose</label><input class="fi" id="vp${v.id}" value="${v.purpose}" style="margin-bottom:0"></div>
+          <div style="grid-column:1/-1"><label class="fl">Photo URL (Drive/imgbb - optional)</label><input class="fi" id="vph${v.id}" value="${v.photo_url||''}" placeholder="Photo from the visit" style="margin-bottom:0"></div>
         </div>
         <div class="eac"><button class="btn-sv" onclick="sVis(${v.id})">💾 Save</button><button class="btn-ca" onclick="tE('vi',${v.id})">Cancel</button></div>
       </div>`).join("")}`;
   if(adt==="products")c=`<div class="as"><div class="at">➕ Add Product</div>
+    <div style="background:var(--tp);border:1px solid rgba(13,115,119,.2);border-radius:10px;padding:11px 13px;margin-bottom:12px;font-size:11.5px;color:var(--td);line-height:1.7">
+      📸 <strong>Product Photo:</strong> Upload to Google Drive → Share → Anyone with link → Copy link → Paste below.<br>
+      Or use <strong>imgbb.com</strong> — free image hosting, upload and copy "Direct link".
+    </div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
       <div><label class="fl">Product Name</label><input class="fi" id="ap-n" placeholder="e.g. Mahua Ladoo" style="margin-bottom:0"></div>
       <div><label class="fl">Price</label><input class="fi" id="ap-pr" placeholder="e.g. ₹150" style="margin-bottom:0"></div>
       <div><label class="fl">Unit</label><input class="fi" id="ap-u" placeholder="per 250g pack" style="margin-bottom:0"></div>
+      <div style="grid-column:1/-1"><label class="fl">Photo URL (Google Drive link or imgbb direct link)</label><input class="fi" id="ap-ph" placeholder="https://drive.google.com/... or https://i.ibb.co/..." style="margin-bottom:0"></div>
     </div>
     <div><label class="fl">Description</label><textarea class="fi" id="ap-d" style="min-height:55px;margin-bottom:10px"></textarea></div>
     <button class="btn-g" onclick="aProd()">Add Product</button></div>
@@ -1111,6 +1129,7 @@ function pgAdmin(){
           <div><label class="fl">Name</label><input class="fi" id="pn${x.id}" value="${x.name}" style="margin-bottom:0"></div>
           <div><label class="fl">Price</label><input class="fi" id="ppr${x.id}" value="${x.price}" style="margin-bottom:0"></div>
           <div><label class="fl">Unit</label><input class="fi" id="pu${x.id}" value="${x.unit}" style="margin-bottom:0"></div>
+          <div style="grid-column:1/-1"><label class="fl">Photo URL (Google Drive or imgbb link)</label><input class="fi" id="pph${x.id}" value="${x.photo_url||''}" placeholder="Paste Google Drive or imgbb link" style="margin-bottom:0"></div>
           <div style="grid-column:1/-1"><label class="fl">Description</label><textarea class="fi" id="pd${x.id}" style="min-height:55px;margin-bottom:0">${x.description}</textarea></div>
         </div>
         <div class="eac"><button class="btn-sv" onclick="sProd(${x.id})">💾 Save</button><button class="btn-ca" onclick="tE('pr',${x.id})">Cancel</button></div>
@@ -1195,12 +1214,12 @@ async function aKPI(){const n=v("ak-n"),val=v("ak-v"),s=v("ak-s"),p=vi("ak-p");i
 async function sKPI(id){const n=v(`kn${id}`),val=v(`kv${id}`),b=v(`kb${id}`),p=vi(`kp${id}`),st=v(`kst${id}`),s=v(`ks${id}`),no=v(`kno${id}`);await sPa("kpis",id,{name:n,current_value:val,baseline:b,progress:p,status:st,sector:s,note:no});D.kpis=D.kpis.map(k=>k.id===id?{...k,name:n,current_value:val,baseline:b,progress:p,status:st,sector:s,note:no}:k);toast("✓ KPI updated");R();}
 async function dKPI(id){if(!confirm("Delete this KPI?"))return;await sD("kpis",id);D.kpis=D.kpis.filter(k=>k.id!==id);toast("🗑 Deleted");R();}
 
-async function aCamp(){const n=v("ac-n"),tn=v("ac-tn"),p=v("ac-p"),t=v("ac-t"),col=v("ac-c"),d=v("ac-d");if(!n){alert("Enter campaign name.");return;}const r=await sP("campaigns",{name:n,telugu_name:tn,period:p,type:t,color:col||"#0d7377",description:d,sort_order:D.campaigns.length});if(r[0]){D.campaigns.push(r[0]);toast("✓ Campaign added");R();}else toast("❌ Error — run SQL setup first");}
-async function sCamp(id){const n=v(`cen${id}`),tn=v(`cetn${id}`),p=v(`cep${id}`),t=v(`cet${id}`),col=v(`cec${id}`),d=v(`ced${id}`);await sPa("campaigns",id,{name:n,telugu_name:tn,period:p,type:t,color:col,description:d});D.campaigns=D.campaigns.map(c=>c.id===id?{...c,name:n,telugu_name:tn,period:p,type:t,color:col,description:d}:c);toast("✓ Updated");R();}
+async function aCamp(){const n=v("ac-n"),tn=v("ac-tn"),p=v("ac-p"),t=v("ac-t"),col=v("ac-c"),d=v("ac-d"),ph=v("ac-ph");if(!n){alert("Enter campaign name.");return;}const r=await sP("campaigns",{name:n,telugu_name:tn,period:p,type:t,color:col||"#0d7377",description:d,photo_url:ph,sort_order:D.campaigns.length});if(r[0]){D.campaigns.push(r[0]);toast("✓ Campaign added");R();}else toast("❌ Error — run SQL setup first");}
+async function sCamp(id){const n=v(`cen${id}`),tn=v(`cetn${id}`),p=v(`cep${id}`),t=v(`cet${id}`),col=v(`cec${id}`),d=v(`ced${id}`),ph=v(`ceph${id}`);await sPa("campaigns",id,{name:n,telugu_name:tn,period:p,type:t,color:col,description:d,photo_url:ph});D.campaigns=D.campaigns.map(c=>c.id===id?{...c,name:n,telugu_name:tn,period:p,type:t,color:col,description:d,photo_url:ph}:c);toast("✓ Updated");R();}
 async function dCamp(id){if(!confirm("Delete?"))return;await sD("campaigns",id);D.campaigns=D.campaigns.filter(c=>c.id!==id);toast("🗑 Deleted");R();}
 
-async function aInit(){const t=v("ai-t"),cat=v("ai-c"),tag=v("ai-tag"),e=v("ai-e"),bg=v("ai-bg"),d=v("ai-d");if(!t){alert("Enter title.");return;}const r=await sP("initiatives",{title:t,category:cat,tag:tag||"Active",emoji:e||"✨",bg_color:bg||"#0d4a30",description:d,sort_order:D.initiatives.length});if(r[0]){D.initiatives.push(r[0]);toast("✓ Initiative added");R();}else toast("❌ Error");}
-async function sInit(id){const t=v(`it${id}`),cat=v(`ic${id}`),tag=v(`itag${id}`),e=v(`ie${id}`),bg=v(`ibg${id}`),d=v(`id${id}`);await sPa("initiatives",id,{title:t,category:cat,tag,emoji:e,bg_color:bg,description:d});D.initiatives=D.initiatives.map(x=>x.id===id?{...x,title:t,category:cat,tag,emoji:e,bg_color:bg,description:d}:x);toast("✓ Updated");R();}
+async function aInit(){const t=v("ai-t"),cat=v("ai-c"),tag=v("ai-tag"),e=v("ai-e"),bg=v("ai-bg"),d=v("ai-d"),ph=v("ai-ph");if(!t){alert("Enter title.");return;}const r=await sP("initiatives",{title:t,category:cat,tag:tag||"Active",emoji:e||"✨",bg_color:bg||"#0d4a30",description:d,photo_url:ph,sort_order:D.initiatives.length});if(r[0]){D.initiatives.push(r[0]);toast("✓ Initiative added");R();}else toast("❌ Error");}
+async function sInit(id){const t=v(`it${id}`),cat=v(`ic${id}`),tag=v(`itag${id}`),e=v(`ie${id}`),bg=v(`ibg${id}`),d=v(`id${id}`),ph=v(`iph${id}`);await sPa("initiatives",id,{title:t,category:cat,tag,emoji:e,bg_color:bg,description:d,photo_url:ph});D.initiatives=D.initiatives.map(x=>x.id===id?{...x,title:t,category:cat,tag,emoji:e,bg_color:bg,description:d,photo_url:ph}:x);toast("✓ Updated");R();}
 async function dInit(id){if(!confirm("Delete?"))return;await sD("initiatives",id);D.initiatives=D.initiatives.filter(x=>x.id!==id);toast("🗑 Deleted");R();}
 
 async function aTr(){const b=v("at-b"),a=v("at-a");if(!b||!a){alert("Enter before and after.");return;}const r=await sP("transformation",{before_text:b,after_text:a,sort_order:D.transformation.length});if(r[0]){D.transformation.push(r[0]);toast("✓ Row added");R();}}
@@ -1212,7 +1231,7 @@ async function sHL(id){const t=v(`ht${id}`),s=v(`hs2${id}`),col=v(`hc${id}`);awa
 async function dHL(id){if(!confirm("Delete?"))return;await sD("highlights",id);D.highlights=D.highlights.filter(h=>h.id!==id);toast("🗑 Deleted");R();}
 
 async function aAw(){const ic=v("aw-ic")||"🏆",t=v("aw-t"),s=v("aw-s"),y=v("aw-y"),g2=v("aw-g");if(!t){alert("Enter title.");return;}const r=await sP("awards",{icon:ic,title:t,subtitle:s,year:y,grant_info:g2,sort_order:D.awards.length});if(r[0]){D.awards.unshift(r[0]);toast("✓ Award added");R();}}
-async function sAw(id){const ic=v(`awic${id}`),t=v(`awt${id}`),s=v(`aws${id}`),y=v(`awy${id}`),g2=v(`awg${id}`);await sPa("awards",id,{icon:ic,title:t,subtitle:s,year:y,grant_info:g2});D.awards=D.awards.map(a=>a.id===id?{...a,icon:ic,title:t,subtitle:s,year:y,grant_info:g2}:a);toast("✓ Updated");R();}
+async function sAw(id){const ic=v(`awic${id}`),t=v(`awt${id}`),s=v(`aws${id}`),y=v(`awy${id}`),g2=v(`awg${id}`),ph=v(`awph${id}`)||"";await sPa("awards",id,{icon:ic,title:t,subtitle:s,year:y,grant_info:g2,photo_url:ph});D.awards=D.awards.map(a=>a.id===id?{...a,icon:ic,title:t,subtitle:s,year:y,grant_info:g2,photo_url:ph}:a);toast("✓ Updated");R();}
 async function dAw(id){if(!confirm("Delete?"))return;await sD("awards",id);D.awards=D.awards.filter(a=>a.id!==id);toast("🗑 Deleted");R();}
 
 async function aOff(){const n=v("ao-n"),r=v("ao-r"),d=v("ao-d"),ph=v("ao-ph");if(!n){alert("Enter name.");return;}const res=await sP("officers",{name:n,role:r,department:d,photo_url:ph,sort_order:D.officers.length});if(res[0]){D.officers.push(res[0]);toast("✓ Officer added");R();}}
@@ -1220,11 +1239,11 @@ async function sOff(id){const n=v(`oen${id}`),r=v(`oer${id}`),d=v(`oed${id}`),ph
 async function dOff(id){if(!confirm("Delete?"))return;await sD("officers",id);D.officers=D.officers.filter(o=>o.id!==id);toast("🗑 Deleted");R();}
 
 async function aVis(){const n=v("av-n"),o=v("av-o"),d=v("av-d"),p=v("av-p");if(!n){alert("Enter visitor name.");return;}const r=await sP("official_visits",{visitor_name:n,organisation:o,visit_date:d,purpose:p});if(r[0]){D.visits.unshift(r[0]);toast("✓ Visit added");R();}}
-async function sVis(id){const n=v(`vn${id}`),o=v(`vo${id}`),d=v(`vd${id}`),p=v(`vp${id}`);await sPa("official_visits",id,{visitor_name:n,organisation:o,visit_date:d,purpose:p});D.visits=D.visits.map(x=>x.id===id?{...x,visitor_name:n,organisation:o,visit_date:d,purpose:p}:x);toast("✓ Updated");R();}
+async function sVis(id){const n=v(`vn${id}`),o=v(`vo${id}`),d=v(`vd${id}`),p=v(`vp${id}`),ph=v(`vph${id}`)||"";await sPa("official_visits",id,{visitor_name:n,organisation:o,visit_date:d,purpose:p,photo_url:ph});D.visits=D.visits.map(x=>x.id===id?{...x,visitor_name:n,organisation:o,visit_date:d,purpose:p,photo_url:ph}:x);toast("✓ Updated");R();}
 async function dVis(id){if(!confirm("Delete?"))return;await sD("official_visits",id);D.visits=D.visits.filter(x=>x.id!==id);toast("🗑 Deleted");R();}
 
-async function aProd(){const n=v("ap-n"),pr=v("ap-pr"),u=v("ap-u"),d=v("ap-d");if(!n||!pr){alert("Enter name and price.");return;}const r=await sP("products",{name:n,price:pr,unit:u||"per unit",description:d,emoji:"🌿",available:true});if(r[0]){D.products.push(r[0]);toast("✓ Product added");R();}}
-async function sProd(id){const n=v(`pn${id}`),pr=v(`ppr${id}`),u=v(`pu${id}`),d=v(`pd${id}`);await sPa("products",id,{name:n,price:pr,unit:u,description:d});D.products=D.products.map(p=>p.id===id?{...p,name:n,price:pr,unit:u,description:d}:p);toast("✓ Updated");R();}
+async function aProd(){const n=v("ap-n"),pr=v("ap-pr"),u=v("ap-u"),d=v("ap-d"),ph=v("ap-ph");if(!n||!pr){alert("Enter name and price.");return;}const r=await sP("products",{name:n,price:pr,unit:u||"per unit",description:d,emoji:"🌿",available:true,photo_url:ph});if(r[0]){D.products.push(r[0]);toast("✓ Product added");R();}}
+async function sProd(id){const n=v(`pn${id}`),pr=v(`ppr${id}`),u=v(`pu${id}`),d=v(`pd${id}`),ph=v(`pph${id}`);await sPa("products",id,{name:n,price:pr,unit:u,description:d,photo_url:ph});D.products=D.products.map(p=>p.id===id?{...p,name:n,price:pr,unit:u,description:d,photo_url:ph}:p);toast("✓ Updated");R();}
 async function dProd(id){if(!confirm("Delete?"))return;await sD("products",id);D.products=D.products.filter(p=>p.id!==id);toast("🗑 Deleted");R();}
 
 async function aArt(){const t=v("am-t"),ty=v("am-ty"),u=v("am-u")||"http://www.abpnarnoor.in";if(!t){alert("Enter title.");return;}const r=await sP("articles",{title:t,type:ty,url:u});if(r[0]){D.articles.unshift(r[0]);toast("✓ Media added");R();}}
