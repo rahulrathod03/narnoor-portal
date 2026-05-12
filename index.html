@@ -29,6 +29,8 @@ body::before{content:'';position:fixed;inset:0;background:linear-gradient(135deg
 .sp{width:48px;height:48px;border:3px solid rgba(255,255,255,.1);border-top:3px solid var(--sl);border-radius:50%;animation:rot .9s linear infinite;}
 @keyframes rot{to{transform:rotate(360deg);}}
 @keyframes gradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes twinkle{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.2;transform:scale(0.5)}}
+@keyframes streak{0%{transform:translateX(-33%);opacity:0}30%{opacity:1}70%{opacity:1}100%{transform:translateX(33%);opacity:0}}
 @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -144,7 +146,7 @@ body::before{content:'';position:fixed;inset:0;background:linear-gradient(135deg
 .ribin:hover{animation-play-state:paused;}
 .ri{flex-shrink:0;padding:12px 22px;text-align:center;border-right:1px solid var(--b);transition:background .15s;cursor:default;}
 .ri:hover{background:var(--sp);}
-.ri-n{font-size:15px;font-weight:900;color:var(--s);font-family:'Playfair Display',serif;}
+.ri-n{font-size:16px;font-weight:900;color:var(--s);font-family:'Poppins',sans-serif;letter-spacing:-0.5px;}
 .ri-l{font-size:8px;color:var(--tx3);text-transform:uppercase;letter-spacing:.6px;margin-top:2px;font-weight:600;}
 /* SECTIONS */
 .sec{padding:50px 24px;max-width:1220px;margin:0 auto;}
@@ -323,7 +325,7 @@ const SU="https://yqqnumqvgqkvlnknbrck.supabase.co";
 const SK="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlxcW51bXF2Z3Frdmxua25icmNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MjA2MTksImV4cCI6MjA5Mzk5NjYxOX0.GZSSnTO8SzR-tlUH9jVE__avtmcrLwJ_ooIzKGEfbe0";
 const WA="919391914941";
 const CR={u:"narnoor_abp",p:"Narnoor@2024#ABP"};
-const SECS=["All","Health & Nutrition","Education","Agriculture","Basic Infrastructure","Social Development","Digital & Governance","Livelihoods"];
+const SECS=["All","Health & Nutrition","Education","Agriculture","Basic Infrastructure","Social Development"];
 let D={s:{},kpis:[],officers:[],visits:[],articles:[],products:[],campaigns:[],initiatives:[],awards:[],jobs:[],transformation:[],highlights:[]};
 let pg="home",lang="EN",adm=false,mob=false,login=false,lerr=false;
 let ks="All",cf="all",sf="all",gt="overview",at2="awards",grt="grievance",adt="hero";
@@ -427,27 +429,27 @@ const FALLBACK={
     {id:26,name:"Mahua Ladoo Unit",sector:"Social Development",current_value:"Functional",baseline:"None",progress:100,status:"sat",note:"",block_kpi:false},
     {id:27,name:"Bamboo Processing Unit",sector:"Social Development",current_value:"Functional",baseline:"None",progress:100,status:"sat",note:"",block_kpi:false},
     {id:28,name:"Dal Mill Unit",sector:"Social Development",current_value:"Operational",baseline:"None",progress:100,status:"sat",note:"",block_kpi:false},
-    {id:29,name:"CSC Model Centers",sector:"Digital & Governance",current_value:"2 Centers",baseline:"0",progress:100,status:"sat",note:"Naddamguda & Malepur"},
-    {id:30,name:"NASSCOM Digital Literacy",sector:"Digital & Governance",current_value:"Active — PVTGs",baseline:"0",progress:75,status:"sat",note:"",block_kpi:false},
-    {id:31,name:"Gram Sabha Coverage",sector:"Digital & Governance",current_value:"23/23 GPs",baseline:"Partial",progress:100,status:"sat",note:"",block_kpi:false},
-    {id:32,name:"Prajavani Grievance",sector:"Digital & Governance",current_value:"Operational",baseline:"None",progress:100,status:"sat",note:"Pilot"},
-    {id:33,name:"SHG Credit Linkage",sector:"Livelihoods",current_value:"₹16 Cr+",baseline:"Low",progress:80,status:"sat",note:"",block_kpi:false},
-    {id:34,name:"WADI Horticulture",sector:"Livelihoods",current_value:"Active",baseline:"0",progress:70,status:"ong",note:"",block_kpi:false},
-    {id:35,name:"PMFME Food Units",sector:"Livelihoods",current_value:"~12 Units",baseline:"0",progress:80,status:"sat",note:"",block_kpi:false},
+    {id:29,name:"CSC Model Centers",sector:"Social Development",current_value:"2 Centers",baseline:"0",progress:100,status:"sat",note:"Naddamguda & Malepur"},
+    {id:30,name:"NASSCOM Digital Literacy",sector:"Social Development",current_value:"Active — PVTGs",baseline:"0",progress:75,status:"sat",note:"",block_kpi:false},
+    {id:31,name:"Gram Sabha Coverage",sector:"Social Development",current_value:"23/23 GPs",baseline:"Partial",progress:100,status:"sat",note:"",block_kpi:false},
+    {id:32,name:"Prajavani Grievance",sector:"Social Development",current_value:"Operational",baseline:"None",progress:100,status:"sat",note:"Pilot"},
+    {id:33,name:"SHG Credit Linkage",sector:"Social Development",current_value:"₹16 Cr+",baseline:"Low",progress:80,status:"sat",note:"",block_kpi:false},
+    {id:34,name:"WADI Horticulture",sector:"Social Development",current_value:"Active",baseline:"0",progress:70,status:"ong",note:"",block_kpi:false},
+    {id:35,name:"PMFME Food Units",sector:"Social Development",current_value:"~12 Units",baseline:"0",progress:80,status:"sat",note:"",block_kpi:false},
     {id:36,name:"Diabetic & BP Screening",sector:"Health & Nutrition",current_value:"100%",baseline:"Partial",progress:100,status:"sat",note:"",block_kpi:false},
     {id:37,name:"Millet Farming (30 Acres)",sector:"Agriculture",current_value:"30 Acres/15 Villages",baseline:"0",progress:100,status:"sat",note:"",block_kpi:false},
     {id:38,name:"AWC Children Measurement",sector:"Health & Nutrition",current_value:"100%",baseline:"Partial",progress:100,status:"sat",note:"",block_kpi:false},
     {id:39,name:"School Infra (Water/Toilet/Power)",sector:"Education",current_value:"100%",baseline:"Partial",progress:100,status:"sat",note:"",block_kpi:false}
   ,
     // ── BLOCK LEVEL MONITORING (separate from NITI 39) ──
-    {id:40,name:"Lac Cultivation — Tribal Families",sector:"Livelihoods",current_value:"370 families",baseline:"0",progress:93,status:"sat",note:"3,700 trees",block_kpi:true},
-    {id:41,name:"SHG Credit Linkage",sector:"Livelihoods",current_value:"₹16 Crore+",baseline:"Low",progress:85,status:"sat",note:"",block_kpi:true},
+    {id:40,name:"Lac Cultivation — Tribal Families",sector:"Social Development",current_value:"370 families",baseline:"0",progress:93,status:"sat",note:"3,700 trees",block_kpi:true},
+    {id:41,name:"SHG Credit Linkage",sector:"Social Development",current_value:"₹16 Crore+",baseline:"Low",progress:85,status:"sat",note:"",block_kpi:true},
     {id:42,name:"Mahua Ladoo Unit Production",sector:"Social Development",current_value:"Functional",baseline:"None",progress:100,status:"sat",note:"SHG Women",block_kpi:true},
     {id:43,name:"Bamboo Processing Unit",sector:"Social Development",current_value:"Functional",baseline:"None",progress:100,status:"sat",note:"",block_kpi:true},
     {id:44,name:"Tribal Museum Visitors",sector:"Tourism",current_value:"Active",baseline:"0",progress:80,status:"sat",note:"Opened 2024",block_kpi:true},
     {id:45,name:"Telemedicine Daily Sessions",sector:"Health & Nutrition",current_value:"Daily @ CHC",baseline:"None",progress:100,status:"sat",note:"Osmania Hospital",block_kpi:true},
     {id:46,name:"Water Rejuvenation Tanks",sector:"Basic Infrastructure",current_value:"10/17",baseline:"0",progress:59,status:"ong",note:"Phase 2 ongoing",block_kpi:true},
-    {id:47,name:"CSC Model Centers",sector:"Digital & Governance",current_value:"2 Centers",baseline:"0",progress:100,status:"sat",note:"Naddamguda & Malepur",block_kpi:true},
+    {id:47,name:"CSC Model Centers",sector:"Social Development",current_value:"2 Centers",baseline:"0",progress:100,status:"sat",note:"Naddamguda & Malepur",block_kpi:true},
     {id:48,name:"Solar Street Lights Installed",sector:"Basic Infrastructure",current_value:"150",baseline:"0",progress:100,status:"sat",note:"",block_kpi:true}
   ],
   campaigns:[
@@ -584,11 +586,11 @@ const NAV=[
   {id:"home",get l(){return tr("nav_home","Home")}},
   {id:"profile",get l(){return tr("nav_profile","Block Profile")}},
   {id:"dashboard",get l(){return tr("nav_dashboard","Dashboard")}},
-  {id:"impact",l:"Impact & Progress",dd:[{id:"campaigns",l:"📋 Campaigns"},{id:"initiatives",l:"✨ Initiatives"},{id:"transform",l:"🔄 Transformation"},{id:"grants",l:"📁 Grants"}]},
-  {id:"aD",l:"Awards",dd:[{id:"awards",l:"🏆 Awards"},{id:"schemes",l:"📋 Schemes"}]},
-  {id:"tS",l:"Tourism & Shop",dd:[{id:"tourism",l:"🏛️ Tourism"},{id:"shop",l:"🛒 Shop"}]},
-  {id:"ww",l:"Who's Who",dd:[{id:"whoswho",l:"👤 Officers"},{id:"partners",l:"🤝 Partners"},{id:"visits",l:"🚗 Visits"},{id:"media",l:"📰 Media"}]},
-  {id:"gr",l:"Grievance & Opp.",dd:[{id:"grievance",l:"📝 File Grievance"},{id:"opp",l:"💼 Opportunities"}]},
+  {id:"impact",get l(){return tr("nav_impact","Impact & Progress")},dd:[{id:"campaigns",get l(){return tr("nav_campaigns","📋 Campaigns")}},{id:"initiatives",get l(){return tr("nav_initiatives","✨ Initiatives")}},{id:"transform",l:"🔄 Transformation"},{id:"grants",l:"📁 Grants"}]},
+  {id:"aD",get l(){return tr("nav_awards","Awards")},dd:[{id:"awards",l:"🏆 Awards"},{id:"schemes",l:"📋 Schemes"}]},
+  {id:"tS",get l(){return tr("nav_tourism","Tourism & Shop")},dd:[{id:"tourism",l:"🏛️ Tourism"},{id:"shop",l:"🛒 Shop"}]},
+  {id:"ww",get l(){return tr("nav_whoswho","Who's Who")},dd:[{id:"whoswho",l:"👤 Officers"},{id:"partners",l:"🤝 Partners"},{id:"visits",l:"🚗 Visits"},{id:"media",l:"📰 Media"}]},
+  {id:"gr",get l(){return tr("nav_grievance","Grievance & Opp.")},dd:[{id:"grievance",l:"📝 File Grievance"},{id:"opp",l:"💼 Opportunities"}]},
 ];
 const AP={home:"home",profile:"profile",dashboard:"dashboard",campaigns:"impact",initiatives:"impact",transform:"impact",grants:"impact",awards:"aD",schemes:"aD",tourism:"tS",shop:"tS",whoswho:"ww",partners:"ww",visits:"ww",media:"ww",grievance:"gr",opp:"gr",admin:"admin"};
 
@@ -637,14 +639,14 @@ function bFoot(){
   <div style="background:linear-gradient(135deg,#1b4332,#0a9396);padding:44px 24px;text-align:center">
     <div style="max-width:600px;margin:0 auto">
       <div style="font-size:10px;font-weight:800;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">Stay Connected</div>
-      <div style="font-family:'Poppins',sans-serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:6px">Subscribe for Updates</div>
-      <div style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:22px;line-height:1.7">Get monthly development reports, new opportunities, and Narnoor Block news — delivered to your WhatsApp or email.</div>
+      <div style="font-family:'Poppins',sans-serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:6px">${tr("subscribe_title","Subscribe for Updates")}</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:22px;line-height:1.7">${tr("subscribe_sub","Get monthly development reports, new opportunities, and Narnoor Block news — delivered to your WhatsApp or email.")}</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;max-width:500px;margin-left:auto;margin-right:auto">
         <input class="sub-input" id="sub-name" placeholder="Your full name">
         <input class="sub-input" id="sub-phone" placeholder="WhatsApp number (+91...)">
         <input class="sub-input" id="sub-email" placeholder="Email address (optional)" style="grid-column:1/-1">
       </div>
-      <button onclick="subNow()" style="background:linear-gradient(135deg,var(--s),var(--sd));color:#fff;border:none;padding:12px 32px;border-radius:10px;font-weight:800;font-size:13.5px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;box-shadow:0 4px 16px rgba(232,105,26,.4);transition:all .2s">📲 Subscribe via WhatsApp</button>
+      <button onclick="subNow()" style="background:linear-gradient(135deg,var(--s),var(--sd));color:#fff;border:none;padding:12px 32px;border-radius:10px;font-weight:800;font-size:13.5px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;box-shadow:0 4px 16px rgba(232,105,26,.4);transition:all .2s">${tr("subscribe_btn","📲 Subscribe via WhatsApp")}</button>
       <div style="font-size:11px;color:rgba(255,255,255,.35);margin-top:10px">You'll receive a WhatsApp confirmation. Unsubscribe anytime.</div>
     </div>
   </div>
@@ -679,15 +681,26 @@ function bPage(){
 <script>
 /* ══ PAGE FUNCTIONS ══ */
 function pgHome(){
-  const def=[[tr("stat1n","29,152"),tr("pop","Population")],[tr("stat2n","61.8%"),tr("tribal","Tribal ST")],[tr("stat3n","23"),tr("gp","GPs")],[tr("stat4n","39/39"),tr("kpi","KPIs")],[tr("stat5n","#1"),tr("zone","South Zone")],[tr("stat6n","₹2.5Cr+"),tr("grants","Grants")]];
+  const def=[[g("stat1n")||"29,152",tr("pop","Population")],[g("stat2n")||"61.8%",tr("tribal","Tribal ST")],[g("stat3n")||"23",tr("gp","GPs")],[g("stat4n")||"39/39",tr("kpi","KPIs")],[g("stat5n")||"#1",tr("zone","South Zone")],[g("stat6n")||"₹2.5Cr+",tr("grants","Grants")]];
   const sk=[["stat1n","stat1l"],["stat2n","stat2l"],["stat3n","stat3l"],["stat4n","stat4l"],["stat5n","stat5l"],["stat6n","stat6l"]];
   setTimeout(()=>{document.querySelectorAll('.hst').forEach((el,i)=>{el.style.animation=`fadeUp .5s ease ${i*.08}s both`;});},100);
   return`
   <div class="hero">
     <div class="hbg"></div><div class="hg1"></div><div class="hg2"></div><div class="hgrid"></div>
-    <!-- Floating particles -->
-    <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none">
-      ${[...Array(12)].map((_,i)=>{const s=Math.random()*20+10,x=Math.random()*100,y=Math.random()*100,d=Math.random()*6+4,del=Math.random()*4;return`<div style="position:absolute;left:${x}%;top:${y}%;width:${s}px;height:${s}px;border-radius:50%;background:${['rgba(148,210,189,.12)','rgba(232,105,26,.1)','rgba(255,255,255,.06)','rgba(94,230,240,.08)'][i%4]};animation:float ${d}s ease infinite ${del}s;filter:blur(2px)"></div>`;}).join("")}
+    <!-- Stars + animated elements -->
+    <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none" id="hero-stars">
+      <!-- Twinkling stars -->
+      ${[...Array(30)].map((_,i)=>{
+        const x=Math.random()*100,y=Math.random()*100;
+        const sz=[1,1.5,2,2.5,3][i%5];
+        const dur=Math.random()*3+2,del=Math.random()*5;
+        const col=['rgba(255,255,255,.8)','rgba(148,210,189,.9)','rgba(94,230,240,.7)','rgba(232,105,26,.6)'][i%4];
+        return`<div style="position:absolute;left:${x}%;top:${y}%;width:${sz}px;height:${sz}px;border-radius:50%;background:${col};animation:twinkle ${dur}s ease-in-out infinite ${del}s;box-shadow:0 0 ${sz*3}px ${col}"></div>`;
+      }).join("")}
+      <!-- Floating orbs -->
+      ${[{x:10,y:20,s:80,c:'rgba(148,210,189,.07)',d:8},{x:85,y:15,s:60,c:'rgba(232,105,26,.06)',d:10},{x:50,y:80,s:100,c:'rgba(10,147,150,.08)',d:12},{x:20,y:75,s:50,c:'rgba(94,230,240,.06)',d:7},{x:80,y:70,s:70,c:'rgba(255,255,255,.04)',d:9}].map(o=>`<div style="position:absolute;left:${o.x}%;top:${o.y}%;width:${o.s}px;height:${o.s}px;border-radius:50%;background:radial-gradient(circle,${o.c},transparent);animation:float ${o.d}s ease infinite;filter:blur(8px)"></div>`).join("")}
+      <!-- Horizontal light streak -->
+      <div style="position:absolute;top:30%;left:-100%;width:300%;height:1px;background:linear-gradient(90deg,transparent,rgba(148,210,189,.15),rgba(94,230,240,.2),rgba(148,210,189,.15),transparent);animation:streak 8s ease-in-out infinite"></div>
     </div>
     <div class="hin">
       <div class="hcrown">🇮🇳 NITI Aayog · Aspirational Blocks Programme · 2023–2026</div>
@@ -728,30 +741,30 @@ function pgHome(){
     </div>
   </div>
   <div class="salt" style="padding:46px 0"><div class="sec" style="padding-top:0;padding-bottom:0">
-    <div style="text-align:center;margin-bottom:26px"><div class="stag" style="justify-content:center">Key Highlights</div><div class="sh">What Makes Narnoor <span>Stand Out</span></div></div>
+    <div style="text-align:center;margin-bottom:26px"><div class="stag" style="justify-content:center">${tr("nav_impact","Key Highlights")}</div><div class="sh">${tr("highlights_title","What Makes Narnoor Stand Out")}</div></div>
     <div class="g3">${D.highlights.length?D.highlights.map(h=>`<div class="hl ${h.color==="saffron"?"hls":h.color==="gold"?"hlg":h.color==="forest"?"hlf":""}"><div class="hl-t">${h.title}</div><div class="hl-s">${h.subtitle}</div></div>`).join(""):`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--tx3)"><div style="font-size:40px;margin-bottom:12px">✨</div><div style="font-size:14px;font-weight:700;color:var(--tx)">Run SQL setup to load highlights data</div></div>`}</div>
   </div></div>
   <div class="sec">
-    <div style="text-align:center;margin-bottom:26px"><div class="stag" style="justify-content:center">National Recognition</div><div class="sh">Awards & <span>Achievements</span></div></div>
+    <div style="text-align:center;margin-bottom:26px"><div class="stag" style="justify-content:center">${tr("awards_sub","National Recognition")}</div><div class="sh">${tr("nav_awards","Awards")} & <span>${lang==="TE"?"విజయాలు":lang==="HI"?"उपलब्धियाँ":"Achievements"}</span></div></div>
     <div class="g4">${D.awards.slice(0,8).map(a=>`<div class="awc cg"><div style="font-size:30px;margin-bottom:9px">${a.icon}</div><div style="font-size:13px;font-weight:800;margin-bottom:4px;font-family:'Playfair Display',serif">${a.title}</div><div style="font-size:11px;color:var(--tx2);line-height:1.55;margin-bottom:7px">${a.subtitle}</div><div style="font-size:9px;font-weight:800;color:var(--s);text-transform:uppercase;margin-bottom:7px;letter-spacing:.5px">${a.year}</div>${pill(a.grant_info,"pgold")}</div>`).join("")||`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--tx3)">Run SQL setup to load awards</div>`}</div>
   </div>
   <div class="salt" style="padding:46px 0"><div class="sec" style="padding-top:0;padding-bottom:0">
-    <div style="text-align:center;margin-bottom:26px"><div class="stag" style="justify-content:center">For Everyone</div><div class="sh">Narnoor — <span>One Stop Platform</span></div></div>
+    <div style="text-align:center;margin-bottom:26px"><div class="stag" style="justify-content:center">${tr("nav_impact","For Everyone")}</div><div class="sh">Narnoor — <span>${tr("platform_title","One Stop Platform")}</span></div></div>
     <div class="g4">${[["🏛️","For NITI Aayog / GoI","KPI tracking, grant utilisation, rankings","ct"],["💼","For CSR Companies","Tribal products, education, health projects","cs"],["🏘️","For Narnoor Citizens","Schemes, grievances, products, information","cf"],["📰","Researchers & Media","Data, reports, stories and impact","cg"]].map(([ic,t,d,c])=>`<div class="card ${c}" style="text-align:center;padding:24px 18px"><div style="font-size:30px;margin-bottom:11px">${ic}</div><div style="font-size:13.5px;font-weight:800;margin-bottom:6px">${t}</div><div style="font-size:12px;color:var(--tx2);line-height:1.6">${d}</div></div>`).join("")}</div>
   </div></div>`;
 }
 
 function pgProfile(){
   return`<div class="sec">
-  <div class="stag">Block Profile</div><div class="sh" style="margin-bottom:22px">Narnoor — <span>Key Facts</span></div>
+  <div class="stag">${tr("nav_profile","Block Profile")}</div><div class="sh" style="margin-bottom:22px">Narnoor — <span>${lang==="TE"?"ముఖ్య వాస్తవాలు":lang==="HI"?"मुख्य तथ्य":"Key Facts"}</span></div>
   <div class="g2c">
     <div>
       <div class="card ct" style="margin-bottom:14px">
-        <div style="font-size:10px;font-weight:800;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:15px">Demographics & Administration</div>
+        <div style="font-size:10px;font-weight:800;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:15px">${tr("profile_demo","Demographics & Administration")}</div>
         ${[["Population","29,152"],["ST (Tribal) Share","61.8%"],["Gram Panchayats","23"],["Habitations","46"],["Schools","83"],["Anganwadi Centres","77"],["PHC","1"],["Sub-Centres","5"],["KPIs Improved","39/39"]].map(([l,v])=>`<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--b);font-size:13.5px"><span style="color:var(--tx2)">${l}</span><span style="font-weight:800">${v}</span></div>`).join("")}
       </div>
       <div class="card cs">
-        <div style="font-size:10px;font-weight:800;color:var(--sd);text-transform:uppercase;letter-spacing:1px;margin-bottom:13px">Contact Information</div>
+        <div style="font-size:10px;font-weight:800;color:var(--sd);text-transform:uppercase;letter-spacing:1px;margin-bottom:13px">${tr("contact","Contact Information")}</div>
         <div style="font-size:13px;margin-bottom:9px">📧 <a href="mailto:${g("siteEmail")||"abpnarnoor@gmail.com"}" style="color:var(--td);font-weight:600">${g("siteEmail")||"abpnarnoor@gmail.com"}</a></div>
         <div style="font-size:13px;margin-bottom:9px">📞 <strong>${g("sitePhone")||"+91 93919 14941"}</strong></div>
         <div style="font-size:13px;margin-bottom:9px">🌐 <strong>${g("siteWeb")||"www.abpnarnoor.in"}</strong></div>
@@ -772,8 +785,9 @@ function pgProfile(){
 }
 
 function pgDash(){
-  const nitiKPIs=D.kpis.filter(k=>!k.block_kpi);
-  const blockKPIs=D.kpis.filter(k=>k.block_kpi);
+  const NITI39=new Set(["ANC Registration (1st Trimester)","Institutional Deliveries","Low Birth Weight Babies","NQAS Certified Facilities","Hypertension Screening","Diabetes Screening","TB Treatment Success","Pregnant Women — SNP","Children (6mo–6yr) — SNP","AWC Measurement Efficiency","SAM (Severe Malnutrition)","MAM (Moderate Malnut.)","AWC Functional Toilets","AWC Drinking Water","Transition Boys (UP→Sec)","Transition Girls (UP→Sec)","Transition Boys (Sec→HSec)","Transition Girls (Sec→HSec)","Schools PTR ≤ 30","Girls\' Toilets in Schools","Trained CwSN Teachers","Boys ≥60% Class X","Girls ≥60% Class X","Boys ≥60% Class XII","Girls ≥60% Class XII","FPOs Formed","Soil Health Cards","PM-Kisan Seeded","Animal Vaccination (FMD)","FHTC — Tap Water Connections","ODF Plus Villages","GPs with BharatNet","GPs with Live BharatNet","PMAY-G Housing","Groundwater Extraction","SHG Eligible Households","SHGs Received Revolving Fund","Banking Touch Points","Institutional Deliveries (PHC)"]);
+  const nitiKPIs=D.kpis.filter(k=>NITI39.has(k.name));
+  const blockKPIs=D.kpis.filter(k=>!NITI39.has(k.name));
   const fl=(ks==="All"?nitiKPIs:nitiKPIs.filter(k=>k.sector===ks));
   const sat=nitiKPIs.filter(k=>k.status==="sat").length;
   const ong=nitiKPIs.filter(k=>k.status==="ong").length;
@@ -834,7 +848,7 @@ function pgDash(){
           <span style="font-size:9px;color:var(--tx3)">2023: ${k.baseline}</span>
           <span style="font-size:9px;font-weight:800;color:${c}">${k.note||""}</span>
         </div>
-        <span class="pill" style="background:${bg};color:${c};font-size:9px;margin-top:5px">${k.status==="sat"?"✓ Saturated":k.status==="exc"?"★ Excellent":"● Ongoing"}</span>
+        <span class="pill" style="background:${bg};color:${c};font-size:9px;margin-top:5px">${k.status==="sat"?tr("sat","✓ Saturated"):k.status==="exc"?tr("exc","★ Excellent"):tr("ong","● Ongoing")}</span>
       </div>`;
     }).join("")}
   </div>`:`<div style="text-align:center;padding:50px;color:var(--tx3)"><div style="font-size:40px;margin-bottom:12px">📊</div><div style="font-size:14px;font-weight:800;color:var(--tx)">Run SQL Setup to load KPI data</div></div>`}
@@ -864,7 +878,7 @@ function pgDash(){
 function pgCamps(){
   const fl=cf==="all"?D.campaigns:D.campaigns.filter(c=>c.type===cf);
   return`<div class="sec">
-  <div class="stag">Campaigns Conducted</div><div class="sh" style="margin-bottom:6px">Block <span>Campaigns</span></div>
+  <div class="stag">${tr("nav_campaigns","Campaigns")}</div><div class="sh" style="margin-bottom:6px">${lang==="TE"?"బ్లాక్ ":lang==="HI"?"ब्लॉक ":"Block "}<span>${tr("nav_campaigns","Campaigns")}</span></div>
   <div class="ss" style="margin-bottom:22px">All official campaigns — Block level, Central Govt & Telangana State</div>
   <div class="tabs">${[["all","All"],["block","Block Level"],["central","Central Govt"],["state","State — Telangana"]].map(([v,l])=>`<button class="tab ${cf===v?"on":""}" onclick="setCF('${v}')">${l}</button>`).join("")}</div>
   ${fl.length?`<div class="g2">${fl.map(c=>{const cp=fixUrl(c.photo_url||"");return`<div class="cc">
@@ -880,7 +894,7 @@ function pgCamps(){
 
 function pgInits(){
   return`<div class="sec">
-  <div class="stag">Key Initiatives</div><div class="sh" style="margin-bottom:6px">Narnoor's <span>Flagship Initiatives</span></div>
+  <div class="stag">${tr("nav_initiatives","Key Initiatives")}</div><div class="sh" style="margin-bottom:6px">Narnoor's <span>${tr("init_title","Flagship Initiatives")}</span></div>
   <div class="ss" style="margin-bottom:22px">Ground-level programmes making real impact across all sectors</div>
   ${D.initiatives.length?`<div class="g3">${D.initiatives.map(x=>{const ip=fixUrl(x.photo_url||"");return`<div class="ic">
     <div class="ith" style="background:linear-gradient(135deg,${x.bg_color||"var(--fd)"},${x.bg_color||"var(--fd)"}88);overflow:hidden">
@@ -899,7 +913,7 @@ function pgInits(){
 
 function pgTransform(){
   return`<div class="sec">
-  <div style="text-align:center;margin-bottom:30px"><div class="stag" style="justify-content:center">Before & After 2023–2026</div><div class="sh">Narnoor's <span>Transformation</span></div>
+  <div style="text-align:center;margin-bottom:30px"><div class="stag" style="justify-content:center">${tr("trans_sub","Before & After 2023–2026")}</div><div class="sh">${lang==="TE"?"నర్నూర్ ":"Narnoor's "}<span>${tr("trans_title","Transformation")}</span></div>
   <p style="font-size:13px;color:var(--tx2);max-width:500px;margin:8px auto 0">Real change on the ground — every number tells a story of progress</p></div>
   ${D.transformation.length?`<div style="display:flex;flex-direction:column;gap:0;margin-bottom:28px">
     ${D.transformation.map((x,i)=>`
@@ -946,7 +960,7 @@ function pgAwards(){
   return`<div class="sec">
   <div class="tabs">${[["awards","🏆 Awards & Recognition"],["schemes","📋 Schemes Awareness"]].map(([v,l])=>`<button class="tab ${at2===v?"on":""}" onclick="setAT('${v}')">${l}</button>`).join("")}</div>
   ${at2==="awards"?`
-    <div class="stag">National Recognition</div><div class="sh" style="margin-bottom:22px">Awards & <span>Achievements</span></div>
+    <div class="stag">${tr("awards_sub","National Recognition")}</div><div class="sh" style="margin-bottom:22px">${tr("nav_awards","Awards")} & <span>${lang==="TE"?"విజయాలు":lang==="HI"?"उपलब्धियाँ":"Achievements"}</span></div>
     <div class="g4" style="margin-bottom:26px">${D.awards.map(a=>`<div class="awc cg"><div style="font-size:30px;margin-bottom:9px">${a.icon}</div><div style="font-size:13px;font-weight:800;margin-bottom:4px;font-family:'Playfair Display',serif">${a.title}</div><div style="font-size:11.5px;color:var(--tx2);line-height:1.55;margin-bottom:7px">${a.subtitle}</div><div style="font-size:9px;font-weight:800;color:var(--s);text-transform:uppercase;margin-bottom:7px;letter-spacing:.5px">${a.year}</div>${pill(a.grant_info,"pgold")}</div>`).join("")||`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--tx3)">No awards data. Run SQL setup.</div>`}</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
       <div style="background:linear-gradient(145deg,var(--fd),var(--n));border-radius:var(--r3);padding:22px;color:#fff"><div style="font-size:26px;margin-bottom:11px">⭐</div><div style="font-size:16.5px;font-weight:800;color:var(--sl);margin-bottom:9px;font-family:'Playfair Display',serif">Super 60 — NITI Aayog (PVTG Focus)</div><div style="font-size:12.5px;color:rgba(255,255,255,.75);line-height:1.85;margin-bottom:13px">One of <strong style="color:var(--sl)">60 blocks nationally</strong>. Special focus on <strong style="color:var(--sl)">PVTGs</strong> under PM-JANMAN. SEPARATE from Frontier Technology.</div><div style="display:flex;gap:6px;flex-wrap:wrap">${pill("PVTG Special Focus","pa")}${pill("PM-JANMAN","pg")}${pill("National Selection","pb")}</div></div>
@@ -1045,7 +1059,7 @@ function pgTourism(){
 
 function pgShop(){
   return`<div class="sec">
-  <div class="stag">Narnoor E-Commerce</div><div class="sh" style="margin-bottom:6px">Narnoor <span>Tribal Products Shop</span></div><div class="ss" style="margin-bottom:20px">Authentic products from SHG women. 100% natural. Direct from source.</div>
+  <div class="stag">Narnoor E-Commerce</div><div class="sh" style="margin-bottom:6px">Narnoor <span>${tr("shop_title","Tribal Products Shop")}</span></div><div class="ss" style="margin-bottom:20px">${tr("shop_sub","Authentic products from SHG women. 100% natural. Direct from source.")}</div>
   ${hl("🌿 Why Buy Narnoor Products?","Every purchase supports tribal SHG women, preserves traditional skills and contributes to livelihoods for 370+ families.","hlg")}
   <div class="g3" style="margin-top:17px">${D.products.filter(x=>x.available).map(x=>{const pp=fixUrl(x.photo_url||"");return`<div class="pc">
     <div class="pimg" style="background:linear-gradient(145deg,var(--fd),var(--n));overflow:hidden;height:170px;display:flex;align-items:center;justify-content:center">
@@ -1069,7 +1083,7 @@ function pgWho(){
   const ini=n=>n.split(" ").filter(w=>w).map(w=>w[0]).join("").substring(0,2).toUpperCase();
   const bgs=["linear-gradient(135deg,var(--s),var(--sd))","linear-gradient(135deg,var(--t),var(--td))","linear-gradient(135deg,var(--f),var(--fd))","linear-gradient(135deg,#7c3aed,#6d28d9)","linear-gradient(135deg,var(--n),#0f1e3d)"];
   return`<div class="sec">
-  <div style="text-align:center;margin-bottom:28px"><div class="stag" style="justify-content:center">Leadership</div><div class="sh">Who's <span>Who</span></div><div class="ss" style="margin:8px auto 0">Key officers steering Narnoor's transformation</div></div>
+  <div style="text-align:center;margin-bottom:28px"><div class="stag" style="justify-content:center">${tr("nav_whoswho","Leadership")}</div><div class="sh">${tr("who_title","Who's Who")}</div><div class="ss" style="margin:8px auto 0">${tr("who_sub","Key officers steering Narnoor's transformation")}</div></div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;max-width:820px;margin:0 auto 28px">
     ${D.officers.map((o,i)=>{
       const photo=fixUrl(o.photo_url||"");
@@ -1095,21 +1109,21 @@ function pgWho(){
 function pgPartners(){
   const P=[{i:"🌾",n:"BAIF Dev. Research Foundation",s:"Agriculture & Water",w:"Fluoride-safe water, RO plants, WADI horticulture, soil health"},{i:"💻",n:"Swashodhan Trust",s:"Digital Education",w:"ICT Lab, Digital Smart Classrooms for tribal schools"},{i:"📚",n:"TELC",s:"English Literacy",w:"English Literacy Programme across all schools"},{i:"🗣️",n:"LeapForWord",s:"English Literacy",w:"Young Orators Club — Friday & Saturday sessions"},{i:"😊",n:"Smile Foundation",s:"Education",w:"Volunteer-led coaching for 10th-grade students"},{i:"💧",n:"Bala Vikasa",s:"Water & Sanitation",w:"1000L RO Plants in Bheempur, Kothapally & communities"},{i:"📖",n:"Room to Read",s:"Education",w:"Books for TWPS Schools — library and digital learning"},{i:"🖥️",n:"NASSCOM Foundation",s:"Digital Literacy",w:"PVTG digital literacy — multilingual via CSC centres"},{i:"🏥",n:"Osmania Hospital",s:"Telemedicine",w:"Daily specialist telemedicine — OPD & IPD at CHC Narnoor"},{i:"🌱",n:"CPF Organization",s:"Agriculture",w:"Crop diversification and farmer capacity building"},{i:"♀️",n:"PinkShie Foundation",s:"Women Health",w:"Menstrual health — vending machines, awareness"},{i:"💳",n:"Flipkart",s:"Financial Literacy",w:"Financial Literacy for 6th–9th grade students"},{i:"👩‍💼",n:"EDII",s:"Entrepreneurship",w:"Women Entrepreneurship Training"},{i:"🏗️",n:"Nirmaan",s:"Health Infrastructure",w:"PHC Narnoor & 3 Sub-Centre upgradation"},{i:"🔬",n:"IIT BHU",s:"Innovation Research",w:"Converting agricultural waste into sanitary napkins"}];
   return`<div class="sec">
-  <div class="stag">NGO & Civil Society</div><div class="sh" style="margin-bottom:6px">Partner <span>Organisations</span></div><div class="ss" style="margin-bottom:22px">15+ organisations driving holistic development in Narnoor</div>
+  <div class="stag">${lang==="TE"?"NGO & సివిల్ సొసైటీ":"NGO & Civil Society"}</div><div class="sh" style="margin-bottom:6px">${lang==="TE"?"భాగస్వామ్య ":"Partner "}<span>${lang==="TE"?"సంస్థలు":"Organisations"}</span></div><div class="ss" style="margin-bottom:22px">15+ organisations driving holistic development in Narnoor</div>
   <div class="g3">${P.map(p=>`<div class="card clt"><div style="display:flex;gap:13px;align-items:flex-start"><div style="width:40px;height:40px;background:var(--tp);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${p.i}</div><div><div style="font-size:13.5px;font-weight:800;margin-bottom:4px">${p.n}</div><div style="font-size:9.5px;color:var(--sd);font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px">${p.s}</div><div style="font-size:12px;color:var(--tx2);line-height:1.65">${p.w}</div></div></div></div>`).join("")}</div>
   </div>`;
 }
 
 function pgVisits(){
   return`<div class="sec">
-  <div class="stag">Official Visits</div><div class="sh" style="margin-bottom:6px">High-Level <span>Visits to Narnoor</span></div><div class="ss" style="margin-bottom:22px">Senior officials, NITI Aayog teams and consultants who visited</div>
+  <div class="stag">${lang==="TE"?"అధికారిక సందర్శనలు":"Official Visits"}</div><div class="sh" style="margin-bottom:6px">${lang==="TE"?"ఉన్నత స్థాయి సందర్శనలు":"High-Level <span>Visits to Narnoor</span>"}</div><div class="ss" style="margin-bottom:22px">Senior officials, NITI Aayog teams and consultants who visited</div>
   ${D.visits.length?`<div class="g2">${D.visits.map(v=>{const vp=fixUrl(v.photo_url||"");return`<div class="card clt">${vp?`<img src="${vp}" style="width:100%;height:140px;object-fit:cover;border-radius:10px;margin-bottom:12px" onerror="this.style.display='none'">`:""}<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px;flex-wrap:wrap;gap:6px"><div><div style="font-family:'Playfair Display',serif;font-size:14px;font-weight:700">${v.visitor_name}</div><div style="font-size:12px;color:var(--td);font-weight:700">${v.organisation}</div></div>${pill(v.visit_date,"pb")}</div><div style="font-size:13px;color:var(--tx2);line-height:1.7">Purpose: ${v.purpose}</div></div>`;}).join("")}</div>`:`<div style="text-align:center;padding:60px;color:var(--tx3)"><div style="font-size:46px;margin-bottom:14px">🚗</div><div style="font-size:14px;font-weight:700;color:var(--tx)">No visits data</div><div style="font-size:12.5px;margin-top:8px">Run SQL setup or add via Admin → Visits tab</div></div>`}
   </div>`;
 }
 
 function pgMedia(){
   return`<div class="sec">
-  <div class="stag">Photos, Videos & Reports</div><div class="sh" style="margin-bottom:22px">Narnoor in the <span>Media</span></div>
+  <div class="stag">${lang==="TE"?"ఫోటోలు, వీడియోలు & నివేదికలు":"Photos, Videos & Reports"}</div><div class="sh" style="margin-bottom:22px">${lang==="TE"?"మీడియాలో నర్నూర్":"Narnoor in the <span>Media</span>"}</div>
   <div class="upc" style="margin-bottom:22px">
     <div style="font-size:34px;margin-bottom:11px">📁</div>
     <div style="font-family:'Poppins',sans-serif;font-size:18px;font-weight:900;margin-bottom:6px">Upload Photos, Videos & Reports</div>
@@ -1123,7 +1137,7 @@ function pgMedia(){
 
 function pgGriev(){
   const gF=gSent?`<div class="suc"><div style="font-size:30px;margin-bottom:11px">✅</div><div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:800;margin-bottom:7px">Grievance Submitted</div><div style="font-size:13px;color:var(--tx2);line-height:1.75;margin-bottom:15px">Sent to ${g("siteEmail")||"abpnarnoor@gmail.com"}. Response within 7 working days.</div><button class="btn-g" onclick="gSent=false;R()">Submit Another</button></div>`
-  :`<div class="card cs"><div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:800;margin-bottom:17px">File Your Grievance</div><label class="fl">Full Name</label><input class="fi" id="gn" placeholder="Your full name"><label class="fl">Mobile Number</label><input class="fi" id="gp" placeholder="+91 XXXXXXXXXX"><label class="fl">Village / Habitation</label><input class="fi" id="gv" placeholder="Your village"><label class="fl">Category</label><select class="fi" id="gc"><option>Health & Nutrition</option><option>Education</option><option>Water & Sanitation</option><option>Agriculture</option><option>Government Scheme</option><option>Infrastructure</option><option>Social Development</option><option>Other</option></select><label class="fl" style="margin-top:4px">Description</label><textarea class="fi" id="gd" placeholder="Describe your issue clearly..." style="margin-bottom:13px"></textarea><button class="btn-wa" onclick="subGriev()">📲 Submit via WhatsApp</button></div>`;
+  :`<div class="card cs"><div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:800;margin-bottom:17px">${tr("griev_title","File Your Grievance")}</div><label class="fl">Full Name</label><input class="fi" id="gn" placeholder="Your full name"><label class="fl">Mobile Number</label><input class="fi" id="gp" placeholder="+91 XXXXXXXXXX"><label class="fl">Village / Habitation</label><input class="fi" id="gv" placeholder="Your village"><label class="fl">Category</label><select class="fi" id="gc"><option>Health & Nutrition</option><option>Education</option><option>Water & Sanitation</option><option>Agriculture</option><option>Government Scheme</option><option>Infrastructure</option><option>Social Development</option><option>Other</option></select><label class="fl" style="margin-top:4px">Description</label><textarea class="fi" id="gd" placeholder="Describe your issue clearly..." style="margin-bottom:13px"></textarea><button class="btn-wa" onclick="subGriev()">📲 Submit via WhatsApp</button></div>`;
   return`<div class="sec">
   <div class="tabs">${[["grievance","📝 File Grievance"],["opp","💼 Opportunities & Notices"]].map(([v,l])=>`<button class="tab ${grt===v?"on":""}" onclick="setGRT('${v}')">${l}</button>`).join("")}</div>
   ${grt==="grievance"?`<div class="g2c"><div style="display:flex;flex-direction:column;gap:11px">
@@ -1135,7 +1149,7 @@ function pgGriev(){
     ${hl("✓ Prajavani — Pilot Programme","Pilot citizen grievance redressal ensuring transparency at block level.","hls")}
   </div>${gF}</div>`:""}
   ${grt==="opp"?`
-    <div class="stag">Opportunities & Notices</div><div class="sh" style="margin-bottom:6px">Jobs, Tenders & <span>Notifications</span></div><div class="ss" style="margin-bottom:20px">Official notifications from Narnoor Block Administration</div>
+    <div class="stag">${tr("opp_title","Opportunities & Notices")}</div><div class="sh" style="margin-bottom:6px">${lang==="TE"?"ఉద్యోగాలు & నోటిఫికేషన్లు":lang==="HI"?"नौकरियाँ और नोटिस":"Jobs, Tenders & <span>Notifications</span>"}</div><div class="ss" style="margin-bottom:20px">Official notifications from Narnoor Block Administration</div>
     <div style="background:linear-gradient(135deg,var(--tp),var(--w2));border:1.5px solid var(--b2);border-radius:var(--r2);padding:18px;margin-bottom:18px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
       <div style="flex:1;min-width:200px"><div style="font-size:13.5px;font-weight:800;color:var(--td);margin-bottom:4px">🔔 Get Notified for New Opportunities</div><div style="font-size:12px;color:var(--tx2)">Subscribe via WhatsApp to receive job alerts, tenders and notices instantly</div></div>
       <button onclick="toggleChat();document.getElementById('chat-in').value='I want to subscribe for job and opportunity notifications';setTimeout(sendChat,300)" style="background:linear-gradient(135deg,#0a9396,#1b4332);color:#fff;border:none;padding:10px 18px;border-radius:10px;font-weight:700;font-size:12.5px;cursor:pointer;white-space:nowrap">📲 Subscribe for Alerts</button>
@@ -1576,6 +1590,7 @@ const LANG={
     read_more:"మరింత చదవండి →",order_wa:"📲 WhatsApp ద్వారా ఆర్డర్",
     submit_griev:"📲 WhatsApp ద్వారా సమర్పించండి",book_ticket:"📲 WhatsApp ద్వారా నిర్ధారించండి",
     subscribe_btn:"📲 WhatsApp ద్వారా సభ్యత్వం",
+    "stat1n":"29,152","stat2n":"61.8%","stat3n":"23","stat4n":"39/39","stat5n":"#1","stat6n":"₹2.5కో+",
   }
 };
 function tr(key,def){const d=LANG[lang]||{};return d[key]||def;}
