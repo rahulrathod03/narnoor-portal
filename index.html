@@ -171,6 +171,13 @@
 <link rel="apple-touch-icon" href="https://www.abpnarnoor.in/favicon.png">
 <meta name="theme-color" content="#1b4332">
 
+<!-- ══ SECURITY HEADERS ══ -->
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; img-src * data: blob:; connect-src *;">
+
 <!-- ══ PERFORMANCE ══ -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1010,6 +1017,7 @@ function pgHome(){
         <button class="bg" onclick="go('shop')">🛒 Shop</button>
         <button class="bg" onclick="go('tourism')">🏛️ Museum Ticket</button>
         <button class="bg" onclick="go('grievance')">📝 Grievance</button>
+        <a href="https://twitter.com/AbpNarnoor" target="_blank" style="background:#000;color:#fff;border:none;padding:12px 20px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:8px;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.259 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Follow on X</a>
       </div>
     </div>
   </div>
@@ -1660,7 +1668,7 @@ function pgWho(){
     <div style="font-size:32px;margin-bottom:11px">📸</div>
     <div style="font-size:15px;font-weight:800;margin-bottom:6px">Add Officer Photos</div>
     <div style="font-size:12.5px;color:var(--tx2);margin-bottom:6px;line-height:1.75">Upload photo to Google Drive → Share → Anyone with link → Copy link → Paste in Admin → Officers → Photo URL field. The photo will show automatically.</div>
-    <button class="btn-g" style="margin-top:10px" onclick="${adm?"go('admin')":`openL()`}">Admin Panel → Officers</button>
+    <button class="btn-g" style="margin-top:10px" onclick="adm?go('admin'):openL()">Admin Panel → Officers</button>
   </div>
   </div>`;
 }
@@ -1682,18 +1690,60 @@ function pgVisits(){
 
 function pgMedia(){
   return`<div class="sec">
-  <div class="stag">${lang==="TE"?"ఫోటోలు, వీడియోలు & నివేదికలు":"Photos, Videos & Reports"}</div><div class="sh" style="margin-bottom:22px">${lang==="TE"?"మీడియాలో నర్నూర్":"Narnoor in the <span>Media</span>"}</div>
-  <div class="upc" style="margin-bottom:22px">
-    <div style="font-size:34px;margin-bottom:11px">📁</div>
-    <div style="font-family:'Poppins',sans-serif;font-size:18px;font-weight:900;margin-bottom:6px">Upload Photos, Videos & Reports</div>
-    <div style="font-size:13px;color:var(--tx2);margin-bottom:4px;line-height:1.7">Add any media — photos, videos, PDF reports, articles — via Admin Panel → Media tab</div>
-    <div style="font-size:12px;color:var(--td);font-weight:700;margin-bottom:15px">Paste Google Drive links, YouTube links, or PDF URLs. All content becomes clickable.</div>
-    <button class="btn-g" onclick="${adm?"go('admin')":`openL()`}">Go to Admin Panel → Media</button>
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:16px">
+    <div><div class="stag">Photos, Videos & Reports</div><div class="sh">${lang==="TE"?"మీడియాలో నర్నూర్":"Narnoor in the <span>Media</span>"}</div></div>
+    <a href="https://twitter.com/AbpNarnoor" target="_blank" style="display:flex;align-items:center;gap:8px;background:#000;color:#fff;border:none;padding:10px 18px;border-radius:50px;font-size:13px;font-weight:700;text-decoration:none;transition:all .2s;flex-shrink:0">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.259 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      Follow @AbpNarnoor
+    </a>
   </div>
-  ${D.articles.length?`<div class="g3">${D.articles.map(a=>`<div class="card cs"><div style="font-size:9.5px;font-weight:800;color:var(--sd);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px">${a.type}</div><div style="font-family:'Playfair Display',serif;font-size:14px;font-weight:700;margin-bottom:11px;line-height:1.4">${a.title}</div><a href="${a.url}" target="_blank" style="font-size:12.5px;color:var(--td);font-weight:700;text-decoration:none;display:flex;align-items:center;gap:5px">Open / View →</a></div>`).join("")}</div>`:`<div style="text-align:center;padding:30px;color:var(--tx3)">No media yet. Add via Admin → Media tab or run SQL setup.</div>`}
+
+  <!-- TWITTER/X LIVE FEED -->
+  <div style="display:grid;grid-template-columns:320px 1fr;gap:22px;margin-bottom:22px;align-items:start">
+    <div style="border-radius:var(--r2);overflow:hidden;border:1px solid var(--b);box-shadow:0 4px 16px rgba(0,0,0,.08)">
+      <div style="background:#000;padding:12px 16px;display:flex;align-items:center;gap:10px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.259 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <span style="color:#fff;font-weight:800;font-size:13px">@AbpNarnoor on X</span>
+        <span style="background:#1d9bf0;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:50px;margin-left:auto">LIVE</span>
+      </div>
+      <a class="twitter-timeline"
+        href="https://twitter.com/AbpNarnoor"
+        data-height="480"
+        data-theme="light"
+        data-chrome="noheader nofooter noborders"
+        data-tweet-limit="5"
+        data-dnt="true">
+        Tweets by @AbpNarnoor
+      </a>
+      <!-- Twitter widgets loaded separately -->
+    </div>
+    <div>
+      <div class="upc" style="margin-bottom:16px">
+        <div style="font-size:32px;margin-bottom:11px">📁</div>
+        <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:800;margin-bottom:6px">Upload Photos, Videos & Reports</div>
+        <div style="font-size:13px;color:var(--tx2);margin-bottom:4px;line-height:1.7">Add any media — photos, videos, PDF reports, articles — via Admin Panel → Media tab</div>
+        <div style="font-size:12px;color:var(--td);font-weight:700;margin-bottom:15px">Paste Google Drive links, YouTube links, or PDF URLs.</div>
+        <button class="btn-g" onclick="adm?go('admin'):openL()">Go to Admin Panel → Media</button>
+      </div>
+      ${D.articles.length?`<div class="g2">${D.articles.map(a=>`<div class="card cs"><div style="font-size:9.5px;font-weight:800;color:var(--sd);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px">${a.type}</div><div style="font-family:'Playfair Display',serif;font-size:14px;font-weight:700;margin-bottom:11px;line-height:1.4">${a.title}</div><a href="${a.url}" target="_blank" style="font-size:12.5px;color:var(--td);font-weight:700;text-decoration:none">Open / View →</a></div>`).join("")}</div>`:`<div style="text-align:center;padding:30px;color:var(--tx3)">No media yet. Add via Admin → Media tab.</div>`}
+    </div>
+  </div>
+
+  <!-- SOCIAL LINKS -->
+  <div style="background:linear-gradient(135deg,var(--fd),var(--n));border-radius:var(--r2);padding:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px">
+    <div><div style="font-size:11px;font-weight:800;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:5px">Follow Narnoor Block</div>
+    <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:800;color:#fff">Stay updated on all achievements & news</div></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a href="https://twitter.com/AbpNarnoor" target="_blank" style="background:#000;color:#fff;padding:9px 18px;border-radius:50px;font-size:12px;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:7px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.259 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        @AbpNarnoor
+      </a>
+      <a href="https://wa.me/919391914941" target="_blank" style="background:#16a34a;color:#fff;padding:9px 18px;border-radius:50px;font-size:12px;font-weight:700;text-decoration:none">📲 WhatsApp</a>
+      <a href="mailto:abpnarnoor@gmail.com" style="background:var(--s);color:#fff;padding:9px 18px;border-radius:50px;font-size:12px;font-weight:700;text-decoration:none">📧 Email Us</a>
+    </div>
+  </div>
   </div>`;
 }
-
 function pgGriev(){
   const gF=gSent?`<div class="suc"><div style="font-size:30px;margin-bottom:11px">✅</div><div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:800;margin-bottom:7px">Grievance Submitted</div><div style="font-size:13px;color:var(--tx2);line-height:1.75;margin-bottom:15px">Sent to ${g("siteEmail")||"abpnarnoor@gmail.com"}. Response within 7 working days.</div><button class="btn-g" onclick="gSent=false;R()">Submit Another</button></div>`
   :`<div class="card cs"><div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:800;margin-bottom:17px">${tr("griev_title","File Your Grievance")}</div><label class="fl">Full Name</label><input class="fi" id="gn" placeholder="Your full name"><label class="fl">Mobile Number</label><input class="fi" id="gp" placeholder="+91 XXXXXXXXXX"><label class="fl">Village / Habitation</label><input class="fi" id="gv" placeholder="Your village"><label class="fl">Category</label><select class="fi" id="gc"><option>Health & Nutrition</option><option>Education</option><option>Water & Sanitation</option><option>Agriculture</option><option>Government Scheme</option><option>Infrastructure</option><option>Social Development</option><option>Other</option></select><label class="fl" style="margin-top:4px">Description</label><textarea class="fi" id="gd" placeholder="Describe your issue clearly..." style="margin-bottom:13px"></textarea><button class="btn-wa" onclick="subGriev()">📲 Submit via WhatsApp</button></div>`;
@@ -1733,7 +1783,7 @@ function subGriev(){
 </script>
 <script>
 function pgAdmin(){
-  if(!adm)return`<div class="sec" style="text-align:center;padding:80px 24px"><div style="font-size:46px;margin-bottom:15px">🔐</div><div style="font-family:'Poppins',sans-serif;font-size:24px;font-weight:900;margin-bottom:12px">Admin Access Required</div><button class="bp" onclick="openL()">Login to Admin Panel</button></div>`;
+  if(!adm)return`<div class="sec" style="text-align:center;padding:80px 24px"><div style="font-size:46px;margin-bottom:15px">🔐</div><div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:900;margin-bottom:12px">Admin Access Required</div><button class="bp" onclick="openL()">Login to Admin Panel</button></div>`;
   const tabs=[["hero","🏠 Hero & Site"],["kpi","📊 KPIs"],["campaigns","📋 Campaigns"],["initiatives","✨ Initiatives"],["transformation","🔄 Transformation"],["highlights","💡 Highlights"],["awards","🏆 Awards"],["officers","👤 Officers"],["visits","🚗 Visits"],["products","🛒 Shop"],["media","📰 Media"],["jobs","💼 Jobs"],["creds","🔐 Credentials"]];
   let c="";
   if(adt==="hero")c=`<div class="as"><div class="at">✏️ Edit Hero Section & Site-wide Settings</div>
@@ -2722,5 +2772,6 @@ function addChatMsg(text,role,id){
   msgs.scrollTop=msgs.scrollHeight;
 }
 </script>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </body>
 </html>
