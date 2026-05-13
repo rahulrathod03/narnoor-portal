@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- HOME -->
+  <url>
+    <loc>https://www.abpnarnoor.in/</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.abpnarnoor.in/"/>
+    <xhtml:link rel="alternate" hreflang="te" href="https://www.abpnarnoor.in/"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://www.abpnarnoor.in/"/>
+  </url>
+
+  <!-- BLOCK PROFILE -->
+  <url>
+    <loc>https://www.abpnarnoor.in/#profile</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- DASHBOARD -->
+  <url>
+    <loc>https://www.abpnarnoor.in/#dashboard</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- CAMPAIGNS -->
+  <url>
+    <loc>https://www.abpnarnoor.in/#campaigns</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- INITIATIVES -->
+  <url>
+    <loc>https://www.abpnarnoor.in/#initiatives</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- TRANSFORMATION -->
+  <url>
+    <loc>https://www.abpnarnoor.in/#transform</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- GRANTS -->
+  <url>
+    <loc>https://www.abpnarnoor.in/#grants</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- AWARDS -->
+  <url>
+    <loc>https://www.abpnarnoor.in/#awards</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- SCHEMES -->
+  <url>
+    <loc>https://www.abpnarnoor.in/#schemes</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- TOURISM / MUSEUM -->
+  <url>
+    <loc>https://www.abpnarnoor.in/#tourism</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- SHOP — TRIBAL PRODUCTS -->
+  <url>
+    <loc>https://www.abpnarnoor.in/#shop</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- WHO'S WHO / OFFICERS -->
+  <url>
+    <loc>https://www.abpnarnoor.in/#whoswho</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- PARTNERS -->
+  <url>
+    <loc>https://www.abpnarnoor.in/#partners</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- VISITS -->
+  <url>
+    <loc>https://www.abpnarnoor.in/#visits</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- MEDIA -->
+  <url>
+    <loc>https://www.abpnarnoor.in/#media</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- GRIEVANCE -->
+  <url>
+    <loc>https://www.abpnarnoor.in/#grievance</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- OPPORTUNITIES -->
+  <url>
+    <loc>https://www.abpnarnoor.in/#opp</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+</urlset>
