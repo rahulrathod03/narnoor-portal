@@ -528,6 +528,45 @@ select.fi{cursor:pointer;}
   .hst-n{font-size:18px;}}
 @media(max-width:400px){.hstats{grid-template-columns:repeat(2,1fr);}.g4{grid-template-columns:1fr 1fr;}}
 
+/* ══ WEATHER MOBILE FIXES ══ */
+.weather-section-wrap{padding:36px 24px;}
+@media(max-width:640px){
+  .weather-section-wrap{padding:24px 14px;}
+  .weather-main-card{grid-template-columns:1fr!important;gap:14px!important;}
+  .weather-left-col{padding-right:0!important;border-right:none!important;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:14px;display:flex;align-items:center;justify-content:center;gap:18px;}
+  .weather-left-col #w-icon{font-size:40px!important;margin-bottom:0!important;}
+  .weather-left-col #w-temp{font-size:36px!important;}
+  .weather-forecast-grid{grid-template-columns:repeat(4,1fr)!important;gap:6px!important;}
+  .weather-header-row{flex-direction:column;align-items:flex-start!important;gap:6px!important;}
+}
+@media(max-width:400px){
+  .weather-forecast-grid{grid-template-columns:repeat(4,1fr)!important;}
+}
+/* Video → Weather gap */
+.video-weather-gap{margin-bottom:0;}
+/* ══ BLOCK PROFILE — MOBILE FIXES ══ */
+@media(max-width:640px){
+  /* Infrastructure stat cards */
+  .infra-grid{grid-template-columns:repeat(2,1fr)!important;}
+  /* Map footer stats wrap properly */
+  .map-footer-stats{flex-direction:column;gap:6px!important;align-items:flex-start!important;}
+  /* GP table — hide Note column on very small */
+  .gp-note-col{display:none;}
+  /* Profile g2c stack */
+  .g2c{grid-template-columns:1fr!important;}
+  /* Profile top grid: demographics + map stacked */
+  .profile-top-grid{grid-template-columns:1fr!important;}
+  /* GP table horizontal scroll already handled by overflow-x:auto */
+}
+/* ══ HOME PAGE — VIDEO BLOCK MOBILE ══ */
+@media(max-width:640px){
+  .home-about-grid{grid-template-columns:1fr!important;}
+  .home-video-box{border-radius:14px!important;}
+}
+@media(max-width:480px){
+  .sub-grid{grid-template-columns:1fr!important;}
+  .sub-grid input[style*="grid-column"]{grid-column:auto!important;}
+}
 /* Museum virtual tour — horizontal landscape strip */
 .museum-gallery{
   display:flex;
@@ -985,7 +1024,7 @@ function bFoot(){
       <div style="font-size:10px;font-weight:800;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">Stay Connected</div>
       <div style="font-family:'Poppins',sans-serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:6px">${tr("subscribe_title","Subscribe for Updates")}</div>
       <div style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:22px;line-height:1.7">${tr("subscribe_sub","Get monthly development reports, new opportunities, and Narnoor Block news — delivered to your WhatsApp or email.")}</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;max-width:500px;margin-left:auto;margin-right:auto">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;max-width:500px;margin-left:auto;margin-right:auto" class="sub-grid">
         <input class="sub-input" id="sub-name" placeholder="Your full name">
         <input class="sub-input" id="sub-phone" placeholder="WhatsApp number (+91...)">
         <input class="sub-input" id="sub-email" placeholder="Email address (optional)" style="grid-column:1/-1">
@@ -1061,7 +1100,7 @@ function pgHome(){
     ${(()=>{const items=[["🥇 1st","South Zone Sep 2025"],["₹1.5 Cr","Latest Grant"],["⭐ Super 60","PVTG Focus"],["🔬 Frontier Tech","Separate Prog."],["🏅 PM Award","Top 5 India 2024"],["📉 0.10%","SAM from 2.06%"],["📜 ISO ✓","Certified GP"],["📊 39 KPIs","All Improved"],["🏆 Governor","Gold Medal 2024"],["23 GPs","All Saturated"],["₹2.5 Cr+","Total Grants"],["👩 Zero","Anaemia ✓"]];const row=items.map(([n,l])=>`<div class="ri"><div class="ri-n">${n}</div><div class="ri-l">${l}</div></div>`).join("");return row+row;})()}
   </div></div>
   <div class="sec">
-    <div class="g2c">
+    <div class="g2c home-about-grid">
       <div>
         <div class="stag">${tr("nav_profile","Block Overview")}</div><div class="sh">${tr("about_title","About")} <span>Narnoor</span> ${tr("nav_profile","Block")}</div>
         <p style="font-size:13.5px;color:var(--tx2);line-height:1.85;margin:14px 0 22px">Narnoor is a remote tribal block in Adilabad District selected under NITI Aayog's <strong style="color:var(--td)">Aspirational Blocks Programme (ABP) in 2023</strong>. With <strong>61.8% Scheduled Tribe population</strong> across 23 GPs, Narnoor achieved top ranking through convergence governance.</p>
@@ -1070,7 +1109,7 @@ function pgHome(){
         </div>
         <button class="btn-g" onclick="go('profile')">View Full Block Profile →</button>
       </div>
-      <div style="border-radius:var(--r3);overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.22);border:3px solid rgba(232,105,26,.3);background:#000">
+      <div class="home-video-box" style="border-radius:var(--r3);overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.22);border:3px solid rgba(232,105,26,.3);background:#000">
         <div style="background:linear-gradient(135deg,#0d1b2a,#1b4332);padding:12px 18px;display:flex;align-items:center;gap:10px">
           <span style="font-size:18px">🎬</span>
           <div>
@@ -1092,15 +1131,15 @@ function pgHome(){
       </div>
   </div>
   <!-- WEATHER SECTION -->
-  <div style="background:linear-gradient(135deg,#0d1b2a,#1b4332);padding:36px 24px">
+  <div class="weather-section-wrap" style="background:linear-gradient(135deg,#0d1b2a,#1b4332);padding:36px 24px;margin-top:8px;">
     <div style="max-width:1220px;margin:0 auto">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+      <div class="weather-header-row" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
         <div><div style="font-size:10px;font-weight:800;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:2px;margin-bottom:5px">Live Weather</div>
         <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:800;color:#fff">Narnoor Block Weather <span style="color:var(--sl)">— Live</span></div></div>
         <div style="font-size:10px;color:rgba(255,255,255,.35);font-weight:600">📍 Adilabad, Telangana · 19.1°N 78.5°E</div>
       </div>
-      <div id="weather-main" style="display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:20px;margin-bottom:16px">
-        <div style="text-align:center;padding-right:20px;border-right:1px solid rgba(255,255,255,.1)">
+      <div id="weather-main" class="weather-main-card" style="display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:20px;margin-bottom:16px">
+        <div class="weather-left-col" style="text-align:center;padding-right:20px;border-right:1px solid rgba(255,255,255,.1)">
           <div id="w-icon" style="font-size:52px;margin-bottom:4px">🌤️</div>
           <div id="w-temp" style="font-family:'Poppins',sans-serif;font-size:42px;font-weight:900;color:#fff;line-height:1">--°</div>
           <div id="w-feels" style="font-size:11px;color:rgba(255,255,255,.45);margin-top:4px">Feels like --°C</div>
@@ -1116,7 +1155,7 @@ function pgHome(){
         </div>
       </div>
       <!-- 7-DAY FORECAST -->
-      <div id="weather-forecast" style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px">
+      <div id="weather-forecast" class="weather-forecast-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px">
         ${[...Array(7)].map((_,i)=>`<div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:11px 6px;text-align:center" id="fc-${i}">
           <div style="font-size:9px;font-weight:800;color:rgba(255,255,255,.4);margin-bottom:6px" id="fc-day-${i}">---</div>
           <div style="font-size:22px;margin-bottom:6px" id="fc-icon-${i}">🌤️</div>
@@ -1154,7 +1193,7 @@ function pgHome(){
 function pgProfile(){
   return`<div class="sec">
   <div class="stag">${tr("nav_profile","Block Profile")}</div><div class="sh" style="margin-bottom:22px">Narnoor — <span>${lang==="TE"?"ముఖ్య వాస్తవాలు":lang==="HI"?"मुख्य तथ्य":"Key Facts"}</span></div>
-  <div class="g2c">
+  <div class="g2c profile-top-grid">
     <div>
       <div class="card ct" style="margin-bottom:14px">
         <div style="font-size:10px;font-weight:800;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:15px">${tr("profile_demo","Demographics & Administration")}</div>
@@ -1206,7 +1245,7 @@ function pgProfile(){
         </div>
         <!-- Footer stats bar -->
         <div style="padding:11px 16px;background:linear-gradient(135deg,var(--tp),#f0fdf4);border-top:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-          <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <div class="map-footer-stats" style="display:flex;gap:16px;flex-wrap:wrap">
             ${[["23","Gram Panchayats"],["46","Habitations"],["29,152","Population"],["61.8%","Tribal ST"]].map(([n,l])=>`<div><span style="font-family:'Poppins',sans-serif;font-size:14px;font-weight:900;color:var(--td)">${n}</span> <span style="font-size:10px;color:var(--tx3);font-weight:600">${l}</span></div>`).join("")}
           </div>
           <span style="font-size:10px;color:var(--td);font-weight:700">Adilabad District, TS</span>
@@ -1239,7 +1278,7 @@ function pgProfile(){
   <!-- INFRASTRUCTURE STATS -->
   <div style="margin-top:20px">
     <div style="font-size:10px;font-weight:800;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">🏗️ Block Infrastructure — Official Data 2025</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:9px">
+    <div class="infra-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:9px">
       ${[["🚰","Tap Water Connections","100% HH","Jal Jeevan Mission"],["🚽","ODF Plus Villages","78.26%","Swachh Bharat"],["💡","Solar Street Lights","150+","Installed 2024-25"],["🏫","Primary Schools","83","All habitations"],["🤱","Anganwadi Centres","77","Active & functional"],["👵","Pensions (AASARA)","3,200+","All categories"],["🌾","Rythu Bandhu","1,247","Registered farmers"],["🏥","ASHA Workers","46+","One/habitation"],["🔌","BharatNet GPs","78.26%","Live connectivity"],["🌿","Haritha Haram","All GPs","Nurseries active"],["💰","XV Finance Grant","₹1Cr+/yr","Infrastructure"],["🏗️","All-weather Roads","All GPs","CC Roads complete"]].map(([ic,l,v,n])=>`<div style="background:var(--w2);border:1px solid var(--b);border-radius:11px;padding:12px"><div style="display:flex;align-items:center;gap:7px;margin-bottom:5px"><span style="font-size:17px">${ic}</span><span style="font-size:9.5px;font-weight:800;color:var(--tx3);text-transform:uppercase">${l}</span></div><div style="font-family:'Poppins',sans-serif;font-size:17px;font-weight:900;color:var(--td)">${v}</div><div style="font-size:9.5px;color:var(--tx3);margin-top:2px">${n}</div></div>`).join("")}
     </div>
   </div></div>`;
