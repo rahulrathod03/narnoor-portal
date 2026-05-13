@@ -713,8 +713,8 @@ async function sb(path,method="GET",data=null){
       });
       clearTimeout(timeout);
       if(r.status===403){
-        console.warn("403 Forbidden - Check Supabase API settings. Using fallback data.");
-        return[];
+        console.warn("403 Forbidden - Check Supabase RLS settings.");
+        return null; // null = use fallback, [] = empty from DB
       }
       if(!r.ok){const t=await r.text();console.error(path,t);return[];}
       const t=await r.text();return t?JSON.parse(t):[];
@@ -890,15 +890,16 @@ async function loadAll(){
     ]);
     D.s={};(sets||[]).forEach(s=>D.s[s.key]=s.value);
     // Use DB data if available, else use hardcoded fallback
-    D.kpis=(kpis&&kpis.length>0)?kpis:FALLBACK.kpis;
-    D.officers=(off&&off.length>0)?off:FALLBACK.officers;
+    // Use DB data if array (even empty), fallback only if null (network error)
+    D.kpis=(Array.isArray(kpis)&&kpis.length>0)?kpis:FALLBACK.kpis;
+    D.officers=(Array.isArray(off)&&off.length>0)?off:FALLBACK.officers;
     D.visits=(vis&&vis.length>0)?vis:FALLBACK.visits;
     D.articles=(art&&art.length>0)?art:FALLBACK.articles;
     D.products=(prod&&prod.length>0)?prod:FALLBACK.products;
-    D.campaigns=(camps&&camps.length>0)?camps:FALLBACK.campaigns;
+    D.campaigns=(Array.isArray(camps)&&camps.length>0)?camps:FALLBACK.campaigns;
     D.initiatives=(inits&&inits.length>0)?inits:FALLBACK.initiatives;
     D.awards=(aw&&aw.length>0)?aw:FALLBACK.awards;
-    D.jobs=(jobs&&jobs.length>0)?jobs:FALLBACK.jobs;
+    D.jobs=(Array.isArray(jobs)&&jobs.length>0)?jobs:FALLBACK.jobs;
     D.transformation=(trans&&trans.length>0)?trans:FALLBACK.transformation;
     D.highlights=(hi&&hi.length>0)?hi:FALLBACK.highlights;
     DB_LIVE=(kpis&&kpis.length>0)||(camps&&camps.length>0);
@@ -1069,35 +1070,26 @@ function pgHome(){
         </div>
         <button class="btn-g" onclick="go('profile')">View Full Block Profile →</button>
       </div>
-      <div style="border-radius:var(--r3);overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.22);position:relative;border:3px solid rgba(10,147,150,.25);background:#e8f4f0" id="map-home-wrap">
-        <!-- Animated scan line -->
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,rgba(10,147,150,.8),rgba(148,210,189,1),rgba(10,147,150,.8),transparent);z-index:3;animation:mapScan 3s ease-in-out infinite;box-shadow:0 0 12px rgba(10,147,150,.6)"></div>
-        <!-- Pulsing border glow -->
-        <div style="position:absolute;inset:0;border-radius:calc(var(--r3) - 3px);border:2px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(135deg,rgba(10,147,150,.4),rgba(232,105,26,.3),rgba(10,147,150,.4)) border-box;z-index:2;pointer-events:none;animation:mapGlow 2.5s ease-in-out infinite"></div>
-        <!-- Map image with zoom-in on hover -->
-        <div style="overflow:hidden">
-          <img src="${fixUrl(g('mapUrl'))||MAP_EMBEDDED}" alt="Narnoor Block Map"
-            style="width:100%;height:auto;display:block;object-fit:contain;background:#eef7f4;filter:contrast(1.08) saturate(1.15) brightness(1.05);transition:transform .5s ease;cursor:zoom-in"
-            onmouseover="this.style.transform='scale(1.06)'"
-            onmouseout="this.style.transform='scale(1)'">
-        </div>
-        <!-- GP location pulse dots overlay -->
-        <div style="position:absolute;inset:0;pointer-events:none;z-index:2">
-          ${[{t:"43%",l:"45%",n:"Narnoor"},{t:"30%",l:"32%",n:"Gundala"},{t:"58%",l:"60%",n:"Balanpur"},{t:"25%",l:"55%",n:"Gadiguda"},{t:"65%",l:"38%",n:"Bheempur"},{t:"40%",l:"68%",n:"Khanapur"}].map((p,i)=>`
-          <div style="position:absolute;top:${p.t};left:${p.l};transform:translate(-50%,-50%);animation:dotPulse 2.5s ease infinite ${i*.35}s">
-            <div style="width:8px;height:8px;border-radius:50%;background:rgba(232,105,26,.9);box-shadow:0 0 0 0 rgba(232,105,26,.5);animation:ripple 2.5s ease infinite ${i*.35}s"></div>
-            <div style="position:absolute;top:-20px;left:50%;transform:translateX(-50%);background:rgba(5,46,22,.85);color:#fff;font-size:7px;font-weight:700;padding:2px 5px;border-radius:4px;white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none" class="map-label">${p.n}</div>
-          </div>`).join("")}
-        </div>
-        <!-- Bottom info bar -->
-        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(5,46,22,.92),rgba(5,46,22,.7),transparent);padding:16px 16px 12px;z-index:3">
-          <div style="color:#fff;font-family:'Playfair Display',serif;font-size:14px;font-weight:800;margin-bottom:4px">Narnoor Block — Adilabad District</div>
-          <div style="display:flex;gap:12px;flex-wrap:wrap">
-            ${[["23","GPs"],["46","Habitations"],["29,152","Population"]].map(([n,l])=>`<div style="display:flex;align-items:center;gap:4px"><span style="font-family:'Poppins',sans-serif;font-size:12px;font-weight:900;color:var(--sl)">${n}</span><span style="font-size:10px;color:rgba(255,255,255,.6)">${l}</span></div>`).join('<span style="color:rgba(255,255,255,.2)">·</span>')}
+      <div style="border-radius:var(--r3);overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.22);border:3px solid rgba(232,105,26,.3);background:#000">
+        <div style="background:linear-gradient(135deg,#0d1b2a,#1b4332);padding:12px 18px;display:flex;align-items:center;gap:10px">
+          <span style="font-size:18px">🎬</span>
+          <div>
+            <div style="color:#fff;font-weight:800;font-size:13px">Narnoor Receives PM Award 2024</div>
+            <div style="color:rgba(255,255,255,.5);font-size:10px">Top 5 Aspirational Blocks — India</div>
           </div>
+          <span style="background:#E8691A;color:#fff;font-size:9px;font-weight:700;padding:3px 10px;border-radius:50px;margin-left:auto">🏅 PM Award</span>
+        </div>
+        <div style="position:relative;padding-bottom:56.25%;height:0">
+          <iframe src="https://www.youtube.com/embed/5EEkvOHdWw4?rel=0&modestbranding=1&color=white" 
+            style="position:absolute;top:0;left:0;width:100%;height:100%;border:none"
+            title="Narnoor Block PM Award 2024"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        </div>
+        <div style="background:linear-gradient(135deg,#1b4332,#0a9396);padding:10px 16px;display:flex;gap:12px;flex-wrap:wrap">
+          ${[["🥇","1st Rank South Zone 2025"],["🏅","PM Award Top 5 India"],["🏆","Governor's Gold Medal"]].map(([i,t])=>`<span style="color:#fff;font-size:10.5px;font-weight:700">${i} ${t}</span>`).join('<span style="color:rgba(255,255,255,.3)">·</span>')}
         </div>
       </div>
-    </div>
   </div>
   <!-- WEATHER SECTION -->
   <div style="background:linear-gradient(135deg,#0d1b2a,#1b4332);padding:36px 24px">
@@ -1145,6 +1137,7 @@ function pgHome(){
     <div style="text-align:center;margin-bottom:26px"><div class="stag" style="justify-content:center">${tr("awards_sub","National Recognition")}</div><div class="sh">${tr("nav_awards","Awards")} & <span>${lang==="TE"?"విజయాలు":lang==="HI"?"उपलब्धियाँ":"Achievements"}</span></div></div>
     <div class="g4">${D.awards.slice(0,8).map(a=>`<div class="awc cg"><div style="font-size:30px;margin-bottom:9px">${a.icon}</div><div style="font-size:13px;font-weight:800;margin-bottom:4px;font-family:'Playfair Display',serif">${a.title}</div><div style="font-size:11px;color:var(--tx2);line-height:1.55;margin-bottom:7px">${a.subtitle}</div><div style="font-size:9px;font-weight:800;color:var(--s);text-transform:uppercase;margin-bottom:7px;letter-spacing:.5px">${a.year}</div>${pill(a.grant_info,"pgold")}</div>`).join("")||`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--tx3)">Run SQL setup to load awards</div>`}</div>
   </div>
+  
   <div class="salt" style="padding:46px 0"><div class="sec" style="padding-top:0;padding-bottom:0">
     <div style="text-align:center;margin-bottom:26px"><div class="stag" style="justify-content:center">${tr("nav_impact","For Everyone")}</div><div class="sh">Narnoor — <span>${tr("platform_title","One Stop Platform")}</span></div></div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;max-width:900px;margin:0 auto">
@@ -1195,7 +1188,16 @@ function pgProfile(){
             onmouseout="this.style.transform='scale(1)'">
           <!-- GP pulse dots -->
           <div style="position:absolute;inset:0;pointer-events:none">
-            ${[{t:"43%",l:"45%",n:"Narnoor HQ"},{t:"30%",l:"32%",n:"Gundala"},{t:"58%",l:"60%",n:"Balanpur"},{t:"25%",l:"55%",n:"Gadiguda"},{t:"65%",l:"38%",n:"Bheempur"},{t:"40%",l:"68%",n:"Khanapur"},{t:"50%",l:"25%",n:"Malepur"},{t:"35%",l:"72%",n:"Naddamguda"}].map((p,i)=>`
+            ${[
+          {t:"44%",l:"46%",n:"Narnoor★"},{t:"30%",l:"31%",n:"Gundala"},{t:"59%",l:"60%",n:"Balanpur"},
+          {t:"26%",l:"56%",n:"Tadihadpanur"},{t:"66%",l:"37%",n:"Bheempur"},{t:"40%",l:"69%",n:"Khampur"},
+          {t:"51%",l:"24%",n:"Malepur"},{t:"36%",l:"73%",n:"Bethalguda"},{t:"21%",l:"44%",n:"Mahagaon"},
+          {t:"55%",l:"51%",n:"Gangapur"},{t:"71%",l:"54%",n:"Kothapally"},{t:"28%",l:"62%",n:"Nagalkonda"},
+          {t:"48%",l:"34%",n:"Empally G"},{t:"62%",l:"23%",n:"Malangi"},{t:"38%",l:"53%",n:"Khairdatwa"},
+          {t:"53%",l:"71%",n:"Gunjala"},{t:"72%",l:"41%",n:"Umri"},{t:"23%",l:"35%",n:"Babejhari"},
+          {t:"61%",l:"45%",n:"Chorgaon"},{t:"44%",l:"80%",n:"Mankapur"},{t:"33%",l:"47%",n:"Sungapur"},
+          {t:"77%",l:"29%",n:"Marapaguda"},{t:"18%",l:"58%",n:"Jamda"}
+        ].map((p,i)=>`
             <div style="position:absolute;top:${p.t};left:${p.l};transform:translate(-50%,-50%);z-index:3">
               <div style="width:9px;height:9px;border-radius:50%;background:rgba(232,105,26,.95);box-shadow:0 0 0 0 rgba(232,105,26,.5);animation:ripple 2.5s ease infinite ${i*.3}s;position:relative;z-index:2"></div>
               <div style="position:absolute;top:-22px;left:50%;transform:translateX(-50%);background:rgba(5,46,22,.9);color:#fff;font-size:7.5px;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.3)">${p.n}</div>
@@ -1211,6 +1213,35 @@ function pgProfile(){
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- GP TABLE FROM OFFICIAL RECORDS -->
+  <div style="margin-top:24px">
+    <div style="font-size:10px;font-weight:800;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">📋 23 Gram Panchayats — Official Records (Narnoor Mandal, March 2025)</div>
+    <div style="overflow-x:auto;border-radius:12px;border:1.5px solid var(--b);box-shadow:0 4px 12px rgba(0,0,0,.06)">
+      <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:500px">
+        <thead><tr style="background:linear-gradient(135deg,var(--fd),var(--n))">
+          <th style="padding:9px 10px;text-align:left;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.8px">GP Name</th>
+          <th style="padding:9px 10px;text-align:center;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.8px">Habs</th>
+          <th style="padding:9px 10px;text-align:left;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.8px">Habitation Names</th>
+          <th style="padding:9px 10px;text-align:left;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.8px">Note</th>
+        </tr></thead>
+        <tbody><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Narnoor ⭐</td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">1</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Narnoor</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600">★ Mandal HQ</td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Babejhari </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">4</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Babejhari, Chittaguda, Dhanuguda, Manjari</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Bheempur </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">4</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Bheempur, Joguguda, Gondguda, Kolamguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Empally G </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">3</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Empally G, Lambadathanda, Kolamguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Khairdatwa ⭐</td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">6</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Khairdatwa, Harijanguda, Kolamguda, Naddamguda, Dhuppapur, Gonduguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600">Most habitations</td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Chorgaon </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">3</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Chorgaon, Kolamguda, Mathuraguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Sungapur Kolamguda </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">3</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Sunapur Banjarathanda, Kolamguda, Gondguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Mahagaon </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">2</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Mahagaon, Shekuguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Gundala G </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">3</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Gundala G, Gundala Lt, SC Guda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Tadihadpanur </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">3</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Tadihadpanur, Mukthapur, Kolamguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Gangapur </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">2</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Gangapur, Gangapur G</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Jamda ⭐</td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">2</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Jamda, Pusiguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600">ODF Plus · ISO Certified</td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Bethalguda </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">2</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Bethalguda, Sonapur</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Nagalkonda </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">3</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Gondguda, Lambadithanda, Muslimguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Marapaguda ⭐</td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">6</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Marapaguda, Iliasnagar, Bhavaniguda, Devariguda, Devpatar, Vagaithanda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600">Most habitations</td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Balanpur </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">1</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Balanpur</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Kothapally H </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">4</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Kothapally H, Dharmuguda, Kolamguda, Malkuguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Malangi </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">4</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Malangi, Malangi Tanda, SC Guda, Barikrao guda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Umri </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">2</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Umri, Bojjuguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Malepur ⭐</td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">2</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Malepur, Chithaguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600">CSC Center</td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Gunjala </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">2</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Gunjala, Somuguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Khampur </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">5</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Khampur, Gondguda, Kattiguda, Harijanwada, Mahadapur</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Mankapur </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">2</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Mankapur, Rajulguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr></tbody>
+        <tfoot><tr style="background:var(--tp)">
+          <td style="padding:8px 10px;font-weight:800;color:var(--td)">Total: 23 GPs</td>
+          <td style="padding:8px 10px;font-weight:900;color:var(--t);text-align:center;font-family:Poppins">46</td>
+          <td colspan="2" style="padding:8px 10px;font-size:10px;color:var(--tx3)">Source: Narnoor Mandal Population Data · March 2025</td>
+        </tr></tfoot>
+      </table>
+    </div>
+  </div>
+
+  <!-- INFRASTRUCTURE STATS -->
+  <div style="margin-top:20px">
+    <div style="font-size:10px;font-weight:800;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">🏗️ Block Infrastructure — Official Data 2025</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:9px">
+      ${[["🚰","Tap Water Connections","100% HH","Jal Jeevan Mission"],["🚽","ODF Plus Villages","78.26%","Swachh Bharat"],["💡","Solar Street Lights","150+","Installed 2024-25"],["🏫","Primary Schools","83","All habitations"],["🤱","Anganwadi Centres","77","Active & functional"],["👵","Pensions (AASARA)","3,200+","All categories"],["🌾","Rythu Bandhu","1,247","Registered farmers"],["🏥","ASHA Workers","46+","One/habitation"],["🔌","BharatNet GPs","78.26%","Live connectivity"],["🌿","Haritha Haram","All GPs","Nurseries active"],["💰","XV Finance Grant","₹1Cr+/yr","Infrastructure"],["🏗️","All-weather Roads","All GPs","CC Roads complete"]].map(([ic,l,v,n])=>`<div style="background:var(--w2);border:1px solid var(--b);border-radius:11px;padding:12px"><div style="display:flex;align-items:center;gap:7px;margin-bottom:5px"><span style="font-size:17px">${ic}</span><span style="font-size:9.5px;font-weight:800;color:var(--tx3);text-transform:uppercase">${l}</span></div><div style="font-family:'Poppins',sans-serif;font-size:17px;font-weight:900;color:var(--td)">${v}</div><div style="font-size:9.5px;color:var(--tx3);margin-top:2px">${n}</div></div>`).join("")}
+    </div>
   </div></div>`;
 }
 
@@ -1220,7 +1251,12 @@ function pgDash(){
   const nitiKPIs=D.kpis.filter(k=>NITI39.has(k.name)||(k.sort_order!==undefined&&k.sort_order<=38&&!BLOCK_NAMES.has(k.name)));
   const blockKPIs=D.kpis.filter(k=>BLOCK_NAMES.has(k.name)||(k.sort_order!==undefined&&k.sort_order>38)||(!NITI39.has(k.name)&&!BLOCK_NAMES.has(k.name)&&k.id>39));
   const fl=(ks==="All"?nitiKPIs:nitiKPIs.filter(k=>k.sector===ks));
-  const sat=nitiKPIs.filter(k=>k.status==="sat").length;
+  // Count saturated: 100% progress OR status=sat (for inverse KPIs like SAM where lower=sat)
+  const INVERSE_KPI_NAMES=new Set(["Low Birth Weight Babies","SAM (Severe Malnutrition)","MAM (Moderate Malnut.)","Groundwater Extraction"]);
+  const sat=nitiKPIs.filter(k=>{
+    if(INVERSE_KPI_NAMES.has(k.name)) return k.status==="sat"; // lower is better
+    return k.progress>=100 || k.status==="sat";
+  }).length;
   const ong=nitiKPIs.filter(k=>k.status==="ong").length;
   const pct=nitiKPIs.length?Math.round(sat/nitiKPIs.length*100):0;
   const now=new Date();
@@ -1755,8 +1791,8 @@ function pgMedia(){
   </div>
 
   <!-- TWITTER/X LIVE FEED -->
-  <div style="display:grid;grid-template-columns:min(320px,100%) 1fr;gap:22px;margin-bottom:22px;align-items:start" class="media-grid">
-    <div style="border-radius:var(--r2);overflow:hidden;border:1px solid var(--b);box-shadow:0 4px 16px rgba(0,0,0,.08)">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:22px;align-items:start" class="media-grid">
+    <div style="border-radius:var(--r2);overflow:hidden;border:1px solid var(--b);box-shadow:0 4px 16px rgba(0,0,0,.08);min-height:700px">
       <div style="background:#000;padding:12px 16px;display:flex;align-items:center;gap:10px">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.259 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         <span style="color:#fff;font-weight:800;font-size:13px">@AbpNarnoor Live Feed</span>
@@ -1770,10 +1806,9 @@ function pgMedia(){
       </div>
       <a class="twitter-timeline"
         href="https://twitter.com/AbpNarnoor"
-        data-height="480"
+        data-height="600"
         data-theme="light"
-        data-chrome="noheader nofooter noborders"
-        data-tweet-limit="5"
+        data-chrome="nofooter noborders"
         data-dnt="true">
         Tweets by @AbpNarnoor
       </a>
@@ -1787,7 +1822,12 @@ function pgMedia(){
         <div style="font-size:12px;color:var(--td);font-weight:700;margin-bottom:15px">Paste Google Drive links, YouTube links, or PDF URLs.</div>
         <button class="btn-g" onclick="adm?go('admin'):openL()">Go to Admin Panel → Media</button>
       </div>
-      ${D.articles.length?`<div class="g2">${D.articles.map(a=>`<div class="card cs"><div style="font-size:9.5px;font-weight:800;color:var(--sd);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px">${a.type}</div><div style="font-family:'Playfair Display',serif;font-size:14px;font-weight:700;margin-bottom:11px;line-height:1.4">${a.title}</div><a href="${a.url}" target="_blank" style="font-size:12.5px;color:var(--td);font-weight:700;text-decoration:none">Open / View →</a></div>`).join("")}</div>`:`<div style="text-align:center;padding:30px;color:var(--tx3)">No media yet. Add via Admin → Media tab.</div>`}
+      ${D.articles.length?`<div class="g2">${D.articles.map(a=>`<div class="card cs" style="overflow:hidden">
+        ${a.photo_url?`<div style="height:140px;overflow:hidden;margin:-14px -14px 12px;border-radius:10px 10px 0 0"><img src="${fixUrl(a.photo_url)}" style="width:100%;height:140px;object-fit:cover" onerror="this.parentElement.style.display='none'"></div>`:""}
+        <div style="font-size:9.5px;font-weight:800;color:var(--sd);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px">${a.type||"Media"}</div>
+        <div style="font-family:'Playfair Display',serif;font-size:14px;font-weight:700;margin-bottom:11px;line-height:1.4">${a.title}</div>
+        ${a.url?`<a href="${fixUrl(a.url)}" target="_blank" style="font-size:12px;color:var(--td);font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:5px;background:var(--tp);padding:5px 12px;border-radius:7px;border:1px solid var(--b2)">📄 Open / View →</a>`:""}
+      </div>`).join("")}</div>`:`<div style="text-align:center;padding:30px;color:var(--tx3)">No media yet. Add via Admin → Media tab.</div>`}
     </div>
   </div>
 
