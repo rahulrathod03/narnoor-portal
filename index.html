@@ -730,6 +730,7 @@ function R(){
   window.scrollTo(0,0);
 setTimeout(setLogos,10);
 if(pg==="tourism")setTimeout(startMuseumAuto,600);
+if(lang!=="EN")setTimeout(applyTranslation,80);
 }
 
 function bNav(){
@@ -1922,11 +1923,223 @@ function openMob(){mob=true;R();}
 function cMob(){mob=false;R();}
 function openL(){login=true;R();}
 function closeL(){login=false;lerr=false;R();}
-function setL(l){lang=l;R();setTimeout(applyLangCSS,50);}
+function setL(l){lang=l;R();setTimeout(applyTranslation,80);}
 
-function applyLangCSS(){
-  // Apply lang attribute so CSS can target if needed
-  document.documentElement.lang=lang==="TE"?"te":lang==="HI"?"hi":"en";
+// applyLangCSS replaced by full DOM translation system
+
+// ══════════════════════════════════════════════
+// FULL PAGE TRANSLATION — DOM TEXT WALKER
+// Replaces every visible text on page
+// ══════════════════════════════════════════════
+const TE_MAP={
+  "Home":"హోమ్","Block Profile":"బ్లాక్ ప్రొఫైల్","Dashboard":"డ్యాష్‌బోర్డ్",
+  "Impact & Progress":"ప్రభావం & పురోగతి","Campaigns":"ప్రచారాలు","Initiatives":"చొరవలు",
+  "Transformation":"పరివర్తన","Grants":"గ్రాంట్లు","Awards":"అవార్డులు",
+  "Schemes":"పథకాలు","Tourism & Shop":"పర్యాటకం & దుకాణం","Tourism":"పర్యాటకం",
+  "Shop":"దుకాణం","Who's Who":"ఎవరు ఎవరు","Officers":"అధికారులు",
+  "Partners":"భాగస్వాములు","Visits":"సందర్శనలు","Media":"మీడియా",
+  "Grievance & Opp.":"ఫిర్యాదు & అవకాశాలు","File Grievance":"ఫిర్యాదు దాఖలు",
+  "Opportunities":"అవకాశాలు","Admin":"నిర్వహణ",
+  "📋 Campaigns":"📋 ప్రచారాలు","✨ Initiatives":"✨ చొరవలు",
+  "🔄 Transformation":"🔄 పరివర్తన","📁 Grants":"📁 గ్రాంట్లు",
+  "🏆 Awards":"🏆 అవార్డులు","📋 Schemes":"📋 పథకాలు",
+  "🏛️ Tourism":"🏛️ పర్యాటకం","🛒 Shop":"🛒 దుకాణం",
+  "👤 Officers":"👤 అధికారులు","🤝 Partners":"🤝 భాగస్వాములు",
+  "🚗 Visits":"🚗 సందర్శనలు","📰 Media":"📰 మీడియా",
+  "📝 File Grievance":"📝 ఫిర్యాదు దాఖలు","💼 Opportunities":"💼 అవకాశాలు",
+  "Narnoor Aspirational Block":"నర్నూర్ ఆకాంక్షల బ్లాక్",
+  "A Model for Inclusive Growth":"సమ్మిళిత వృద్ధికి ఒక నమూనా",
+  "Strengthening Governance":"సుపరిపాలన బలోపేతం",
+  "Ensuring Service Delivery":"సేవా డెలివరీ నిర్ధారణ",
+  "Community-Led Transformation":"సమాజ నేతృత్వ పరివర్తన",
+  "Adilabad District, Telangana":"ఆదిలాబాద్ జిల్లా, తెలంగాణ",
+  "📊 KPI Dashboard":"📊 KPI డ్యాష్‌బోర్డ్",
+  "📋 Campaigns":"📋 ప్రచారాలు","✨ Initiatives":"✨ చొరవలు",
+  "🛒 Narnoor Shop":"🛒 నర్నూర్ దుకాణం","🛒 Shop":"🛒 దుకాణం",
+  "🏛️ Museum Ticket":"🏛️ మ్యూజియం టికెట్","📝 Grievance":"📝 ఫిర్యాదు",
+  "Population":"జనాభా","Tribal ST":"గిరిజన ST","GPs":"గ్రా.పం.",
+  "KPIs":"KPIs","South Zone":"దక్షిణ జోన్","Schools":"పాఠశాలలు",
+  "Anganwadi Centres":"అంగన్వాడీ కేంద్రాలు","PHC+Sub-Centres":"PHC + ఉప-కేంద్రాలు",
+  "KPIs Improved":"KPIs మెరుగుపడ్డాయి","Habitations":"నివాసాలు",
+  "Key Highlights":"ముఖ్య విశేషాలు",
+  "What Makes Narnoor Stand Out":"నర్నూర్‌ను ప్రత్యేకంగా చేసేది",
+  "National Recognition":"జాతీయ గుర్తింపు","Awards & Achievements":"అవార్డులు & విజయాలు",
+  "For Everyone":"అందరికోసం","One Stop Platform":"ఒకే వేదిక",
+  "For NITI Aayog / GoI":"NITI Aayog / కేంద్ర ప్రభుత్వం కోసం",
+  "KPI tracking, grant utilisation, rankings":"KPI ట్రాకింగ్, గ్రాంట్ వినియోగం, ర్యాంకింగ్లు",
+  "For CSR Companies":"CSR కంపెనీల కోసం",
+  "Tribal products, education, health projects":"గిరిజన ఉత్పత్తులు, విద్య, ఆరోగ్య ప్రాజెక్టులు",
+  "For Narnoor Citizens":"నర్నూర్ పౌరుల కోసం",
+  "Schemes, grievances, products, information":"పథకాలు, ఫిర్యాదులు, ఉత్పత్తులు, సమాచారం",
+  "Researchers & Media":"పరిశోధకులు & మీడియా",
+  "Data, reports, stories and impact":"డేటా, నివేదికలు, కథలు మరియు ప్రభావం",
+  "Narnoor — Key Facts":"నర్నూర్ — ముఖ్య వాస్తవాలు",
+  "Demographics & Administration":"జనాభా & పరిపాలన",
+  "ST (Tribal) Share":"ST (గిరిజన) వాటా",
+  "Gram Panchayats":"గ్రామ పంచాయతీలు","Sub-Centres":"ఉప-కేంద్రాలు",
+  "Contact Information":"సంప్రదింపు సమాచారం",
+  "Performance Dashboard":"పనితీరు డ్యాష్‌బోర్డ్","KPI Tracker":"KPI ట్రాకర్",
+  "Overall Progress":"మొత్తం పురోగతి","KPIs Saturated":"KPIs సంతృప్తి",
+  "Saturated ✓":"సంతృప్తి ✓","Ongoing":"కొనసాగుతున్నది","Total KPIs":"మొత్తం KPIs",
+  "✓ Saturated":"✓ సంతృప్తి","★ Excellent":"★ అద్భుతం","● Ongoing":"● కొనసాగుతున్నది",
+  "Health & Nutrition":"ఆరోగ్యం & పోషణ","Education":"విద్య","Agriculture":"వ్యవసాయం",
+  "Basic Infrastructure":"మూల సదుపాయాలు","Social Development":"సామాజిక అభివృద్ధి",
+  "All":"అన్నీ","Base:":"ప్రాతిపదిక:","Updated:":"అప్‌డేట్:",
+  "NITI Aayog ABP — 39 Monitored KPIs":"NITI Aayog ABP — 39 పర్యవేక్షిత KPIs",
+  "Block Level Monitoring (Additional — Not in NITI 39)":"బ్లాక్ స్థాయి పర్యవేక్షణ (అదనంగా — NITI 39లో లేదు)",
+  "AI Prediction Engine":"AI అంచనా యంత్రం",
+  "Saturation Forecast — When Will We Achieve 100%?":"సంతృప్తి అంచనా — మనం 100% ఎప్పుడు సాధిస్తాం?",
+  "of 100% target":"100% లక్ష్యంలో","Still needed":"ఇంకా అవసరం",
+  "Est. 100% by":"అంచనా 100% సమయం","months left":"నెలలు మిగిలాయి",
+  "Very Soon!":"చాలా త్వరలో!","Within a Year":"ఒక సంవత్సరంలో",
+  "Needs Push":"ప్రయత్నం అవసరం","Needs intervention":"జోక్యం అవసరం",
+  "Block Campaigns":"బ్లాక్ ప్రచారాలు","Block Level":"బ్లాక్ స్థాయి",
+  "Central Govt":"కేంద్ర ప్రభుత్వం","State — Telangana":"రాష్ట్రం — తెలంగాణ",
+  "Flagship Initiatives":"ఫ్లాగ్‌షిప్ చొరవలు",
+  "Ground-level programmes making real impact across all sectors":"అన్ని రంగాలలో నిజమైన ప్రభావం చేసే కార్యక్రమాలు",
+  "Read More →":"మరింత చదవండి →","Completed":"పూర్తయింది","Operational":"కార్యాచరణలో",
+  "Active":"క్రియాశీలంగా","Functional":"పనిచేస్తున్నది",
+  "Before & After 2023–2026":"ముందు & తర్వాత 2023–2026",
+  "Before 2023":"2023 కి ముందు","After 2026":"2026 తర్వాత",
+  "Grants, Projects & Upcoming":"గ్రాంట్లు, ప్రాజెక్టులు & రాబోయేవి",
+  "Grants Overview":"గ్రాంట్ల అవలోకనం","Projects":"ప్రాజెక్టులు","Upcoming":"రాబోయేవి",
+  "Received & Utilised":"స్వీకరించి వినియోగించారు",
+  "Proposals Submitted":"ప్రతిపాదనలు సమర్పించారు","Progress":"పురోగతి",
+  "Scheme Awareness":"పథకాల అవగాహన",
+  "Central & State Government Schemes":"కేంద్ర & రాష్ట్ర ప్రభుత్వ పథకాలు",
+  "All Schemes":"అన్ని పథకాలు",
+  "Explore Narnoor":"నర్నూర్‌ను అన్వేషించండి",
+  "Tribal heritage, culture and natural beauty":"గిరిజన వారసత్వం, సంస్కృతి మరియు సహజ సౌందర్యం",
+  "Narnoor Tribal Heritage Museum":"నర్నూర్ గిరిజన వారసత్వ మ్యూజియం",
+  "Cultural Centre":"సాంస్కృతిక కేంద్రం",
+  "About the Museum":"మ్యూజియం గురించి",
+  "Book Museum Entry Ticket":"మ్యూజియం ప్రవేశ టికెట్ బుక్ చేయండి",
+  "Tribal Museum, Narnoor":"గిరిజన మ్యూజియం, నర్నూర్",
+  "Your Name":"మీ పేరు","Full name":"పూర్తి పేరు",
+  "WhatsApp Mobile":"WhatsApp మొబైల్","Number of Visitors":"సందర్శకుల సంఖ్య",
+  "Visit Date":"సందర్శన తేదీ","Location":"స్థానం","Timings":"సమయాలు",
+  "Entry":"ప్రవేశం","Contact":"సంప్రదింపు","Distance":"దూరం",
+  "Gond Tribal Art":"గోండ్ గిరిజన కళ","State Map Murals":"రాష్ట్ర మ్యాప్ చిత్రలేఖనాలు",
+  "Musical Instruments":"సంగీత వాయిద్యాలు","Tribal Costumes":"గిరిజన దుస్తులు",
+  "Nearby Attractions":"సమీప ఆకర్షణలు",
+  "Narnoor Tribal Products Shop":"నర్నూర్ గిరిజన ఉత్పత్తుల దుకాణం",
+  "Authentic products from SHG women":"SHG మహిళల నుండి అసలైన ఉత్పత్తులు",
+  "100% natural. Direct from source.":"100% సహజమైనవి. నేరుగా మూలం నుండి.",
+  "Why Buy Narnoor Products?":"నర్నూర్ ఉత్పత్తులు ఎందుకు కొనాలి?",
+  "In Stock":"స్టాక్‌లో ఉంది","per 250g pack":"250g ప్యాక్‌కు","per piece":"ముక్కకు",
+  "Order via WhatsApp":"WhatsApp ద్వారా ఆర్డర్",
+  "Leadership":"నాయకత్వం","Key officers steering Narnoor":"నర్నూర్‌ను నడిపించే ముఖ్య అధికారులు",
+  "Add Officer Photos":"అధికారుల ఫోటోలు జోడించండి",
+  "District Collector":"జిల్లా కలెక్టర్","Project Director":"ప్రాజెక్ట్ డైరెక్టర్",
+  "Programme Officer":"కార్యక్రమ అధికారి",
+  "NGO & Civil Society":"NGO & పౌర సమాజం","Partner Organisations":"భాగస్వామ్య సంస్థలు",
+  "Official Visits":"అధికారిక సందర్శనలు","High-Level Visits":"ఉన్నత స్థాయి సందర్శనలు",
+  "Photos, Videos & Reports":"ఫోటోలు, వీడియోలు & నివేదికలు",
+  "Narnoor in the Media":"మీడియాలో నర్నూర్",
+  "File Your Grievance":"మీ ఫిర్యాదు దాఖలు చేయండి",
+  "Full Name":"పూర్తి పేరు","Mobile Number":"మొబైల్ నంబర్",
+  "Village / Habitation":"గ్రామం / నివాసం","Category":"వర్గం","Description":"వివరణ",
+  "Water & Sanitation":"నీరు & పారిశుద్ధ్యం","Government Scheme":"ప్రభుత్వ పథకం",
+  "Infrastructure":"మౌలిక సదుపాయాలు","Other":"ఇతర",
+  "Response within 7 working days":"7 పని దినాలలో స్పందన",
+  "Submit via WhatsApp":"WhatsApp ద్వారా సమర్పించండి",
+  "Jobs, Tenders & Notifications":"ఉద్యోగాలు, టెండర్లు & నోటిఫికేషన్లు",
+  "Get Notified for New Opportunities":"కొత్త అవకాశాలకు నోటిఫికేషన్ పొందండి",
+  "Subscribe for Alerts":"హెచ్చరికలకు సభ్యత్వం పొందండి",
+  "Contract":"ఒప్పందం","Regular":"సాధారణ","Tender":"టెండర్","Notice":"నోటీసు",
+  "Last Date:":"చివరి తేదీ:","Enquire via WhatsApp":"WhatsApp ద్వారా విచారించండి",
+  "Stay Connected":"అనుసంధానంగా ఉండండి",
+  "Subscribe for Updates":"అప్‌డేట్‌ల కోసం సభ్యత్వం",
+  "Subscribe via WhatsApp":"WhatsApp ద్వారా సభ్యత్వం",
+  "Your full name":"మీ పూర్తి పేరు","Email address (optional)":"ఇమెయిల్ చిరునామా (ఐచ్ఛికం)",
+  "Live Weather":"లైవ్ వాతావరణం","Feels like":"అనిపిస్తుంది",
+  "Humidity":"తేమ","Wind":"గాలి","Rainfall":"వర్షపాతం","UV Index":"UV సూచిక",
+  "Today":"ఈరోజు","Tmrw":"రేపు",
+  "Narnoor Block — Aspirational Block Programme":"నర్నూర్ బ్లాక్ — ఆకాంక్షల బ్లాక్ కార్యక్రమం",
+  "Government of India & Government of Telangana":"భారత ప్రభుత్వం & తెలంగాణ ప్రభుత్వం",
+  "Last Updated:":"చివరిగా అప్‌డేట్:",
+  "View Full Block Profile →":"పూర్తి బ్లాక్ ప్రొఫైల్ చూడండి →",
+  "ABP Journey 2023–2026":"ABP ప్రయాణం 2023–2026",
+  "Source: Open-Meteo · Updated every 15 min":"మూలం: Open-Meteo · ప్రతి 15 నిమిషాలకు",
+  "Purpose:":"ఉద్దేశ్యం:","Organisation":"సంస్థ",
+};
+
+const HI_MAP={
+  "Home":"होम","Block Profile":"ब्लॉक प्रोफ़ाइल","Dashboard":"डैशबोर्ड",
+  "Impact & Progress":"प्रभाव और प्रगति","Campaigns":"अभियान","Initiatives":"पहल",
+  "Transformation":"परिवर्तन","Awards":"पुरस्कार","Tourism & Shop":"पर्यटन और दुकान",
+  "Who's Who":"कौन कौन है","Grievance & Opp.":"शिकायत और अवसर",
+  "Narnoor Aspirational Block":"नारनूर आकांक्षी ब्लॉक",
+  "A Model for Inclusive Growth":"समावेशी विकास का एक मॉडल",
+  "Population":"जनसंख्या","Tribal ST":"जनजाति ST","GPs":"ग्रा.पं.",
+  "South Zone":"दक्षिण क्षेत्र","Schools":"स्कूल","Habitations":"बस्तियाँ",
+  "Health & Nutrition":"स्वास्थ्य और पोषण","Education":"शिक्षा",
+  "Agriculture":"कृषि","Basic Infrastructure":"बुनियादी ढांचा",
+  "Social Development":"सामाजिक विकास","All":"सभी",
+  "Saturated ✓":"संतृप्त ✓","Ongoing":"जारी","Total KPIs":"कुल KPIs",
+  "Before 2023":"2023 से पहले","After 2026":"2026 के बाद",
+  "File Your Grievance":"अपनी शिकायत दर्ज करें",
+  "Full Name":"पूरा नाम","Mobile Number":"मोबाइल नंबर",
+  "Village / Habitation":"गाँव / बस्ती","Description":"विवरण",
+  "Submit via WhatsApp":"WhatsApp से सबमिट करें",
+  "Subscribe for Updates":"अपडेट के लिए सदस्यता लें",
+  "Book Museum Entry Ticket":"संग्रहालय टिकट बुक करें",
+  "Your Name":"आपका नाम","Visit Date":"यात्रा तिथि",
+  "Confirm via WhatsApp":"WhatsApp से पुष्टि करें",
+  "Today":"आज","Tmrw":"कल","Humidity":"आर्द्रता","Wind":"हवा",
+  "Rainfall":"वर्षा","UV Index":"UV सूचकांक",
+  "Live Weather":"लाइव मौसम","Feels like":"महसूस होता है",
+  "Order via WhatsApp":"WhatsApp से ऑर्डर करें",
+  "Read More →":"और पढ़ें →","In Stock":"स्टॉक में",
+  "Leadership":"नेतृत्व","District Collector":"जिला कलेक्टर",
+  "Programme Officer":"कार्यक्रम अधिकारी",
+  "Official Visits":"आधिकारिक दौरे",
+  "Stay Connected":"जुड़े रहें",
+  "Subscribe via WhatsApp":"WhatsApp से सदस्यता लें",
+  "Last Updated:":"अंतिम अद्यतन:",
+};
+
+let originals=new WeakMap();
+function applyTranslation(){
+  if(lang==="EN"){restoreOriginal();return;}
+  const map=lang==="TE"?TE_MAP:HI_MAP;
+  const root=document.getElementById("app");
+  if(!root)return;
+  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{
+    acceptNode:n=>{
+      const p=n.parentElement;
+      if(!p)return NodeFilter.FILTER_REJECT;
+      if(["SCRIPT","STYLE"].includes(p.tagName))return NodeFilter.FILTER_REJECT;
+      if(n.textContent.trim().length<2)return NodeFilter.FILTER_SKIP;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  const nodes=[];let nd;
+  while(nd=walker.nextNode())nodes.push(nd);
+  const keys=Object.keys(map).sort((a,b)=>b.length-a.length);
+  nodes.forEach(node=>{
+    if(!originals.has(node))originals.set(node,node.textContent);
+    let text=originals.get(node);
+    for(const key of keys){
+      if(text.includes(key))text=text.split(key).join(map[key]);
+    }
+    if(node.textContent!==text)node.textContent=text;
+  });
+  root.querySelectorAll("input[placeholder],textarea[placeholder]").forEach(el=>{
+    if(!el.dataset.origPh)el.dataset.origPh=el.placeholder;
+    let ph=el.dataset.origPh;
+    for(const key of keys){if(ph.includes(key))ph=ph.split(key).join(map[key]);}
+    el.placeholder=ph;
+  });
+}
+function restoreOriginal(){
+  const root=document.getElementById("app");if(!root)return;
+  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+  let nd;while(nd=walker.nextNode()){if(originals.has(nd))nd.textContent=originals.get(nd);}
+  root.querySelectorAll("input[placeholder],textarea[placeholder]").forEach(el=>{
+    if(el.dataset.origPh)el.placeholder=el.dataset.origPh;
+  });
+  originals=new WeakMap();
 }
 
 // Telugu content overrides per page
