@@ -1154,25 +1154,22 @@ function pgHome(){
 function pgProfile(){
   return`<div class="sec">
   <div class="stag">${tr("nav_profile","Block Profile")}</div><div class="sh" style="margin-bottom:22px">Narnoor — <span>${lang==="TE"?"ముఖ్య వాస్తవాలు":lang==="HI"?"मुख्य तथ्य":"Key Facts"}</span></div>
-
-  <!-- Demographics + Contact: 2-col on desktop, 1-col on mobile -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:22px" class="profile-info-grid">
-    <div class="card ct">
-      <div style="font-size:10px;font-weight:800;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:15px">${tr("profile_demo","Demographics & Administration")}</div>
-      ${[["Population","29,152"],["ST (Tribal) Share","61.8%"],["Gram Panchayats","23"],["Habitations","46"],["Schools","83"],["Anganwadi Centres","77"],["PHC","1"],["Sub-Centres","5"],["KPIs Improved","39/39"]].map(([l,v])=>`<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--b);font-size:13.5px"><span style="color:var(--tx2)">${l}</span><span style="font-weight:800">${v}</span></div>`).join("")}
+  <div class="g2c">
+    <div>
+      <div class="card ct" style="margin-bottom:14px">
+        <div style="font-size:10px;font-weight:800;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:15px">${tr("profile_demo","Demographics & Administration")}</div>
+        ${[["Population","29,152"],["ST (Tribal) Share","61.8%"],["Gram Panchayats","23"],["Habitations","46"],["Schools","83"],["Anganwadi Centres","77"],["PHC","1"],["Sub-Centres","5"],["KPIs Improved","39/39"]].map(([l,v])=>`<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--b);font-size:13.5px"><span style="color:var(--tx2)">${l}</span><span style="font-weight:800">${v}</span></div>`).join("")}
+      </div>
+      <div class="card cs">
+        <div style="font-size:10px;font-weight:800;color:var(--sd);text-transform:uppercase;letter-spacing:1px;margin-bottom:13px">${tr("contact","Contact Information")}</div>
+        <div style="font-size:13px;margin-bottom:9px">📧 <a href="mailto:${g("siteEmail")||"abpnarnoor@gmail.com"}" style="color:var(--td);font-weight:600">${g("siteEmail")||"abpnarnoor@gmail.com"}</a></div>
+        <div style="font-size:13px;margin-bottom:9px">📞 <strong>${g("sitePhone")||"+91 93919 14941"}</strong></div>
+        <div style="font-size:13px;margin-bottom:9px">🌐 <strong>${g("siteWeb")||"www.abpnarnoor.in"}</strong></div>
+        <div style="font-size:12.5px;color:var(--tx2);line-height:1.7">${g("siteAddress")||"Block Development Office, Narnoor Village, Adilabad District, Telangana"}</div>
+      </div>
     </div>
-    <div class="card cs">
-      <div style="font-size:10px;font-weight:800;color:var(--sd);text-transform:uppercase;letter-spacing:1px;margin-bottom:13px">${tr("contact","Contact Information")}</div>
-      <div style="font-size:13px;margin-bottom:9px">📧 <a href="mailto:${g("siteEmail")||"abpnarnoor@gmail.com"}" style="color:var(--td);font-weight:600">${g("siteEmail")||"abpnarnoor@gmail.com"}</a></div>
-      <div style="font-size:13px;margin-bottom:9px">📞 <strong>${g("sitePhone")||"+91 93919 14941"}</strong></div>
-      <div style="font-size:13px;margin-bottom:9px">🌐 <strong>${g("siteWeb")||"www.abpnarnoor.in"}</strong></div>
-      <div style="font-size:12.5px;color:var(--tx2);line-height:1.7">${g("siteAddress")||"Block Development Office, Narnoor Village, Adilabad District, Telangana"}</div>
-    </div>
-  </div>
-
-  <!-- MAP — Full width, much larger -->
-  <div style="margin-bottom:22px">
-    <div style="border-radius:var(--r3);overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.18);position:relative;border:3px solid rgba(10,147,150,.25);background:#e8f4f0">
+    <div>
+      <div style="border-radius:var(--r3);overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.18);position:relative;border:3px solid rgba(10,147,150,.25);background:#e8f4f0">
         <!-- Header bar -->
         <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:linear-gradient(135deg,var(--fd),#0a4a3a);border-bottom:1px solid rgba(10,147,150,.3)">
           <div style="display:flex;align-items:center;gap:8px">
@@ -1186,8 +1183,8 @@ function pgProfile(){
         <!-- Map image container -->
         <div style="position:relative;overflow:hidden">
           <img src="${fixUrl(g('mapUrl'))||MAP_EMBEDDED}" alt="Narnoor Block Map"
-            style="width:100%;height:auto;display:block;object-fit:contain;max-height:620px;background:#eef7f4;filter:contrast(1.1) saturate(1.2) brightness(1.06);transition:transform .6s ease;cursor:zoom-in"
-            onmouseover="this.style.transform='scale(1.03)'"
+            style="width:100%;height:auto;display:block;object-fit:contain;max-height:480px;background:#eef7f4;filter:contrast(1.1) saturate(1.2) brightness(1.06);transition:transform .6s ease;cursor:zoom-in"
+            onmouseover="this.style.transform='scale(1.05)'"
             onmouseout="this.style.transform='scale(1)'">
           <!-- GP pulse dots -->
           <div style="position:absolute;inset:0;pointer-events:none">
@@ -2167,6 +2164,147 @@ function pgAdmin(){
         </div>
         <div class="eac"><button class="btn-sv" onclick="sJob(${j.id})">💾 Save</button><button class="btn-ca" onclick="tE('jo',${j.id})">Cancel</button></div>
       </div>`).join("")}`;
+  /* ══ BLOCK PROFILE ADMIN ══ */
+  if(adt==="blockprofile")c=`<div class="as">
+    <div class="at">📋 Block Profile — Static Data Editor</div>
+    <div style="background:var(--tp);border:1px solid rgba(13,115,119,.2);border-radius:10px;padding:11px 13px;margin-bottom:14px;font-size:11.5px;color:var(--td);line-height:1.8">
+      ℹ️ These values update the <strong>Block Profile page</strong> (Demographics, Contact, Map). Changes save to database instantly.
+    </div>
+    <div style="font-size:12px;font-weight:800;margin-bottom:10px;color:var(--sd)">🏘️ Demographics — Key Stats</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+      <div><label class="fl">Population</label><input class="fi" id="bp-pop" value="${g("bp_population")||"29,152"}" style="margin-bottom:0"></div>
+      <div><label class="fl">ST (Tribal) Share %</label><input class="fi" id="bp-st" value="${g("bp_st")||"61.8%"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Gram Panchayats</label><input class="fi" id="bp-gp" value="${g("bp_gp")||"23"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Habitations</label><input class="fi" id="bp-hab" value="${g("bp_hab")||"46"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Schools</label><input class="fi" id="bp-sch" value="${g("bp_schools")||"83"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Anganwadi Centres (AWCs)</label><input class="fi" id="bp-awc" value="${g("bp_awc")||"77"}" style="margin-bottom:0"></div>
+      <div><label class="fl">PHC</label><input class="fi" id="bp-phc" value="${g("bp_phc")||"1"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Sub-Centres</label><input class="fi" id="bp-sub" value="${g("bp_sub")||"5"}" style="margin-bottom:0"></div>
+      <div><label class="fl">KPIs Improved</label><input class="fi" id="bp-kpi" value="${g("bp_kpi")||"39/39"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Pensions (AASARA)</label><input class="fi" id="bp-pen" value="${g("bp_pensions")||"3,200+"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Rythu Bandhu Farmers</label><input class="fi" id="bp-ryth" value="${g("bp_rythu")||"1,247"}" style="margin-bottom:0"></div>
+      <div><label class="fl">ASHA Workers</label><input class="fi" id="bp-asha" value="${g("bp_asha")||"46+"}" style="margin-bottom:0"></div>
+    </div>
+    <div style="height:1px;background:var(--b);margin:12px 0"></div>
+    <div style="font-size:12px;font-weight:800;margin-bottom:10px;color:var(--td)">🗺️ Map Image URL</div>
+    <input class="fi" id="bp-map" value="${g("mapUrl")||""}" placeholder="https://i.ibb.co/... or Google Drive link" style="margin-bottom:12px">
+    <div style="height:1px;background:var(--b);margin:12px 0"></div>
+    <div style="font-size:12px;font-weight:800;margin-bottom:10px;color:var(--sd)">📞 Contact Info (also editable in Hero tab)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+      <div><label class="fl">Email</label><input class="fi" id="bp-email" value="${g("siteEmail")||"abpnarnoor@gmail.com"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Phone / WhatsApp</label><input class="fi" id="bp-phone" value="${g("sitePhone")||"+91 93919 14941"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Website</label><input class="fi" id="bp-web" value="${g("siteWeb")||"www.abpnarnoor.in"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Office Address</label><input class="fi" id="bp-addr" value="${g("siteAddress")||"Block Development Office, Narnoor Village, Adilabad"}" style="margin-bottom:0"></div>
+    </div>
+    <button class="btn-g" style="width:100%;padding:12px" onclick="saveBP()">💾 Save Block Profile Settings</button>
+  </div>`;
+
+  /* ══ GRANTS ADMIN ══ */
+  if(adt==="grants")c=`<div class="as">
+    <div class="at">💰 Grants — Edit Summary Cards & Project Data</div>
+    <div style="background:var(--tp);border:1px solid rgba(13,115,119,.2);border-radius:10px;padding:11px 13px;margin-bottom:14px;font-size:11.5px;color:var(--td);line-height:1.8">
+      ℹ️ The <strong>Grants page</strong> has 3 tabs: Overview (3 grant cards), Projects (hardcoded list), Upcoming (proposals). Edit the Overview cards here. For the full project list, update the code directly.
+    </div>
+    <div style="font-size:12px;font-weight:800;margin-bottom:10px;color:var(--sd)">📊 Grant Overview — 3 Summary Cards</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:6px">
+      ${[["1","June 2023","2nd Rank, South Zone","₹1,00,00,000","Received & Utilised"],["2","Sept 2025","1st Rank, South Zone","₹1,50,00,000","Proposals Submitted"],["3","Water Rejuvenation","NITI Aayog Separate","₹40,20,000","Phase 1 — 10 Tanks Done"]].map(([n,cy,rk,am,st])=>`<div style="background:var(--w2);border:1px solid var(--b);border-radius:10px;padding:11px">
+        <div style="font-size:10px;font-weight:800;color:var(--sd);margin-bottom:6px">Card ${n}</div>
+        <label class="fl">Cycle / Label</label><input class="fi" id="gr-cy${n}" value="${g("gr_cy"+n)||cy}" style="margin-bottom:6px">
+        <label class="fl">Rank / Title</label><input class="fi" id="gr-rk${n}" value="${g("gr_rk"+n)||rk}" style="margin-bottom:6px">
+        <label class="fl">Amount</label><input class="fi" id="gr-am${n}" value="${g("gr_am"+n)||am}" style="margin-bottom:6px">
+        <label class="fl">Status</label><input class="fi" id="gr-st${n}" value="${g("gr_st"+n)||st}" style="margin-bottom:0">
+      </div>`).join("")}
+    </div>
+    <div style="height:1px;background:var(--b);margin:14px 0"></div>
+    <div style="font-size:12px;font-weight:800;margin-bottom:8px;color:var(--td)">📝 Total Grants Received (shown on Home page stat)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+      <div><label class="fl">Total Grants (stat6 on Hero)</label><input class="fi" id="gr-total" value="${g("stat6n")||"₹2.5Cr+"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Latest Grant Label</label><input class="fi" id="gr-latest" value="${g("gr_latest")||"₹1.5 Cr"}" style="margin-bottom:0"></div>
+    </div>
+    <button class="btn-g" style="width:100%;padding:12px" onclick="saveGrants()">💾 Save Grant Overview</button>
+  </div>`;
+
+  /* ══ SCHEMES ADMIN ══ */
+  if(adt==="schemes")c=`<div class="as">
+    <div class="at">📋 Schemes — Awareness Page Info</div>
+    <div style="background:var(--tp);border:1px solid rgba(13,115,119,.2);border-radius:10px;padding:11px 13px;margin-bottom:14px;font-size:11.5px;color:var(--td);line-height:1.8">
+      ℹ️ The <strong>Schemes tab</strong> is part of the Awards page and shows 14 hardcoded Central + State schemes. To add or edit scheme details, update the <strong>SCH array</strong> in the HTML code directly. Below you can update the section header text shown on the page.
+    </div>
+    <div style="font-size:12px;font-weight:800;margin-bottom:10px;color:var(--sd)">📌 Section Display Text</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+      <div><label class="fl">Section Tag (small label)</label><input class="fi" id="sc-tag" value="${g("sc_tag")||"Scheme Awareness"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Page Title</label><input class="fi" id="sc-title" value="${g("sc_title")||"Central & State Government Schemes"}" style="margin-bottom:0"></div>
+    </div>
+    <div style="height:1px;background:var(--b);margin:12px 0"></div>
+    <div style="font-size:12px;font-weight:800;margin-bottom:10px;color:var(--td)">📋 Current Schemes (14 hardcoded — edit code to change)</div>
+    <div style="background:var(--w2);border:1px solid var(--b);border-radius:10px;overflow:hidden">
+      ${[{ic:"🌾",n:"PM Kisan Samman Nidhi",ty:"Central"},{ic:"🏠",n:"PM Awas Yojana (Gramin)",ty:"Central"},{ic:"💧",n:"Jal Jeevan Mission",ty:"Central"},{ic:"⛏️",n:"MNREGA",ty:"Central"},{ic:"🏦",n:"PM Jan Dhan Yojana",ty:"Central"},{ic:"🔥",n:"Ujjwala Yojana",ty:"Central"},{ic:"🏭",n:"PMFME Scheme",ty:"Central"},{ic:"🏕️",n:"PM-JANMAN",ty:"Central"},{ic:"🌿",n:"Rythu Bandhu / Barosa",ty:"Telangana"},{ic:"👴",n:"Aasara Pension",ty:"Telangana"},{ic:"🤱",n:"KCR Kits",ty:"Telangana"},{ic:"💍",n:"Kalyana Lakshmi",ty:"Telangana"},{ic:"🏥",n:"Rajiv Aarogya Sri",ty:"Telangana"},{ic:"📋",n:"TS-iPASS",ty:"Telangana"}].map((s,i)=>`<div style="display:flex;align-items:center;gap:10px;padding:9px 13px;border-bottom:1px solid var(--b);background:${i%2?"#f9fcfa":"#fff"}"><span style="font-size:16px;width:24px">${s.ic}</span><span style="flex:1;font-size:12.5px;font-weight:700">${s.n}</span><span style="font-size:10px;font-weight:800;padding:2px 8px;border-radius:50px;background:${s.ty==="Central"?"#dbeafe":"#dcfce7"};color:${s.ty==="Central"?"#1d4ed8":"#166534"}">${s.ty}</span></div>`).join("")}
+    </div>
+    <div style="margin-top:12px;font-size:11.5px;color:var(--tx3);background:var(--gp);border:1px solid var(--b);border-radius:8px;padding:11px">
+      💡 To add or remove a scheme: open the HTML file → search for <strong>const SCH=[</strong> → edit the array entries → re-upload to GitHub.
+    </div>
+    <button class="btn-g" style="margin-top:12px;width:100%;padding:12px" onclick="saveSchemes()">💾 Save Section Text</button>
+  </div>`;
+
+  /* ══ TOURISM ADMIN ══ */
+  if(adt==="tourism")c=`<div class="as">
+    <div class="at">🏛️ Tourism & Museum — Edit Info</div>
+    <div style="background:var(--tp);border:1px solid rgba(13,115,119,.2);border-radius:10px;padding:11px 13px;margin-bottom:14px;font-size:11.5px;color:var(--td);line-height:1.8">
+      ℹ️ Edit the <strong>Tribal Museum</strong> details, ticket price, timings, UPI ID and nearby attractions. All changes save to database.
+    </div>
+    <div style="font-size:12px;font-weight:800;margin-bottom:10px;color:var(--sd)">🏛️ Museum Details</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      <div><label class="fl">Museum Name</label><input class="fi" id="to-name" value="${g("to_name")||"Tribal Heritage Museum"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Entry Fee (₹ per person)</label><input class="fi" id="to-fee" value="${g("to_fee")||"₹10 per person"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Timings</label><input class="fi" id="to-time" value="${g("to_time")||"9 AM – 5 PM"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Open Days</label><input class="fi" id="to-days" value="${g("to_days")||"Tue–Sun (Closed Monday)"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Location</label><input class="fi" id="to-loc" value="${g("to_loc")||"Narnoor Village, Adilabad"}" style="margin-bottom:0"></div>
+      <div><label class="fl">UPI ID for Payments</label><input class="fi" id="to-upi" value="${g("to_upi")||"abpnarnoor@upi"}" style="margin-bottom:0"></div>
+    </div>
+    <div style="height:1px;background:var(--b);margin:12px 0"></div>
+    <div style="font-size:12px;font-weight:800;margin-bottom:10px;color:var(--td)">📸 Museum Gallery — Photo URLs</div>
+    <div style="background:var(--w2);border:1px solid var(--b);border-radius:10px;padding:12px;margin-bottom:12px;font-size:11.5px;color:var(--tx2)">
+      Gallery photos are stored in the HTML code (MUSEUM_PHOTOS_DATA array). To add/change photos: open HTML → search <strong>MUSEUM_PHOTOS_DATA</strong> → edit the src and title values → re-upload to GitHub.
+    </div>
+    <div style="font-size:12px;font-weight:800;margin-bottom:10px;color:var(--sd)">🌿 Nearby Attractions (shown in tourism page)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+      <div><label class="fl">Attraction 1</label><input class="fi" id="to-at1" value="${g("to_attr1")||"Godavari River — 18 km"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Attraction 2</label><input class="fi" id="to-at2" value="${g("to_attr2")||"Kawal Tiger Reserve — 35 km"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Attraction 3</label><input class="fi" id="to-at3" value="${g("to_attr3")||"Pochera Waterfall — 45 km"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Attraction 4</label><input class="fi" id="to-at4" value="${g("to_attr4")||"Kuntala Waterfall — 60 km"}" style="margin-bottom:0"></div>
+    </div>
+    <div style="height:1px;background:var(--b);margin:12px 0"></div>
+    <div style="font-size:12px;font-weight:800;margin-bottom:10px;color:var(--td)">📋 Museum Grant Info</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+      <div><label class="fl">Grant Amount</label><input class="fi" id="to-grant" value="${g("to_grant")||"₹18 Lakhs"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Grant Source</label><input class="fi" id="to-gsrc" value="${g("to_gsrc")||"NITI Aayog ABP"}" style="margin-bottom:0"></div>
+    </div>
+    <button class="btn-g" style="width:100%;padding:12px" onclick="saveTourism()">💾 Save Tourism Settings</button>
+  </div>`;
+
+  /* ══ PARTNERS ADMIN ══ */
+  if(adt==="partners")c=`<div class="as">
+    <div class="at">🤝 Partner Organisations — View & Manage</div>
+    <div style="background:var(--tp);border:1px solid rgba(13,115,119,.2);border-radius:10px;padding:11px 13px;margin-bottom:14px;font-size:11.5px;color:var(--td);line-height:1.8">
+      ℹ️ The <strong>Partners page</strong> lists 15 NGO & Civil Society partners. These are hardcoded in the HTML. To add/edit a partner: open HTML → search <strong>function pgPartners</strong> → find the partner array <strong>const P=[</strong> → edit entries → re-upload. Below you can see the current list and edit the section heading text.
+    </div>
+    <div style="font-size:12px;font-weight:800;margin-bottom:10px;color:var(--sd)">📌 Section Heading Text</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+      <div><label class="fl">Section Label</label><input class="fi" id="pa-tag" value="${g("pa_tag")||"NGO & Civil Society"}" style="margin-bottom:0"></div>
+      <div><label class="fl">Page Title</label><input class="fi" id="pa-title" value="${g("pa_title")||"Partner Organisations"}" style="margin-bottom:0"></div>
+      <div style="grid-column:1/-1"><label class="fl">Subtitle</label><input class="fi" id="pa-sub" value="${g("pa_sub")||"15+ organisations driving holistic development in Narnoor"}" style="margin-bottom:0"></div>
+    </div>
+    <div style="height:1px;background:var(--b);margin:12px 0"></div>
+    <div style="font-size:12px;font-weight:800;margin-bottom:8px;color:var(--td)">📋 Current Partners (15 — edit HTML code to change)</div>
+    <div style="background:var(--w2);border:1px solid var(--b);border-radius:10px;overflow:hidden">
+      ${[["🌾","BAIF Dev. Research Foundation","Agriculture & Water"],["💻","Swashodhan Trust","Digital Education"],["📚","TELC","English Literacy"],["🗣️","LeapForWord","English Literacy"],["😊","Smile Foundation","Education"],["💧","Bala Vikasa","Water & Sanitation"],["📖","Room to Read","Education"],["🖥️","NASSCOM Foundation","Digital Literacy"],["🏥","Osmania Hospital","Telemedicine"],["🌱","CPF Organization","Agriculture"],["♀️","PinkShie Foundation","Women Health"],["💳","Flipkart","Financial Literacy"],["👩‍💼","EDII","Entrepreneurship"],["🏗️","Nirmaan","Health Infrastructure"],["🔬","IIT BHU","Innovation Research"]].map(([ic,n,s],i)=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 13px;border-bottom:1px solid var(--b);background:${i%2?"#f9fcfa":"#fff"}"><span style="font-size:16px;width:24px">${ic}</span><span style="flex:1;font-size:12.5px;font-weight:700">${n}</span><span style="font-size:10px;color:var(--tx3)">${s}</span></div>`).join("")}
+    </div>
+    <div style="margin-top:12px;font-size:11.5px;color:var(--tx3);background:var(--gp);border:1px solid var(--b);border-radius:8px;padding:11px">
+      💡 To add a partner: open HTML → search <strong>function pgPartners</strong> → add entry in the P array like: <code style="background:#fff;padding:1px 5px;border-radius:4px;font-size:10px">{i:"🏢",n:"Org Name",s:"Sector",w:"Work done here"}</code>
+    </div>
+    <button class="btn-g" style="margin-top:12px;width:100%;padding:12px" onclick="savePartners()">💾 Save Section Heading</button>
+  </div>`;
+
   if(adt==="creds")c=`
     <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #86efac;border-radius:var(--r2);padding:22px;max-width:500px;margin-bottom:22px">
       <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:800;color:var(--fd);margin-bottom:6px">🔐 Admin Credentials</div>
@@ -2242,6 +2380,57 @@ async function dArt(id){if(!confirm("Delete?"))return;await sD("articles",id);D.
 async function aJob(){const t=v("aj-t"),d=v("aj-d"),ty=v("aj-ty"),ld=v("aj-ld"),dc=v("aj-dc");if(!t){alert("Enter title.");return;}const r=await sP("jobs",{title:t,department:d,type:ty,last_date:ld||"Open",description:dc});if(r[0]){D.jobs.unshift(r[0]);toast("✓ Job added");R();}}
 async function sJob(id){const t=v(`jt${id}`),d=v(`jd${id}`),ty=v(`jty${id}`),ld=v(`jld${id}`),dc=v(`jdc${id}`);await sPa("jobs",id,{title:t,department:d,type:ty,last_date:ld,description:dc});D.jobs=D.jobs.sort((a,b)=>new Date(b.last_date||"2099")-new Date(a.last_date||"2099")).map(j=>j.id===id?{...j,title:t,department:d,type:ty,last_date:ld,description:dc}:j);toast("✓ Updated");R();}
 async function dJob(id){if(!confirm("Delete?"))return;await sD("jobs",id);D.jobs=D.jobs.filter(j=>j.id!==id);toast("🗑 Deleted");R();}
+
+/* ══ BLOCK PROFILE SAVE ══ */
+async function saveBP(){
+  const fields={
+    bp_population:v("bp-pop"),bp_st:v("bp-st"),bp_gp:v("bp-gp"),bp_hab:v("bp-hab"),
+    bp_schools:v("bp-sch"),bp_awc:v("bp-awc"),bp_phc:v("bp-phc"),bp_sub:v("bp-sub"),
+    bp_kpi:v("bp-kpi"),bp_pensions:v("bp-pen"),bp_rythu:v("bp-ryth"),bp_asha:v("bp-asha"),
+    mapUrl:v("bp-map"),
+    siteEmail:v("bp-email"),sitePhone:v("bp-phone"),siteWeb:v("bp-web"),siteAddress:v("bp-addr")
+  };
+  for(const[k,val]of Object.entries(fields)){if(val)await sSet(k,val);}
+  toast("✓ Block Profile settings saved!");
+}
+
+/* ══ GRANTS SAVE ══ */
+async function saveGrants(){
+  const fields={
+    gr_cy1:v("gr-cy1"),gr_rk1:v("gr-rk1"),gr_am1:v("gr-am1"),gr_st1:v("gr-st1"),
+    gr_cy2:v("gr-cy2"),gr_rk2:v("gr-rk2"),gr_am2:v("gr-am2"),gr_st2:v("gr-st2"),
+    gr_cy3:v("gr-cy3"),gr_rk3:v("gr-rk3"),gr_am3:v("gr-am3"),gr_st3:v("gr-st3"),
+    stat6n:v("gr-total"),gr_latest:v("gr-latest")
+  };
+  for(const[k,val]of Object.entries(fields)){if(val)await sSet(k,val);}
+  toast("✓ Grant overview saved!");
+}
+
+/* ══ SCHEMES SAVE ══ */
+async function saveSchemes(){
+  const fields={sc_tag:v("sc-tag"),sc_title:v("sc-title")};
+  for(const[k,val]of Object.entries(fields)){if(val)await sSet(k,val);}
+  toast("✓ Schemes section text saved!");
+}
+
+/* ══ TOURISM SAVE ══ */
+async function saveTourism(){
+  const fields={
+    to_name:v("to-name"),to_fee:v("to-fee"),to_time:v("to-time"),to_days:v("to-days"),
+    to_loc:v("to-loc"),to_upi:v("to-upi"),
+    to_attr1:v("to-at1"),to_attr2:v("to-at2"),to_attr3:v("to-at3"),to_attr4:v("to-at4"),
+    to_grant:v("to-grant"),to_gsrc:v("to-gsrc")
+  };
+  for(const[k,val]of Object.entries(fields)){if(val)await sSet(k,val);}
+  toast("✓ Tourism settings saved!");
+}
+
+/* ══ PARTNERS SAVE ══ */
+async function savePartners(){
+  const fields={pa_tag:v("pa-tag"),pa_title:v("pa-title"),pa_sub:v("pa-sub")};
+  for(const[k,val]of Object.entries(fields)){if(val)await sSet(k,val);}
+  toast("✓ Partners heading saved!");
+}
 
 /* ══ NAVIGATION ══ */
 function go(p){pg=p;mob=false;R();}
