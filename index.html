@@ -901,6 +901,13 @@ async function loadAll(){
     // Use DB data if array (even empty), fallback only if null (network error)
     D.kpis=(Array.isArray(kpis)&&kpis.length>0)?kpis:FALLBACK.kpis;
     D.officers=(Array.isArray(off)&&off.length>0)?off:FALLBACK.officers;
+    // Deduplicate to prevent double entries
+    const dedup=arr=>{const s=new Set();return arr.filter(x=>{const k=x.id||x.name||x.title;if(s.has(k))return false;s.add(k);return true;});};
+    D.officers=dedup(D.officers);
+    D.campaigns=dedup(D.campaigns);
+    D.initiatives=dedup(D.initiatives);
+    D.jobs=dedup(D.jobs);
+    D.awards=dedup(D.awards);
     D.visits=(vis&&vis.length>0)?vis:FALLBACK.visits;
     D.articles=(art&&art.length>0)?art:FALLBACK.articles;
     D.products=(prod&&prod.length>0)?prod:FALLBACK.products;
@@ -1479,7 +1486,19 @@ function pgCamps(){
 function pgInits(){
   const initSectors=["All","Health & Nutrition","Education","Agriculture","Basic Infrastructure","Social Development","Small Scale Units"];
   if(!window.initF)window.initF="All";
-  const filtered=D.initiatives.sort((a,b)=>(b.id||0)-(a.id||0)).filter(x=>window.initF==="All"||x.sector===window.initF);
+  // Normalize both schemas: {title,category} and {name,sector} 
+  const normalizeInit=(x)=>({
+    ...x,
+    title: x.title||x.name||"Initiative",
+    category: x.category||x.sector||"General",
+    emoji: x.emoji||(x.sector==="Small Scale Units"?"🏭":x.sector==="Health & Nutrition"?"🏥":x.sector==="Education"?"🎓":"✨"),
+    bg_color: x.bg_color||(x.sector==="Small Scale Units"?"#1a3d1a":x.sector==="Health & Nutrition"?"#1a3d5a":"var(--fd)"),
+    description: x.description||"",
+    photo_url: x.photo_url||"",
+    status: x.status||x.status_label||"Active",
+  });
+  const allNorm=D.initiatives.map(normalizeInit);
+  const filtered=allNorm.sort((a,b)=>(b.id||0)-(a.id||0)).filter(x=>window.initF==="All"||(x.category===window.initF||x.sector===window.initF));
   return`<div class="sec">
   <div class="stag">${tr("nav_initiatives","Key Initiatives")}</div>
   <div class="sh" style="margin-bottom:6px">Narnoor's <span>${tr("init_title","Flagship Initiatives")}</span></div>
@@ -1841,6 +1860,8 @@ function pgShop(){
 }
 
 function pgWho(){
+  // Deduplicate by name
+  const uniq=new Set();D.officers=D.officers.filter(o=>uniq.has(o.name)?false:uniq.add(o.name));
   const ini=n=>n.split(" ").filter(w=>w).map(w=>w[0]).join("").substring(0,2).toUpperCase();
   const bgs=["linear-gradient(135deg,var(--s),var(--sd))","linear-gradient(135deg,var(--t),var(--td))","linear-gradient(135deg,var(--f),var(--fd))","linear-gradient(135deg,#7c3aed,#6d28d9)","linear-gradient(135deg,var(--n),#0f1e3d)"];
   return`<div class="sec">
@@ -2402,7 +2423,9 @@ async function saveBP(){
   const fields={blockName:"bp-name",district:"bp-district",state:"bp-state",
     population:"bp-pop",stPct:"bp-st",totalGPs:"bp-gps",totalHabs:"bp-habs",
     totalSchools:"bp-schools",totalAWC:"bp-awc",totalPHC:"bp-phc",
-    blockDesc:"bp-desc",mapUrl:"bp-map"};
+    totalFarmers:"bp-farmers",totalSHG:"bp-shg",
+    blockDesc:"bp-desc",mapUrl:"bp-map",
+    contactPhone:"bp-phone",contactEmail:"bp-email"};
   const saves=[];
   for(const[k,id] of Object.entries(fields)){
     const el=document.getElementById(id);
