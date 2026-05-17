@@ -707,10 +707,10 @@ async function sb(path,method="GET",data=null){
     "Accept":"application/json"
   };
   // Try multiple times with exponential backoff
-  for(let attempt=0;attempt<3;attempt++){
+  for(let attempt=0;attempt<2;attempt++){
     try{
       const controller=new AbortController();
-      const timeout=setTimeout(()=>controller.abort(),15000);
+      const timeout=setTimeout(()=>controller.abort(),4000);
       const r=await fetch(`${SU}/rest/v1/${path}`,{
         method,
         headers:h,
@@ -728,7 +728,7 @@ async function sb(path,method="GET",data=null){
       const t=await r.text();return t?JSON.parse(t):[];
     }catch(e){
       console.warn(`Attempt ${attempt+1} failed:`,e.message);
-      if(attempt<2)await new Promise(r=>setTimeout(r,1000*(attempt+1)));
+      if(attempt<2)await new Promise(r=>setTimeout(r,500));
     }
   }
   return[];
@@ -2707,24 +2707,46 @@ function setLogos(){
 setLogos();
 document.addEventListener("DOMContentLoaded",setLogos);
 (async()=>{
-  // Force hide loader after 5 seconds even if DB fails
-  const loaderTimeout=setTimeout(()=>{
-    const L=document.getElementById("L");
-    if(L&&L.style.display!=="none"){L.style.display="none";R();}
-  },5000);
-  try{
-    await loadAll();
-  }catch(e){
-    console.error("LoadAll failed:",e);
-  }
-  clearTimeout(loaderTimeout);
+  // Show page immediately with fallback data — DB loads in background
   const L=document.getElementById("L");
-  if(L){L.classList.add("out");setTimeout(()=>L.style.display="none",600);}
+  
+  // Hide loader and show page after max 2 seconds no matter what
+  const hideLoader=()=>{
+    if(L&&L.style.display!=="none"){
+      L.style.display="none";
+      R();
+    }
+  };
+  const hardTimeout=setTimeout(hideLoader,2000);
+  
+  try{
+    // Try DB with short timeout
+    await Promise.race([
+      loadAll(),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error("timeout")),3000))
+    ]);
+  }catch(e){
+    console.warn("DB load:", e.message, "— using fallback data");
+  }
+  
+  clearTimeout(hardTimeout);
+  if(L)L.style.display="none";
   R();
-  setTimeout(initChat,1000);
-  setTimeout(initConstellation,200);
+  
+  // Animations after page shows
+  setTimeout(initConstellation,100);
   setTimeout(loadWeather,500);
-  setTimeout(initAnimations,800);
+  setTimeout(initChat,800);
+  setTimeout(initAnimations,1000);
+  
+  // Try loading DB data again in background after page shows
+  setTimeout(async()=>{
+    try{
+      await loadAll();
+      R(); // Re-render with fresh DB data
+      if(lang!=="EN")setTimeout(applyTranslation,80);
+    }catch(e){}
+  },4000);
 })();
 
 /* ══ LIVE WEATHER — Open-Meteo (free, no API key) ══ */
@@ -3093,4 +3115,7 @@ function getDefaultReply(m, isTe, isHi) {
   return "Thanks for your question about Narnoor! 🙏\n\nI can help with:\n🍯 Mahua Ladoo & products\n🏛️ Museum tickets\n📊 KPI achievements\n📋 Government schemes\n🗺️ How to reach Narnoor\n👤 Key officers\n\nOr contact directly: WhatsApp +91 93919 14941";
 }
 
-let lbIdx
+</script>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</body>
+</html>
