@@ -634,6 +634,8 @@ select.fi{cursor:pointer;}
   .media-grid{grid-template-columns:1fr!important;}
   /* Block profile GP table — mobile */
   .gp-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;font-size:11px;}
+  .gp-table tr:not(thead tr):hover{background:#e8f5e9!important;transition:background .2s;}
+  .gp-table td:first-child{font-weight:700;color:var(--td);}
   .gp-table th,.gp-table td{padding:6px 8px!important;font-size:11px!important;}
   .dash-sum-grid{grid-template-columns:1fr 1fr!important;}
   .dash-sum-grid>div:first-child{grid-column:1/-1!important;}
@@ -903,20 +905,15 @@ async function loadAll(){
     D.officers=(Array.isArray(off)&&off.length>0)?off:FALLBACK.officers;
     // Deduplicate to prevent double entries
     const dedup=arr=>{const s=new Set();return arr.filter(x=>{const k=x.id||x.name||x.title;if(s.has(k))return false;s.add(k);return true;});};
-    D.officers=dedup(D.officers);
-    D.campaigns=dedup(D.campaigns);
-    D.initiatives=dedup(D.initiatives);
-    D.jobs=dedup(D.jobs);
-    D.awards=dedup(D.awards);
     D.visits=(vis&&vis.length>0)?vis:FALLBACK.visits;
     D.articles=(art&&art.length>0)?art:FALLBACK.articles;
     D.products=(prod&&prod.length>0)?prod:FALLBACK.products;
     D.campaigns=(Array.isArray(camps)&&camps.length>0)?camps:FALLBACK.campaigns;
-    D.initiatives=(inits&&inits.length>0)?inits:FALLBACK.initiatives;
+    D.initiatives=(Array.isArray(inits)&&inits.length>0)?dedup(inits):FALLBACK.initiatives;
     D.awards=(aw&&aw.length>0)?aw:FALLBACK.awards;
     D.jobs=(Array.isArray(jobs)&&jobs.length>0)?jobs:FALLBACK.jobs;
     D.transformation=(trans&&trans.length>0)?trans:FALLBACK.transformation;
-    D.highlights=(hi&&hi.length>0)?hi:FALLBACK.highlights;
+    D.highlights=(hi&&hi.length>0)?dedup(hi):FALLBACK.highlights;
     DB_LIVE=(kpis&&kpis.length>0)||(camps&&camps.length>0);
   }catch(e){
     console.error("Load error, using fallback data:",e);
@@ -1163,7 +1160,7 @@ function pgHome(){
           <div style="font-family:'Playfair Display',serif;font-size:clamp(20px,3.5vw,32px);font-weight:800;color:#fff">Narnoor — <span style="color:var(--s)">Entrepreneurial Hub</span></div>
           <div style="font-size:12.5px;color:rgba(255,255,255,.5);margin-top:6px">Tribal enterprises powered by PMEGP · PMFME · SHG · ABP</div>
         </div>
-        <button onclick="go('initiatives');window.initF='Small Scale Units';R()" style="background:var(--s);color:#fff;border:none;padding:10px 20px;border-radius:50px;font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap">View All Units →</button>
+        <button onclick="window.initF='Small Scale Units';go('initiatives')" style="background:var(--s);color:#fff;border:none;padding:10px 20px;border-radius:50px;font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap">View All Units →</button>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
         ${[
@@ -1280,22 +1277,311 @@ function pgProfile(){
   <!-- GP TABLE FROM OFFICIAL RECORDS -->
   <div style="margin-top:24px">
     <div style="font-size:10px;font-weight:800;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">📋 23 Gram Panchayats — Official Records (Narnoor Mandal, March 2025)</div>
-    <div style="overflow-x:auto;border-radius:12px;border:1.5px solid var(--b);box-shadow:0 4px 12px rgba(0,0,0,.06)">
-      <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:500px">
-        <thead><tr style="background:linear-gradient(135deg,var(--fd),var(--n))">
-          <th style="padding:9px 10px;text-align:left;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.8px">GP Name</th>
-          <th style="padding:9px 10px;text-align:center;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.8px">Habs</th>
-          <th style="padding:9px 10px;text-align:left;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.8px">Habitation Names</th>
-          <th style="padding:9px 10px;text-align:left;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.8px">Note</th>
-        </tr></thead>
-        <tbody><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Narnoor ⭐</td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">1</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Narnoor</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600">★ Mandal HQ</td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Babejhari </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">4</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Babejhari, Chittaguda, Dhanuguda, Manjari</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Bheempur </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">4</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Bheempur, Joguguda, Gondguda, Kolamguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Empally G </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">3</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Empally G, Lambadathanda, Kolamguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Khairdatwa ⭐</td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">6</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Khairdatwa, Harijanguda, Kolamguda, Naddamguda, Dhuppapur, Gonduguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600">Most habitations</td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Chorgaon </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">3</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Chorgaon, Kolamguda, Mathuraguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Sungapur Kolamguda </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">3</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Sunapur Banjarathanda, Kolamguda, Gondguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Mahagaon </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">2</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Mahagaon, Shekuguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Gundala G </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">3</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Gundala G, Gundala Lt, SC Guda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Tadihadpanur </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">3</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Tadihadpanur, Mukthapur, Kolamguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Gangapur </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">2</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Gangapur, Gangapur G</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Jamda ⭐</td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">2</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Jamda, Pusiguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600">ODF Plus · ISO Certified</td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Bethalguda </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">2</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Bethalguda, Sonapur</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Nagalkonda </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">3</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Gondguda, Lambadithanda, Muslimguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Marapaguda ⭐</td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">6</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Marapaguda, Iliasnagar, Bhavaniguda, Devariguda, Devpatar, Vagaithanda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600">Most habitations</td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Balanpur </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">1</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Balanpur</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Kothapally H </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">4</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Kothapally H, Dharmuguda, Kolamguda, Malkuguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Malangi </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">4</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Malangi, Malangi Tanda, SC Guda, Barikrao guda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Umri </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">2</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Umri, Bojjuguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Malepur ⭐</td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">2</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Malepur, Chithaguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600">CSC Center</td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Gunjala </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">2</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Gunjala, Somuguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#fff;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Khampur </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">5</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Khampur, Gondguda, Kattiguda, Harijanwada, Mahadapur</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr><tr style="background:#f0fdf4;border-bottom:1px solid var(--b)"><td style="padding:7px 10px;font-weight:700;color:var(--td);font-size:12px">Mankapur </td><td style="padding:7px 10px;text-align:center;font-family:Poppins,sans-serif;font-weight:900;color:var(--t);font-size:13px">2</td><td style="padding:7px 10px;font-size:11px;color:var(--tx2)">Mankapur, Rajulguda</td><td style="padding:7px 10px;font-size:10px;color:var(--td);font-weight:600"></td></tr></tbody>
-        <tfoot><tr style="background:var(--tp)">
-          <td style="padding:8px 10px;font-weight:800;color:var(--td)">Total: 23 GPs</td>
-          <td style="padding:8px 10px;font-weight:900;color:var(--t);text-align:center;font-family:Poppins">46</td>
-          <td colspan="2" style="padding:8px 10px;font-size:10px;color:var(--tx3)">Source: Narnoor Mandal Population Data · March 2025</td>
-        </tr></tfoot>
-      </table>
+    <div style="margin-top:4px">
+  <div style="font-size:10px;font-weight:800;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">📋 23 Gram Panchayats — Official Records (Narnoor Mandal, March 2025) · Tap to see habitations</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px">
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--t);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--t),var(--td));display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:#fff;flex-shrink:0">1</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Narnoor ⭐</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">1 habitation <span style="background:var(--gp);color:#92400e;font-size:9px;font-weight:700;padding:2px 8px;border-radius:50px">★ Mandal HQ</span></div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Narnoor</span></div>
     </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--b2);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--tp);display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:var(--td);flex-shrink:0">4</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Babejhari</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">4 habitations </div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Babejhari</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Chittaguda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Dhanuguda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Manjari</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--b2);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--tp);display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:var(--td);flex-shrink:0">4</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Bheempur</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">4 habitations </div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Bheempur</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Joguguda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Gondguda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Kolamguda</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--b2);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--tp);display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:var(--td);flex-shrink:0">3</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Empally G</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">3 habitations </div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Empally G</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Lambadathanda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Kolamguda</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--t);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--t),var(--td));display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:#fff;flex-shrink:0">6</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Khairdatwa ⭐</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">6 habitations <span style="background:var(--gp);color:#92400e;font-size:9px;font-weight:700;padding:2px 8px;border-radius:50px">Most habitations</span></div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Khairdatwa</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Harijanguda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Kolamguda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Naddamguda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Dhuppapur</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Gonduguda</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--b2);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--tp);display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:var(--td);flex-shrink:0">3</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Chorgaon</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">3 habitations </div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Chorgaon</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Kolamguda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Mathuraguda</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--b2);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--tp);display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:var(--td);flex-shrink:0">3</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Sungapur Kolamguda</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">3 habitations </div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Sunapur Banjarathanda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Kolamguda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Gondguda</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--b2);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--tp);display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:var(--td);flex-shrink:0">2</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Mahagaon</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">2 habitations </div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Mahagaon</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Shekuguda</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--b2);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--tp);display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:var(--td);flex-shrink:0">3</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Gundala G</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">3 habitations </div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Gundala G</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Gundala Lt</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 SC Guda</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--b2);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--tp);display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:var(--td);flex-shrink:0">3</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Tadihadpanur</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">3 habitations </div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Tadihadpanur</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Mukthapur</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Kolamguda</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--b2);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--tp);display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:var(--td);flex-shrink:0">2</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Gangapur</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">2 habitations </div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Gangapur</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Gangapur G</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--t);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--t),var(--td));display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:#fff;flex-shrink:0">2</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Jamda ⭐</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">2 habitations <span style="background:var(--gp);color:#92400e;font-size:9px;font-weight:700;padding:2px 8px;border-radius:50px">ODF Plus · ISO Certified</span></div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Jamda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Pusiguda</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--b2);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--tp);display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:var(--td);flex-shrink:0">2</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Bethalguda</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">2 habitations </div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Bethalguda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Sonapur</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--b2);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--tp);display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:var(--td);flex-shrink:0">3</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Nagalkonda</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">3 habitations </div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Gondguda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Lambadithanda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Muslimguda</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--t);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--t),var(--td));display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:#fff;flex-shrink:0">6</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Marapaguda ⭐</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">6 habitations <span style="background:var(--gp);color:#92400e;font-size:9px;font-weight:700;padding:2px 8px;border-radius:50px">Most habitations</span></div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Marapaguda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Iliasnagar</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Bhavaniguda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Devariguda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Devpatar</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Vagaithanda</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--b2);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--tp);display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:var(--td);flex-shrink:0">1</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Balanpur</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">1 habitation </div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Balanpur</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--b2);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--tp);display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:var(--td);flex-shrink:0">4</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Kothapally H</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">4 habitations </div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Kothapally H</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Dharmuguda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Kolamguda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Malkuguda</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--b2);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--tp);display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:var(--td);flex-shrink:0">4</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Malangi</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">4 habitations </div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Malangi</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Malangi Tanda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 SC Guda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Barikrao guda</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--b2);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--tp);display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:var(--td);flex-shrink:0">2</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Umri</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">2 habitations </div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Umri</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Bojjuguda</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--t);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--t),var(--td));display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:#fff;flex-shrink:0">2</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Malepur ⭐</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">2 habitations <span style="background:var(--gp);color:#92400e;font-size:9px;font-weight:700;padding:2px 8px;border-radius:50px">CSC Center</span></div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Malepur</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Chithaguda</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--b2);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--tp);display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:var(--td);flex-shrink:0">2</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Gunjala</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">2 habitations </div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Gunjala</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Somuguda</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--b2);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--tp);display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:var(--td);flex-shrink:0">5</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Khampur</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">5 habitations </div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Khampur</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Gondguda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Kattiguda</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Harijanwada</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Mahadapur</span></div>
+    </div>
+<div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--b2);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
+      <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--tp);display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:12px;font-weight:900;color:var(--td);flex-shrink:0">2</div>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:var(--tx)">Mankapur</div>
+            <div style="font-size:10px;color:var(--tx3);margin-top:1px">2 habitations </div>
+          </div>
+        </div>
+        <span class="gp-ic" style="color:var(--tx3);font-size:11px">▼</span>
+      </div>
+      <div class="gp-habs" style="display:none;flex-wrap:wrap;gap:5px;padding:0 12px 11px"><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Mankapur</span><span style="background:var(--tp);color:var(--td);font-size:10px;font-weight:600;padding:2px 9px;border-radius:50px;white-space:nowrap">📍 Rajulguda</span></div>
+    </div>
+  </div>
+  <div style="font-size:10px;color:var(--tx3);margin-top:10px;text-align:right">📋 Narnoor Mandal Population Records, March 2025</div>
+</div>
   </div>
 
   <!-- INFRASTRUCTURE STATS -->
@@ -1315,9 +1601,15 @@ function pgDash(){
   const fl=(ks==="All"?nitiKPIs:nitiKPIs.filter(k=>k.sector===ks));
   // Count saturated: 100% progress OR status=sat (for inverse KPIs like SAM where lower=sat)
   const INVERSE_KPI_NAMES=new Set(["Low Birth Weight Babies","SAM (Severe Malnutrition)","MAM (Moderate Malnut.)","Groundwater Extraction"]);
+  const STRICTLY_INVERSE=new Set(["Low Birth Weight Babies","SAM (Severe Malnutrition)","MAM (Moderate Malnut.)","Groundwater Extraction"]);
   const sat=nitiKPIs.filter(k=>{
-    if(INVERSE_KPI_NAMES.has(k.name)) return k.status==="sat"; // lower is better
-    return k.progress>=100 || k.status==="sat";
+    if(STRICTLY_INVERSE.has(k.name)){
+      // Lower IS better — saturated means progress reached target (low value)
+      // 0% LBW = perfect. SAM 0.10% = saturated. Check status field.
+      return k.status==="sat";
+    }
+    // Normal KPIs: 100% = saturated
+    return k.progress>=100;
   }).length;
   const ong=nitiKPIs.filter(k=>k.status==="ong").length;
   const pct=nitiKPIs.length?Math.round(sat/nitiKPIs.length*100):0;
@@ -1838,6 +2130,13 @@ document.addEventListener('keydown',e=>{
 });
 
 function pgShop(){
+  // Dedup products and sort latest first
+  const prodSeen=new Set();
+  D.products=D.products.filter(p=>{
+    const k=p.name||p.id;
+    if(prodSeen.has(k))return false;
+    prodSeen.add(k);return true;
+  }).sort((a,b)=>(b.id||0)-(a.id||0));
   return`<div class="sec">
   <div class="stag">Narnoor E-Commerce</div><div class="sh" style="margin-bottom:6px">Narnoor <span>${tr("shop_title","Tribal Products Shop")}</span></div><div class="ss" style="margin-bottom:20px">${tr("shop_sub","Authentic products from SHG women. 100% natural. Direct from source.")}</div>
   ${hl("🌿 Why Buy Narnoor Products?","Every purchase supports tribal SHG women, preserves traditional skills and contributes to livelihoods for 370+ families.","hlg")}
