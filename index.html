@@ -528,45 +528,6 @@ select.fi{cursor:pointer;}
   .hst-n{font-size:18px;}}
 @media(max-width:400px){.hstats{grid-template-columns:repeat(2,1fr);}.g4{grid-template-columns:1fr 1fr;}}
 
-/* ══ WEATHER MOBILE FIXES ══ */
-.weather-section-wrap{padding:36px 24px;}
-@media(max-width:640px){
-  .weather-section-wrap{padding:24px 14px;}
-  .weather-main-card{grid-template-columns:1fr!important;gap:14px!important;}
-  .weather-left-col{padding-right:0!important;border-right:none!important;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:14px;display:flex;align-items:center;justify-content:center;gap:18px;}
-  .weather-left-col #w-icon{font-size:40px!important;margin-bottom:0!important;}
-  .weather-left-col #w-temp{font-size:36px!important;}
-  .weather-forecast-grid{grid-template-columns:repeat(4,1fr)!important;gap:6px!important;}
-  .weather-header-row{flex-direction:column;align-items:flex-start!important;gap:6px!important;}
-}
-@media(max-width:400px){
-  .weather-forecast-grid{grid-template-columns:repeat(4,1fr)!important;}
-}
-/* Video → Weather gap */
-.video-weather-gap{margin-bottom:0;}
-/* ══ BLOCK PROFILE — MOBILE FIXES ══ */
-@media(max-width:640px){
-  /* Infrastructure stat cards */
-  .infra-grid{grid-template-columns:repeat(2,1fr)!important;}
-  /* Map footer stats wrap properly */
-  .map-footer-stats{flex-direction:column;gap:6px!important;align-items:flex-start!important;}
-  /* GP table — hide Note column on very small */
-  .gp-note-col{display:none;}
-  /* Profile g2c stack */
-  .g2c{grid-template-columns:1fr!important;}
-  /* Profile top grid: demographics + map stacked */
-  .profile-top-grid{grid-template-columns:1fr!important;}
-  /* GP table horizontal scroll already handled by overflow-x:auto */
-}
-/* ══ HOME PAGE — VIDEO BLOCK MOBILE ══ */
-@media(max-width:640px){
-  .home-about-grid{grid-template-columns:1fr!important;}
-  .home-video-box{border-radius:14px!important;}
-}
-@media(max-width:480px){
-  .sub-grid{grid-template-columns:1fr!important;}
-  .sub-grid input[style*="grid-column"]{grid-column:auto!important;}
-}
 /* Museum virtual tour — horizontal landscape strip */
 .museum-gallery{
   display:flex;
@@ -669,7 +630,15 @@ select.fi{cursor:pointer;}
 }
 .lb-dot.on{background:#fff;width:16px;border-radius:3px;}
 /* Mobile */
-@media(max-width:640px){.media-grid{grid-template-columns:1fr!important;}
+@media(max-width:640px){
+  .media-grid{grid-template-columns:1fr!important;}
+  /* Block profile GP table — mobile */
+  .gp-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;font-size:11px;}
+  .gp-table th,.gp-table td{padding:6px 8px!important;font-size:11px!important;}
+  .dash-sum-grid{grid-template-columns:1fr 1fr!important;}
+  .dash-sum-grid>div:first-child{grid-column:1/-1!important;}
+  .two-col-admin{grid-template-columns:1fr!important;}
+}
   .museum-gallery{height:200px;}
   .museum-card{flex:0 0 min(300px,86vw);width:min(300px,86vw);height:200px;}
   .museum-title{font-size:12px;}
@@ -1024,7 +993,7 @@ function bFoot(){
       <div style="font-size:10px;font-weight:800;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">Stay Connected</div>
       <div style="font-family:'Poppins',sans-serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:6px">${tr("subscribe_title","Subscribe for Updates")}</div>
       <div style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:22px;line-height:1.7">${tr("subscribe_sub","Get monthly development reports, new opportunities, and Narnoor Block news — delivered to your WhatsApp or email.")}</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;max-width:500px;margin-left:auto;margin-right:auto" class="sub-grid">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;max-width:500px;margin-left:auto;margin-right:auto">
         <input class="sub-input" id="sub-name" placeholder="Your full name">
         <input class="sub-input" id="sub-phone" placeholder="WhatsApp number (+91...)">
         <input class="sub-input" id="sub-email" placeholder="Email address (optional)" style="grid-column:1/-1">
@@ -1100,7 +1069,7 @@ function pgHome(){
     ${(()=>{const items=[["🥇 1st","South Zone Sep 2025"],["₹1.5 Cr","Latest Grant"],["⭐ Super 60","PVTG Focus"],["🔬 Frontier Tech","Separate Prog."],["🏅 PM Award","Top 5 India 2024"],["📉 0.10%","SAM from 2.06%"],["📜 ISO ✓","Certified GP"],["📊 39 KPIs","All Improved"],["🏆 Governor","Gold Medal 2024"],["23 GPs","All Saturated"],["₹2.5 Cr+","Total Grants"],["👩 Zero","Anaemia ✓"]];const row=items.map(([n,l])=>`<div class="ri"><div class="ri-n">${n}</div><div class="ri-l">${l}</div></div>`).join("");return row+row;})()}
   </div></div>
   <div class="sec">
-    <div class="g2c home-about-grid">
+    <div class="g2c">
       <div>
         <div class="stag">${tr("nav_profile","Block Overview")}</div><div class="sh">${tr("about_title","About")} <span>Narnoor</span> ${tr("nav_profile","Block")}</div>
         <p style="font-size:13.5px;color:var(--tx2);line-height:1.85;margin:14px 0 22px">Narnoor is a remote tribal block in Adilabad District selected under NITI Aayog's <strong style="color:var(--td)">Aspirational Blocks Programme (ABP) in 2023</strong>. With <strong>61.8% Scheduled Tribe population</strong> across 23 GPs, Narnoor achieved top ranking through convergence governance.</p>
@@ -1109,7 +1078,7 @@ function pgHome(){
         </div>
         <button class="btn-g" onclick="go('profile')">View Full Block Profile →</button>
       </div>
-      <div class="home-video-box" style="border-radius:var(--r3);overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.22);border:3px solid rgba(232,105,26,.3);background:#000">
+      <div style="border-radius:var(--r3);overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.22);border:3px solid rgba(232,105,26,.3);background:#000">
         <div style="background:linear-gradient(135deg,#0d1b2a,#1b4332);padding:12px 18px;display:flex;align-items:center;gap:10px">
           <span style="font-size:18px">🎬</span>
           <div>
@@ -1131,15 +1100,15 @@ function pgHome(){
       </div>
   </div>
   <!-- WEATHER SECTION -->
-  <div class="weather-section-wrap" style="background:linear-gradient(135deg,#0d1b2a,#1b4332);padding:36px 24px;margin-top:8px;">
+  <div style="background:linear-gradient(135deg,#0d1b2a,#1b4332);padding:36px 24px">
     <div style="max-width:1220px;margin:0 auto">
-      <div class="weather-header-row" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
         <div><div style="font-size:10px;font-weight:800;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:2px;margin-bottom:5px">Live Weather</div>
         <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:800;color:#fff">Narnoor Block Weather <span style="color:var(--sl)">— Live</span></div></div>
         <div style="font-size:10px;color:rgba(255,255,255,.35);font-weight:600">📍 Adilabad, Telangana · 19.1°N 78.5°E</div>
       </div>
-      <div id="weather-main" class="weather-main-card" style="display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:20px;margin-bottom:16px">
-        <div class="weather-left-col" style="text-align:center;padding-right:20px;border-right:1px solid rgba(255,255,255,.1)">
+      <div id="weather-main" style="display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:20px;margin-bottom:16px">
+        <div style="text-align:center;padding-right:20px;border-right:1px solid rgba(255,255,255,.1)">
           <div id="w-icon" style="font-size:52px;margin-bottom:4px">🌤️</div>
           <div id="w-temp" style="font-family:'Poppins',sans-serif;font-size:42px;font-weight:900;color:#fff;line-height:1">--°</div>
           <div id="w-feels" style="font-size:11px;color:rgba(255,255,255,.45);margin-top:4px">Feels like --°C</div>
@@ -1155,7 +1124,7 @@ function pgHome(){
         </div>
       </div>
       <!-- 7-DAY FORECAST -->
-      <div id="weather-forecast" class="weather-forecast-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px">
+      <div id="weather-forecast" style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px">
         ${[...Array(7)].map((_,i)=>`<div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:11px 6px;text-align:center" id="fc-${i}">
           <div style="font-size:9px;font-weight:800;color:rgba(255,255,255,.4);margin-bottom:6px" id="fc-day-${i}">---</div>
           <div style="font-size:22px;margin-bottom:6px" id="fc-icon-${i}">🌤️</div>
@@ -1193,7 +1162,7 @@ function pgHome(){
 function pgProfile(){
   return`<div class="sec">
   <div class="stag">${tr("nav_profile","Block Profile")}</div><div class="sh" style="margin-bottom:22px">Narnoor — <span>${lang==="TE"?"ముఖ్య వాస్తవాలు":lang==="HI"?"मुख्य तथ्य":"Key Facts"}</span></div>
-  <div class="g2c profile-top-grid">
+  <div class="g2c">
     <div>
       <div class="card ct" style="margin-bottom:14px">
         <div style="font-size:10px;font-weight:800;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:15px">${tr("profile_demo","Demographics & Administration")}</div>
@@ -1245,7 +1214,7 @@ function pgProfile(){
         </div>
         <!-- Footer stats bar -->
         <div style="padding:11px 16px;background:linear-gradient(135deg,var(--tp),#f0fdf4);border-top:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-          <div class="map-footer-stats" style="display:flex;gap:16px;flex-wrap:wrap">
+          <div style="display:flex;gap:16px;flex-wrap:wrap">
             ${[["23","Gram Panchayats"],["46","Habitations"],["29,152","Population"],["61.8%","Tribal ST"]].map(([n,l])=>`<div><span style="font-family:'Poppins',sans-serif;font-size:14px;font-weight:900;color:var(--td)">${n}</span> <span style="font-size:10px;color:var(--tx3);font-weight:600">${l}</span></div>`).join("")}
           </div>
           <span style="font-size:10px;color:var(--td);font-weight:700">Adilabad District, TS</span>
@@ -1278,7 +1247,7 @@ function pgProfile(){
   <!-- INFRASTRUCTURE STATS -->
   <div style="margin-top:20px">
     <div style="font-size:10px;font-weight:800;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">🏗️ Block Infrastructure — Official Data 2025</div>
-    <div class="infra-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:9px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:9px">
       ${[["🚰","Tap Water Connections","100% HH","Jal Jeevan Mission"],["🚽","ODF Plus Villages","78.26%","Swachh Bharat"],["💡","Solar Street Lights","150+","Installed 2024-25"],["🏫","Primary Schools","83","All habitations"],["🤱","Anganwadi Centres","77","Active & functional"],["👵","Pensions (AASARA)","3,200+","All categories"],["🌾","Rythu Bandhu","1,247","Registered farmers"],["🏥","ASHA Workers","46+","One/habitation"],["🔌","BharatNet GPs","78.26%","Live connectivity"],["🌿","Haritha Haram","All GPs","Nurseries active"],["💰","XV Finance Grant","₹1Cr+/yr","Infrastructure"],["🏗️","All-weather Roads","All GPs","CC Roads complete"]].map(([ic,l,v,n])=>`<div style="background:var(--w2);border:1px solid var(--b);border-radius:11px;padding:12px"><div style="display:flex;align-items:center;gap:7px;margin-bottom:5px"><span style="font-size:17px">${ic}</span><span style="font-size:9.5px;font-weight:800;color:var(--tx3);text-transform:uppercase">${l}</span></div><div style="font-family:'Poppins',sans-serif;font-size:17px;font-weight:900;color:var(--td)">${v}</div><div style="font-size:9.5px;color:var(--tx3);margin-top:2px">${n}</div></div>`).join("")}
     </div>
   </div></div>`;
@@ -1701,6 +1670,43 @@ const MUSEUM_PHOTOS_DATA=[
   {src:"data:image/webp;base64,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",title:"Tribes of South India",desc:"Gond tribesman, ritual masks, classical dancers, tribal women in traditional dress"},
   {src:"data:image/webp;base64,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",title:"Tribal Musician",desc:"Richly adorned tribal leader and red-costumed drummer — Warli art border below"},
 ];
+// ══════════════════════════════════════════
+// AI ASSISTANT — getReply function
+// ══════════════════════════════════════════
+function getReply(msg){
+  if(!msg||!msg.trim()) return "Ask me anything about Narnoor! 😊";
+  const m = msg.toLowerCase().trim();
+  const isTe = /[ఀ-౿]/.test(msg);
+  const isHi = /[ऀ-ॿ]/.test(msg);
+  // Detect Telugu words written in English (Hinglish/Tenglish)
+  const teWords = ["lo em","narnoor lo","ki famous","ela raavali","ela vachali","entha duram",
+    "evaru avaru","avaru evaru","em cheyali","emi cheyali","cheppandi","ela undi",
+    "em undhi","emundi","guri cheppandi","nundi ela","lo emundi","deniki","naaku","meeru"];
+  const hasTeWords = !isTe && teWords.some(w => m.includes(w));
+  const lang2 = (isTe || hasTeWords) ? "te" : isHi ? "hi" : "en";
+  
+  // Score each KB item
+  let best = null, bestScore = 0;
+  for(const item of KB){
+    let score = 0;
+    for(const kw of item.q){
+      const kwl = kw.toLowerCase();
+      if(m.includes(kwl)) score += kwl.length * 2;
+      // Exact word match scores higher
+      if(m.split(/\s+/).some(w => w === kwl)) score += kwl.length * 3;
+    }
+    if(score > bestScore){ bestScore = score; best = item; }
+  }
+  
+  if(best && bestScore > 0){
+    const reply = best.a[lang2] || best.a.te || best.a.en;
+    return reply.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+                .replace(/\n/g, "<br>");
+  }
+  return getDefaultReply(m, isTe || hasTeWords, isHi)
+    .replace(/\n/g, "<br>");
+}
+
 let lbIdx=0;
 function openPhoto(i){
   lbIdx=i;
@@ -1958,6 +1964,22 @@ function pgAdmin(){
       <div><label class="fl">Officer 3 Photo URL</label><input class="fi" id="hs-officerPhoto3" value="${g("officerPhoto3")}" placeholder="Drive/imgbb link" style="margin-bottom:0"></div>
     </div>
     <button class="btn-g" style="margin-top:15px;width:100%;padding:12px;font-size:14px" onclick="saveHero()">💾 Save All Site Settings to Database</button></div>`;
+  if(adt==="blockprofile")c=adminTab("📋","Block Profile — Edit All Information",`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">Block Name</label><input class="fi" id="bp-name" value="${g('blockName')||'Narnoor'}" style="margin-bottom:0"></div>
+      <div><label class="fl">District</label><input class="fi" id="bp-district" value="${g('district')||'Adilabad'}" style="margin-bottom:0"></div>
+      <div><label class="fl">State</label><input class="fi" id="bp-state" value="${g('state')||'Telangana'}" style="margin-bottom:0"></div>
+      <div><label class="fl">Population</label><input class="fi" id="bp-pop" value="${g('population')||'29,152'}" style="margin-bottom:0"></div>
+      <div><label class="fl">ST Population %</label><input class="fi" id="bp-st" value="${g('stPct')||'61.8%'}" style="margin-bottom:0"></div>
+      <div><label class="fl">No. of GPs</label><input class="fi" id="bp-gps" value="${g('totalGPs')||'23'}" style="margin-bottom:0"></div>
+      <div><label class="fl">No. of Habitations</label><input class="fi" id="bp-habs" value="${g('totalHabs')||'46'}" style="margin-bottom:0"></div>
+      <div><label class="fl">No. of Schools</label><input class="fi" id="bp-schools" value="${g('totalSchools')||'83'}" style="margin-bottom:0"></div>
+      <div><label class="fl">AWC Centers</label><input class="fi" id="bp-awc" value="${g('totalAWC')||'77'}" style="margin-bottom:0"></div>
+      <div><label class="fl">PHC + Sub-Centres</label><input class="fi" id="bp-phc" value="${g('totalPHC')||'1+5'}" style="margin-bottom:0"></div>
+      <div style="grid-column:1/-1"><label class="fl">Block Description</label><textarea class="fi" id="bp-desc" rows="3" style="margin-bottom:0">${g('blockDesc')||'Narnoor is a tribal block selected under NITI Aayog Aspirational Blocks Programme in 2023.'}</textarea></div>
+      <div style="grid-column:1/-1"><label class="fl">Map URL (Google Drive / imgbb)</label><input class="fi" id="bp-map" value="${g('mapUrl')||''}" placeholder="Paste map image URL" style="margin-bottom:0"></div>
+    </div>
+    <button class="btn-g" onclick="saveBP()">Save Block Profile</button>`);
   if(adt==="kpi")c=`<div class="as"><div class="at">➕ Add New KPI</div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:8px;align-items:end">
       <div><label class="fl">KPI Name</label><input class="fi" id="ak-n" placeholder="KPI name" style="margin-bottom:0"></div>
@@ -2203,6 +2225,41 @@ function pgAdmin(){
         </div>
         <div class="eac"><button class="btn-sv" onclick="sJob(${j.id})">💾 Save</button><button class="btn-ca" onclick="tE('jo',${j.id})">Cancel</button></div>
       </div>`).join("")}`;
+  if(adt==="grants")c=adminTab("💰","Grants — Add / Edit",`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">Grant Title</label><input class="fi" id="ag-t" placeholder="e.g. Delta Ranking Grant" style="margin-bottom:0"></div>
+      <div><label class="fl">Amount</label><input class="fi" id="ag-a" placeholder="e.g. 1.5 Crore" style="margin-bottom:0"></div>
+      <div><label class="fl">Source</label><input class="fi" id="ag-s" placeholder="e.g. NITI Aayog" style="margin-bottom:0"></div>
+      <div><label class="fl">Year</label><input class="fi" id="ag-y" placeholder="e.g. 2025" style="margin-bottom:0"></div>
+      <div><label class="fl">Status</label><select class="fi" id="ag-st" style="margin-bottom:0"><option>Received</option><option>Utilised</option><option>Pending</option><option>Proposed</option></select></div>
+      <div><label class="fl">Purpose</label><input class="fi" id="ag-p" placeholder="Purpose" style="margin-bottom:0"></div>
+    </div>
+    <button class="btn-g" onclick="aGrant()">+ Add Grant</button>`);
+  if(adt==="schemes")c=adminTab("📋","Schemes — Add / Edit",`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">Scheme Name</label><input class="fi" id="asc-n" placeholder="e.g. PM Kisan" style="margin-bottom:0"></div>
+      <div><label class="fl">Type</label><select class="fi" id="asc-t" style="margin-bottom:0"><option>Central Govt</option><option>State — Telangana</option><option>Block Level</option></select></div>
+      <div><label class="fl">Beneficiaries</label><input class="fi" id="asc-b" placeholder="e.g. 1,247 farmers" style="margin-bottom:0"></div>
+      <div><label class="fl">Benefit Amount</label><input class="fi" id="asc-a" placeholder="e.g. 6,000/year" style="margin-bottom:0"></div>
+    </div>
+    <button class="btn-g" onclick="aScheme()">+ Add Scheme</button>`);
+  if(adt==="tourism")c=adminTab("🏛️","Tourism — Edit Museum Info",`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">Entry Fee</label><input class="fi" id="atm-fee" value="${g('museumFee')||'10 per person'}" style="margin-bottom:0"></div>
+      <div><label class="fl">Timings</label><input class="fi" id="atm-time" value="${g('museumTimings')||'Tue to Sun 9AM to 5PM'}" style="margin-bottom:0"></div>
+      <div><label class="fl">Location</label><input class="fi" id="atm-loc" value="${g('museumLocation')||'Narnoor Village, Adilabad'}" style="margin-bottom:0"></div>
+      <div><label class="fl">Contact</label><input class="fi" id="atm-ph" value="${g('museumContact')||'+91 93919 14941'}" style="margin-bottom:0"></div>
+      <div style="grid-column:1/-1"><label class="fl">Museum Description</label><textarea class="fi" id="atm-desc" rows="3" style="margin-bottom:0">${g('museumDesc')||'Narnoor Tribal Heritage Museum and Cultural Centre'}</textarea></div>
+    </div>
+    <button class="btn-g" onclick="saveTourism()">Save Tourism Info</button>`);
+  if(adt==="partners")c=adminTab("🤝","Partners — Add / Edit",`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">Organisation Name</label><input class="fi" id="ap-n" placeholder="e.g. SERP Telangana" style="margin-bottom:0"></div>
+      <div><label class="fl">Type</label><select class="fi" id="ap-t" style="margin-bottom:0"><option>NGO</option><option>Government</option><option>CSR Partner</option><option>Academic</option></select></div>
+      <div><label class="fl">Focus Area</label><input class="fi" id="ap-f" placeholder="e.g. Women Livelihoods" style="margin-bottom:0"></div>
+      <div><label class="fl">Contact</label><input class="fi" id="ap-c" placeholder="Email or website" style="margin-bottom:0"></div>
+    </div>
+    <button class="btn-g" onclick="aPartner()">+ Add Partner</button>`);
   if(adt==="creds")c=`
     <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #86efac;border-radius:var(--r2);padding:22px;max-width:500px;margin-bottom:22px">
       <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:800;color:var(--fd);margin-bottom:6px">🔐 Admin Credentials</div>
@@ -2283,6 +2340,58 @@ async function dJob(id){if(!confirm("Delete?"))return;await sD("jobs",id);D.jobs
 function go(p){pg=p;mob=false;R();}
 function openMob(){mob=true;R();}
 function cMob(){mob=false;R();}
+function adminTab(icon,title,content){
+  return `<div class="as"><div class="at">${icon} ${title}</div>${content}</div>`;
+}
+async function aGrant(){
+  const t=v("ag-t"),a=v("ag-a"),s=v("ag-s"),y=v("ag-y"),p=v("ag-p"),st=v("ag-st"),pdf=v("ag-pdf")||"";
+  if(!t){alert("Enter grant title");return;}
+  const r=await sP("highlights",{title:t,subtitle:a,description:`${p} | Source: ${s} | ${y} | Status: ${st}`,category:"grant",icon:"💰",color:"var(--s)",sort_order:D.highlights.length});
+  if(r&&r[0]){D.highlights.push(r[0]);toast("✓ Grant added");R();}
+}
+async function aScheme(){
+  const n=v("asc-n"),t=v("asc-t"),b=v("asc-b"),a=v("asc-a"),d=v("asc-d");
+  if(!n){alert("Enter scheme name");return;}
+  const r=await sP("highlights",{title:n,subtitle:t,description:`${d} | Beneficiaries: ${b} | Benefit: ${a}`,category:"scheme",icon:"📋",color:"var(--t)",sort_order:D.highlights.length});
+  if(r&&r[0]){D.highlights.push(r[0]);toast("✓ Scheme added");R();}
+}
+async function saveTourism(){
+  const fields={museumFee:"atm-fee",museumTimings:"atm-time",museumLocation:"atm-loc",museumContact:"atm-ph",museumDesc:"atm-desc",tourismAttractions:"atm-att"};
+  for(const[k,id] of Object.entries(fields)){
+    const el=document.getElementById(id);
+    if(el)await sP("site_settings",{key:k,value:el.value});
+  }
+  await loadAll();toast("✓ Tourism info saved");
+}
+async function aPartner(){
+  const n=v("ap-n"),t=v("ap-t"),f=v("ap-f"),c=v("ap-c"),d=v("ap-d");
+  if(!n){alert("Enter organisation name");return;}
+  const r=await sP("highlights",{title:n,subtitle:`${t} — ${f}`,description:`${d} | Contact: ${c}`,category:"partner",icon:"🤝",color:"var(--g)",sort_order:D.highlights.length});
+  if(r&&r[0]){D.highlights.push(r[0]);toast("✓ Partner added");R();}
+}
+async function aGrant(){
+  const t=v("ag-t"),a=v("ag-a"),s=v("ag-s"),y=v("ag-y"),p=v("ag-p")||"",st=v("ag-st")||"Received";
+  if(!t){alert("Enter grant title");return;}
+  const r=await sP("highlights",{title:t,subtitle:a,description:p+"|Source:"+s+"|"+y+"|Status:"+st,category:"grant",icon:"💰",color:"var(--s)",sort_order:D.highlights.length});
+  if(r&&r[0]){D.highlights.push(r[0]);toast("✓ Grant added");R();}
+}
+async function aScheme(){
+  const n=v("asc-n"),t=v("asc-t"),b=v("asc-b")||"",a=v("asc-a")||"";
+  if(!n){alert("Enter scheme name");return;}
+  const r=await sP("highlights",{title:n,subtitle:t,description:"Beneficiaries:"+b+"|Benefit:"+a,category:"scheme",icon:"📋",color:"var(--t)",sort_order:D.highlights.length});
+  if(r&&r[0]){D.highlights.push(r[0]);toast("✓ Scheme added");R();}
+}
+async function saveTourism(){
+  const fields={museumFee:"atm-fee",museumTimings:"atm-time",museumLocation:"atm-loc",museumContact:"atm-ph",museumDesc:"atm-desc"};
+  for(const[k,id] of Object.entries(fields)){const el=document.getElementById(id);if(el)await sP("site_settings",{key:k,value:el.value});}
+  await loadAll();toast("✓ Tourism info saved");
+}
+async function aPartner(){
+  const n=v("ap-n"),t=v("ap-t")||"NGO",f=v("ap-f")||"",c=v("ap-c")||"";
+  if(!n){alert("Enter organisation name");return;}
+  const r=await sP("highlights",{title:n,subtitle:t+" — "+f,description:"Contact:"+c,category:"partner",icon:"🤝",color:"var(--g)",sort_order:D.highlights.length});
+  if(r&&r[0]){D.highlights.push(r[0]);toast("✓ Partner added");R();}
+}
 function changeCreds(){
   const cu=document.getElementById('cr-cu')?.value;
   const cp=document.getElementById('cr-cp')?.value;
@@ -2598,8 +2707,19 @@ function setLogos(){
 setLogos();
 document.addEventListener("DOMContentLoaded",setLogos);
 (async()=>{
-  await loadAll();
-  const L=document.getElementById("L");L.classList.add("out");setTimeout(()=>L.style.display="none",600);
+  // Force hide loader after 5 seconds even if DB fails
+  const loaderTimeout=setTimeout(()=>{
+    const L=document.getElementById("L");
+    if(L&&L.style.display!=="none"){L.style.display="none";R();}
+  },5000);
+  try{
+    await loadAll();
+  }catch(e){
+    console.error("LoadAll failed:",e);
+  }
+  clearTimeout(loaderTimeout);
+  const L=document.getElementById("L");
+  if(L){L.classList.add("out");setTimeout(()=>L.style.display="none",600);}
   R();
   setTimeout(initChat,1000);
   setTimeout(initConstellation,200);
@@ -2819,113 +2939,158 @@ function toggleChat(){
 
 /* LOCAL KNOWLEDGE BASE — works offline, no API needed */
 const KB=[
-  // Products & Shop
-  {q:["tribal product","famous product","mahua","bamboo","shop","buy","ladoo","artcraft","craft","what do you sell","narnoor product"],
-   a:{en:"🍯 Narnoor's most famous tribal products are:\n\n1. **Mahua Ladoo** (₹150/250g) — Traditional sweet made from Mahua forest flowers by SHG women. 100% natural, no preservatives.\n\n2. **Bamboo Artcrafts** (₹200/piece) — Handcrafted baskets, trays, decorative items by tribal artisans.\n\nBoth support 370+ tribal families. Order via WhatsApp: +91 93919 14941 or visit the Shop tab! 🛒",
-    te:"🍯 నర్నూర్ ప్రసిద్ధ గిరిజన ఉత్పత్తులు:\n\n1. **మహువా లడ్డూ** (₹150/250g) — SHG మహిళలు తయారు చేసే సంప్రదాయ మిఠాయి. 100% సహజమైనది.\n\n2. **వెదురు హస్తకళలు** (₹200/ముక్క) — గిరిజన కళాకారులు తయారు చేసిన బాస్కెట్లు, ట్రేలు.\n\nఆర్డర్ WhatsApp: +91 93919 14941",
-    hi:"🍯 नारनूर के प्रसिद्ध आदिवासी उत्पाद:\n\n1. **महुआ लड्डू** (₹150/250g) — SHG महिलाओं द्वारा बनाई गई पारंपरिक मिठाई। 100% प्राकृतिक।\n\n2. **बांस शिल्पकला** (₹200/piece) — आदिवासी कारीगरों द्वारा हस्तनिर्मित।\n\nWhatsApp: +91 93919 14941"}},
+// ══════════════════════════════════════════════
+// GREETINGS
+// ══════════════════════════════════════════════
+{q:["hello","hi","namaste","నమస్తే","నమస్కారం","namasthe","namaskar","hey","helo","hai","hii","vanakkam","kem cho"],
+ a:{en:"👋 Namaste! Welcome to Narnoor Block ABP Portal!\n\nI know everything about Narnoor — products, museum, KPIs, schemes, routes, officers and more!\n\nAsk me in English, తెలుగు, हिंदी or even Gondi! What would you like to know? 😊",
+    te:"👋 నమస్తే! నర్నూర్ బ్లాక్ ABP పోర్టల్‌కు స్వాగతం!\n\nనేను నర్నూర్ గురించి అన్నీ తెలుసు — ఉత్పత్తులు, మ్యూజియం, పథకాలు, మార్గాలు, అధికారులు!\n\nఏమి తెలుసుకోవాలి? 😊",
+    hi:"👋 नमस्ते! नारनूर ब्लॉक ABP पोर्टल में आपका स्वागत है! मुझसे कुछ भी पूछें! 😊"}},
 
-  // Museum & Tourism
-  {q:["museum","tribal museum","tourism","visit","ticket","entry","gond","heritage","culture","tour"],
-   a:{en:"🏛️ **Tribal Museum, Narnoor**\n\nBuilt with NITI Aayog ABP grant (₹18 Lakhs). Preserves Gond tribal artifacts, traditions and history.\n\n📍 Narnoor Village, Adilabad\n⏰ Tue–Sun: 9 AM – 5 PM (Closed Monday)\n💰 Entry: ₹10 per person\n\nBook your ticket via the Tourism tab or WhatsApp +91 93919 14941!\n\nNearby: Godavari River, Kawal Tiger Reserve, Gond Villages 🌿",
-    te:"🏛️ **గిరిజన మ్యూజియం, నర్నూర్**\n\nNITI Aayog గ్రాంట్ (₹18 లక్షలు)తో నిర్మించబడింది.\n\n📍 నర్నూర్ గ్రామం, ఆదిలాబాద్\n⏰ మంగళ–ఆది: ఉ.9–సా.5\n💰 ప్రవేశం: ₹10\n\nWhatsApp: +91 93919 14941",
-    hi:"🏛️ **आदिवासी संग्रहालय, नारनूर**\n\nNITI Aayog अनुदान (₹18 लाख) से निर्मित। गोंड आदिवासी कलाकृतियाँ संरक्षित।\n\n📍 नारनूर गाँव, आदिलाबाद\n⏰ मंगल–रवि: सुबह 9 – शाम 5\n💰 प्रवेश: ₹10\n\nWhatsApp: +91 93919 14941"}},
+// ══════════════════════════════════════════════
+// ABOUT NARNOOR
+// ══════════════════════════════════════════════
+{q:["what is narnoor","narnoor enti","narnoor em","narnoor about","narnoor guri","tell me about narnoor","narnoor ela undi","narnoor famous","narnoor ki famous","narnoor lo em famous","em famous","em undhi","what is special","what is narnoor famous for","narnoor famous for what","narnoor speciality","narnoor visheshata","narnoor lo emundi"],
+ a:{en:"🏡 **Narnoor Block** is a tribal block in **Adilabad District, Telangana**, selected by NITI Aayog under the **Aspirational Blocks Programme (ABP)** in 2023.\n\n🌟 **Famous for:**\n• 🍯 Mahua Ladoo — unique tribal sweet\n• 🏛️ Tribal Heritage Museum\n• 🎋 Bamboo artcrafts\n• 🌿 Lac cultivation & Mahua forest produce\n• 📊 All 39 NITI KPIs improved\n• 🥇 1st Rank South Zone 2025\n• 61.8% Gond tribal population\n• Rich Gondi cultural heritage\n\n📍 Located ~60 km from Adilabad via Utnoor",
+    te:"🏡 **నర్నూర్ బ్లాక్** ఆదిలాబాద్ జిల్లాలో గిరిజన బ్లాక్. NITI Aayog ఆకాంక్షల బ్లాక్ కార్యక్రమంలో ఎంపిక.\n\n🌟 **ప్రసిద్ధి:**\n• 🍯 మహువా లడ్డూ\n• 🏛️ గిరిజన మ్యూజియం\n• 🎋 వెదురు హస్తకళలు\n• 🥇 దక్షిణ జోన్ 1వ ర్యాంక్ 2025\n• 61.8% గోండ్ గిరిజన జనాభా",
+    hi:"🏡 नारनूर ब्लॉक आदिलाबाद, तेलंगाना में एक आदिवासी ब्लॉक है। NITI Aayog ABP में चुना गया।\n\n🌟 प्रसिद्ध: माहुआ लड्डू, आदिवासी संग्रहालय, दक्षिण क्षेत्र में 1st रैंक 2025"}},
 
-  // KPIs & Achievements
-  {q:["kpi","indicator","progress","achievement","rank","award","performance","south zone","niti aayog","1st rank","first rank"],
-   a:{en:"📊 **Narnoor KPI Achievements (NITI Aayog ABP):**\n\n🏆 1st Rank South Zone — Sept 2025 (₹1.5 Crore grant)\n🏅 PM Award — Top 5 India 2024\n🥇 Governor's Gold Medal 2024\n✅ All 39 KPIs Improved\n\n**Key Numbers:**\n• SAM reduced: 2.06% → 0.10% (95% reduction)\n• Institutional Deliveries: 100%\n• Tap Water: 100% (all 46 habitations)\n• School Toilets: 81/81\n• SHG Credit: ₹16 Crore+\n\nSee full dashboard in the Dashboard tab! 📈",
-    te:"📊 **నర్నూర్ KPI విజయాలు:**\n\n🏆 దక్షిణ జోన్ 1వ స్థానం — సెప్ 2025\n✅ 39 KPIs మొత్తం మెరుగుపడ్డాయి\n• SAM తగ్గింపు: 2.06% → 0.10%\n• నీటి కనెక్షన్లు: 100%\n• SHG క్రెడిట్: ₹16 కోటి+",
-    hi:"📊 **नारनूर KPI उपलब्धियाँ:**\n\n🏆 दक्षिण जोन प्रथम स्थान — सितंबर 2025\n✅ सभी 39 KPIs में सुधार\n• SAM में कमी: 2.06% → 0.10%\n• नल जल: 100% (सभी बस्तियाँ)"}},
+{q:["narnoor history","narnoor చరిత్ర","history of narnoor","narnoor mandal","narnoor mandal guri","narnoor district","narnoor adilabad","narnoor telangana","narnoor population","narnoor janabha","population","janabha","entha mandhi"],
+ a:{en:"📋 **Narnoor — Key Facts:**\n\n• 📍 Adilabad District, Telangana\n• 👥 Population: 29,152\n• 🏘️ 23 Gram Panchayats, 46 Habitations\n• 🌿 61.8% Scheduled Tribe (Gond community)\n• 🏫 83 Schools, 77 Anganwadi Centers\n• 🏥 1 PHC + 5 Sub-Centers\n• 🏛️ Selected under ABP in 2023\n• 🗺️ ~60 km from Adilabad via Utnoor\n• 🏆 Champions of Change — NITI Aayog",
+    te:"📋 నర్నూర్ వివరాలు: జనాభా 29,152 · 23 గ్రా.పం. · 46 నివాసాలు · 61.8% ST · ఆదిలాబాద్ నుండి 60 కి.మీ.",
+    hi:"📋 नारनूर: जनसंख्या 29,152 · 23 GP · 46 बस्तियाँ · 61.8% ST · आदिलाबाद से 60 किमी"}},
 
-  // Schemes
-  {q:["scheme","yojana","government scheme","benefit","welfare","pm kisan","awas","jal jeevan","mnrega","ujjwala","aasara","rythu"],
-   a:{en:"📋 **Government Schemes in Narnoor:**\n\n**Central Government:**\n🌾 PM Kisan — ₹6,000/year (100% seeded)\n🏠 PM Awas Yojana — Rural housing\n💧 Jal Jeevan Mission — 100% tap water\n⛏️ MNREGA — 100-day employment\n🔥 Ujjwala — Free LPG connections\n🏕️ PM-JANMAN — PVTG tribal welfare\n\n**Telangana State:**\n🌿 Rythu Bandhu — Farm investment support\n👴 Aasara Pension — Monthly pension\n🤱 KCR Kits — Delivery kits\n🏥 Aarogya Sri — ₹5L health insurance\n\nFor assistance: +91 93919 14941",
-    te:"📋 **నర్నూర్‌లో ప్రభుత్వ పథకాలు:**\n\n🌾 PM కిసాన్ — ₹6,000/సంవత్సరం\n💧 జల్ జీవన్ మిషన్ — 100% కుళాయి నీళ్ళు\n🏕️ PM-JANMAN — PVTG గిరిజన సంక్షేమం\n🌿 రైతు బంధు — పెట్టుబడి మద్దతు\n\nసహాయానికి: +91 93919 14941",
-    hi:"📋 **नारनूर में सरकारी योजनाएँ:**\n\n🌾 PM किसान — ₹6,000/वर्ष\n💧 जल जीवन मिशन — 100% नल जल\n🏕️ PM-JANMAN — आदिवासी कल्याण\n🌿 रैतु बंधु — कृषि सहायता\n\nसहायता: +91 93919 14941"}},
+// ══════════════════════════════════════════════
+// ROUTE / HOW TO REACH
+// ══════════════════════════════════════════════
+{q:["how to reach","how to come","ela raavali","ela vachali","narnoor route","narnoor road","adilabad nundi","adilabad to narnoor","distance","duram","entha duram","60 km","utnoor","route","direction","raadam ela","ela velladam","how far","yevvaru tarvata"],
+ a:{en:"🗺️ **How to reach Narnoor from Adilabad:**\n\n📍 Distance: ~60 km via Utnoor\n\n🚗 **Route:** Adilabad → Utnoor → Narnoor\n\n**Villages you'll pass through:**\n🌳 Jamda — See our **Digital Classroom at AHS Jamda** (one of the best in tribal area!)\n🌾 Tadihatnoor — See our **Dal Mill Unit** run by SHG women\n🏡 Various Narnoor villages\n\n**At Narnoor HQ, you can visit:**\n🏥 30-bedded Government Hospital\n📡 Telemedicine Clinic (daily specialist sessions from Osmania Hospital)\n💻 ICT Center & Digital Library\n📚 Reading Room\n🏛️ Tribal Heritage Museum (₹10 entry)\n🎋 Bamboo Processing Unit at Naddamguda\n🍯 Mahua Ladoo Unit at Khairdatwa\n🖥️ MPDO Office & CSC Center",
+    te:"🗺️ ఆదిలాబాద్ నుండి నర్నూర్: ~60 కి.మీ. ఉత్నూర్ మీదుగా\n\n🛣️ మార్గం: ఆదిలాబాద్ → ఉత్నూర్ → జమ్డా (డిజిటల్ క్లాస్‌రూమ్ చూడండి) → తాడిహత్‌నూర్ (దాల్ మిల్) → నర్నూర్\n\nనర్నూర్ లో చూడండి: 30 పడక ఆస్పత్రి, టెలిమెడిసిన్, మ్యూజియం, వెదురు యూనిట్, మహువా లడ్డూ యూనిట్",
+    hi:"🗺️ आदिलाबाद से नारनूर: ~60 किमी उत्नूर होकर। रास्ते में जमड़ा (डिजिटल क्लासरूम), ताड़िहट्नूर (दाल मिल) पड़ते हैं। नारनूर में: 30 बेड अस्पताल, टेलीमेडिसिन, संग्रहालय, बांस यूनिट।"}},
 
-  // Contact & Grievance
-  {q:["contact","phone","email","address","grievance","complaint","problem","help","officer","rahul","rajrshi","collector"],
-   a:{en:"📞 **Contact Narnoor Block:**\n\n📧 Email: abpnarnoor@gmail.com\n📱 WhatsApp: +91 93919 14941\n🌐 Website: www.abpnarnoor.in\n🏛️ Office: Block Development Office, Narnoor Village, Adilabad District, Telangana\n\n👤 **Key Officers:**\n• Sri Rajrshi Shah, IAS — District Collector, Adilabad\n• Sri Ravinder Rathod — Project Director, DRDA\n• Sri Rahul Rathod — Programme Officer, NITI Aayog ABP\n\nFor grievances, use the Grievance tab or WhatsApp us! ⏱️ Response within 7 working days.",
-    te:"📞 **నర్నూర్ బ్లాక్ సంప్రదింపు:**\n\n📱 WhatsApp: +91 93919 14941\n📧 Email: abpnarnoor@gmail.com\n\n👤 అధికారులు:\n• శ్రీ రాజర్షి షా, IAS — కలెక్టర్\n• శ్రీ రహుల్ రాఠోడ్ — ప్రోగ్రామ్ అధికారి",
-    hi:"📞 **नारनूर ब्लॉक संपर्क:**\n\n📱 WhatsApp: +91 93919 14941\n📧 Email: abpnarnoor@gmail.com\n\n👤 अधिकारी:\n• श्री राजर्षि शाह, IAS — जिला कलेक्टर\n• श्री राहुल राठौड़ — कार्यक्रम अधिकारी"}},
+// ══════════════════════════════════════════════
+// PRODUCTS / ORDERING
+// ══════════════════════════════════════════════
+{q:["mahua ladoo","mahua laddoo","mahwa ladoo","mahua","ladoo","laddu","మహువా","tribal sweet","order","buy","purchase","cost","price","dhara","entha","enta","bero","rate","how much"],
+ a:{en:"🍯 **Mahua Ladoo — Narnoor's Pride!**\n\nMade from Mahua forest flowers by tribal SHG women. 100% natural, no preservatives, no artificial color.\n\n💰 Price: **₹150 per 250g pack**\n📦 Minimum order: 1 pack\n🚚 Available for delivery\n\n**To order:**\n📲 WhatsApp: +91 93919 14941\nUPI: abpnarnoor@upi\n\n✅ Genuine organic tribal product supporting 370+ families\n🏆 Awarded under NITI Aayog ABP programme",
+    te:"🍯 మహువా లడ్డూ! మహువా పూల నుండి SHG మహిళలు తయారుచేస్తారు. 100% సహజమైనది.\n\n💰 ధర: ₹150/250g\n📲 ఆర్డర్: WhatsApp +91 93919 14941\nUPI: abpnarnoor@upi",
+    hi:"🍯 माहुआ लड्डू! माहुआ फूलों से SHG महिलाओं द्वारा बनाया गया। 100% प्राकृतिक।\n₹150/250g · WhatsApp: +91 93919 14941"}},
 
-  // About Narnoor
-  {q:["about","narnoor","block","adilabad","telangana","tribal","population","gp","gram panchayat","abp","aspirational"],
-   a:{en:"🏘️ **About Narnoor Block:**\n\nNarnoor is a tribal block in Adilabad District, Telangana, selected under NITI Aayog's Aspirational Blocks Programme (ABP) in 2023.\n\n📊 Key Facts:\n• Population: 29,152\n• Tribal (ST) Share: 61.8%\n• Gram Panchayats: 23\n• Habitations: 46\n• Schools: 83 | AWCs: 77\n• PHC: 1 + 5 Sub-Centres\n\n🏆 Awards: 1st Rank South Zone, PM Award Top 5, Governor's Gold Medal, ISO Certified, Super 60, Frontier Technology Programme",
-    te:"🏘️ **నర్నూర్ బ్లాక్ గురించి:**\n\n2023లో NITI Aayog ABP కింద ఎంపిక చేయబడింది.\n\n📊 ముఖ్య వివరాలు:\n• జనాభా: 29,152\n• గిరిజన వాటా: 61.8%\n• గ్రామ పంచాయతీలు: 23\n• నివాసాలు: 46",
-    hi:"🏘️ **नारनूर ब्लॉक के बारे में:**\n\n2023 में NITI Aayog ABP के तहत चयनित।\n\n📊 मुख्य तथ्य:\n• जनसंख्या: 29,152\n• जनजाति (ST): 61.8%\n• ग्राम पंचायत: 23\n• बस्तियाँ: 46"}},
+{q:["bamboo","veeduru","bamboo craft","bamboo product","basket","artcraft","handicraft","hand made","handmade","craft","bamboo price","veeduru dhara","bamboo entha"],
+ a:{en:"🎋 **Bamboo Artcrafts from Narnoor!**\n\nHandcrafted by tribal artisans using traditional Gond techniques passed down generations.\n\n**Products:** Baskets, trays, decorative items, furniture\n💰 Price: **₹200 per piece** (varies by item)\n📍 Made at Bamboo Processing Unit, Naddamguda\n\n📲 Order via WhatsApp: +91 93919 14941\n\nEvery purchase supports tribal livelihoods!",
+    te:"🎋 వెదురు హస్తకళలు — నద్దంగూడ వెదురు యూనిట్ లో తయారు. ₹200/ముక్క. WhatsApp: +91 93919 14941",
+    hi:"🎋 बांस हस्तशिल्प — नद्दमगूड में बना। ₹200/टुकड़ा। WhatsApp: +91 93919 14941"}},
 
-  // Subscribe
-  {q:["subscribe","notification","alert","updates","monthly","newsletter","notify","job alert"],
-   a:{en:"🔔 **Subscribe to Narnoor Updates!**\n\nGet notified about:\n📌 New job opportunities & tenders\n📰 Monthly development reports\n🏆 New achievements & awards\n📋 Government scheme updates\n\nTo subscribe, scroll to the bottom of any page and fill in your name + WhatsApp number, or WhatsApp us at +91 93919 14941 saying 'Subscribe'.\n\nWe send one monthly report + instant alerts for new opportunities! 📲",
-    te:"🔔 **నర్నూర్ అప్‌డేట్‌లకు సభ్యత్వం పొందండి!**\n\nWhatsApp: +91 93919 14941 కు 'Subscribe' అని పంపండి",
-    hi:"🔔 **नारनूर अपडेट के लिए सदस्यता लें!**\n\nWhatsApp: +91 93919 14941 पर 'Subscribe' भेजें"}},
+{q:["organic","genuine","real","authentic","natural","pure","safe","నిజమా","nijamena","organic aina","asalu aina","trust","믿다","믿을","quality","standards","certified","guarantee","100 percent"],
+ a:{en:"✅ **Yes! 100% Genuine & Organic!**\n\n• Made by tribal women SHGs under NITI Aayog ABP programme\n• No chemicals, no preservatives, no artificial colors\n• Forest produce (Mahua, Bamboo) — wild-harvested\n• Supported by Government of India & Telangana\n• NITI Aayog certified block\n• ISO Certified GP in Narnoor\n\nYou're supporting real tribal families in Adilabad. Every rupee goes directly to SHG women! 🙏",
+    te:"✅ అవును! 100% నిజమైనది! NITI Aayog కింద SHG మహిళలు తయారుచేస్తారు. రసాయనాలు లేవు. ISO సర్టిఫైడ్. మీరు కొనుగోలు చేస్తే నేరుగా గిరిజన కుటుంబాలకు వస్తుంది! 🙏",
+    hi:"✅ हाँ! 100% असली और जैविक! NITI Aayog ABP के तहत SHG महिलाओं द्वारा निर्मित। ISO प्रमाणित।"}},
 
-  // Default
-  {q:["hi","hello","namaste","నమస్తే","help","what can you","who are you"],
-   a:{en:"👋 **Namaste! I'm the Narnoor Block AI Assistant.**\n\nI can help you with:\n🍯 Tribal products (Mahua Ladoo, Bamboo crafts)\n🏛️ Museum tickets & tourism\n📊 KPI achievements & awards\n📋 Government schemes & benefits\n📞 Contact & grievances\n🏘️ About Narnoor Block\n🔔 Subscribe for updates\n\nJust ask me anything! You can also type in **Telugu** (తెలుగు) or **Hindi** (हिंदी) 🙏",
-    te:"👋 **నమస్తే! నేను నర్నూర్ బ్లాక్ AI సహాయకుడను.**\n\nనేను సహాయం చేయగలను:\n🍯 గిరిజన ఉత్పత్తులు · 🏛️ మ్యూజియం · 📊 KPIs · 📋 పథకాలు · 📞 సంప్రదింపు\n\nతెలుగులో అడగండి! 🙏",
-    hi:"👋 **नमस्ते! मैं नारनूर ब्लॉक का AI सहायक हूं।**\n\nमैं इनमें मदद कर सकता हूं:\n🍯 आदिवासी उत्पाद · 🏛️ संग्रहालय · 📊 KPIs · 📋 योजनाएँ · 📞 संपर्क\n\nहिंदी में पूछें! 🙏"}},
+// ══════════════════════════════════════════════
+// MUSEUM / TOURISM
+// ══════════════════════════════════════════════
+{q:["museum","musiyam","museyam","మ్యూజియం","tribal museum","heritage museum","cultural centre","narnoor museum","ticket","entry","entha","dhara","timings","time","ela untundi","ela vachali","open","closed","visit museum","museum chudadam"],
+ a:{en:"🏛️ **Narnoor Tribal Heritage Museum & Cultural Centre!**\n\nBuilt with NITI Aayog grant of ₹18 Lakhs. Features:\n• Gond tribal art & murals\n• Tribes of South India & East India\n• Traditional costumes & jewellery\n• Musical instruments\n• Photo gallery of Narnoor's transformation\n\n🎟️ **Entry: ₹10 per person**\n⏰ Open: Tuesday to Sunday, 9 AM – 5 PM\n📍 Location: Narnoor Village, Adilabad\n\n📲 Book: WhatsApp +91 93919 14941",
+    te:"🏛️ నర్నూర్ గిరిజన మ్యూజియం! NITI Aayog ₹18 లక్షల గ్రాంట్‌తో నిర్మించబడింది.\n🎟️ ₹10 ప్రవేశం · మంగళ–ఆది · ఉ.9–సా.5\n📲 బుకింగ్: +91 93919 14941",
+    hi:"🏛️ नारनूर जनजातीय विरासत संग्रहालय! ₹18 लाख NITI Aayog अनुदान से बना।\n🎟️ प्रवेश ₹10 · मंगल–रवि · सुबह 9–शाम 5"}},
+
+// ══════════════════════════════════════════════
+// OFFICERS / ADMINISTRATION
+// ══════════════════════════════════════════════
+{q:["collector","kalachector","kalektar","adilabad collector","collector avaru","collector evaru","ias officer","district collector","rajarshi","rajrshi","shah ias","adilabad district head","who is collector","collector peru"],
+ a:{en:"👤 **Sri Rajarshi Shah, IAS** is the District Collector of Adilabad.",
+    te:"👤 **శ్రీ రాజర్షి షా, IAS** — ఆదిలాబాద్ జిల్లా కలెక్టర్.",
+    hi:"👤 **श्री राजर्षि शाह, IAS** — आदिलाबाद जिला कलेक्टर।"}},
+
+{q:["mpdo","mandal panchayat development officer","pulla rao","narnoor mpdo","who is mpdo","mpdo evaru","mpdo avaru","pdo","panchayat officer"],
+ a:{en:"👤 **Sri Pulla Rao** is the MPDO (Mandal Panchayat Development Officer) of Narnoor.",
+    te:"👤 **శ్రీ పుల్లా రావు** — నర్నూర్ MPDO (మండల పంచాయతీ అభివృద్ధి అధికారి).",
+    hi:"👤 **श्री पुल्ला राव** — नारनूर MPDO हैं।"}},
+
+{q:["programme officer","niti officer","rahul rathod","rahul","po abp","abp officer","niti aayog officer","who handles niti","niti evaru"],
+ a:{en:"👤 **Sri Rahul Rathod** is the Programme Officer for NITI Aayog ABP at Narnoor Block.",
+    te:"👤 **శ్రీ రాహుల్ రాథోడ్** — NITI Aayog ABP కార్యక్రమ అధికారి, నర్నూర్ బ్లాక్.",
+    hi:"👤 **श्री राहुल राठौड़** — NITI Aayog ABP, नारनूर के कार्यक्रम अधिकारी।"}},
+
+{q:["drda","project director","ravinder rathod","ravinder","drda adilabad","pd drda"],
+ a:{en:"👤 **Sri Ravinder Rathod** is the Project Director, DRDA Adilabad.",
+    te:"👤 **శ్రీ రవీందర్ రాథోడ్** — ప్రాజెక్ట్ డైరెక్టర్, DRDA ఆదిలాబాద్.",
+    hi:"👤 **श्री रविंदर राठौड़** — प्रोजेक्ट डायरेक्टर, DRDA आदिलाबाद।"}},
+
+{q:["contact","phone","number","whatsapp","email","address","office","evaru contact","ela contact","connect","reach","helpline","toll free"],
+ a:{en:"📞 **Contact Narnoor Block:**\n\n📧 Email: abpnarnoor@gmail.com\n📱 WhatsApp: +91 93919 14941\n🌐 Website: www.abpnarnoor.in\n🐦 Twitter/X: @AbpNarnoor\n📍 Office: Block Development Office, Narnoor Village, Adilabad, Telangana\n💳 UPI: abpnarnoor@upi",
+    te:"📞 నర్నూర్ సంప్రదింపు:\n📧 abpnarnoor@gmail.com\n📱 WhatsApp: +91 93919 14941\n🌐 www.abpnarnoor.in",
+    hi:"📞 नारनूर संपर्क:\n📧 abpnarnoor@gmail.com\n📱 WhatsApp: +91 93919 14941"}},
+
+// ══════════════════════════════════════════════
+// KPIs / ACHIEVEMENTS
+// ══════════════════════════════════════════════
+{q:["kpi","39 kpi","indicator","progress","achievement","abp rank","rank","1st rank","south zone","first rank","ranking","abp ranking","champion","champions of change","best block","award","awards","pm award","governor","gold medal","iso","super 60","frontier","pvtg"],
+ a:{en:"🏆 **Narnoor's Achievements:**\n\n• 🥇 **1st Rank South Zone** — Sep 2025 (₹1.5 Crore grant)\n• 🏅 **PM Award — Top 5 India** 2024\n• 🏆 **Governor's Gold Medal** — 6 Sampoornata Indicators\n• 📜 **ISO Certified** — First ISO GP in Telangana\n• ⭐ **Super 60** — PVTG focus block nationally\n• 🔬 **Frontier Technology** Programme\n• 📊 **All 39 NITI KPIs Improved**\n• 💰 ₹2.5 Crore+ total grants received\n\n🏛️ Champions of Change — NITI Aayog",
+    te:"🏆 నర్నూర్ విజయాలు:\n🥇 దక్షిణ జోన్ 1వ ర్యాంక్ 2025 (₹1.5 కోటి)\n🏅 PM అవార్డ్ అగ్ర 5 2024\n📊 39 KPIs అన్నీ మెరుగుపడ్డాయి",
+    hi:"🏆 नारनूर की उपलब्धियाँ:\n🥇 दक्षिण क्षेत्र 1st रैंक 2025 (₹1.5 करोड़)\n🏅 PM पुरस्कार Top 5 India 2024\n📊 सभी 39 KPIs में सुधार"}},
+
+{q:["sam","malnutrition","poshan","nutrition","health","anemia","anaemia","wasting","stunting","anganwadi","awc","maternal","delivery","hospital","treatment"],
+ a:{en:"🍎 **Health Achievements:**\n\n• SAM reduced: **2.06% → 0.10%** (95% reduction!)\n• **100% Institutional Deliveries**\n• **100% ANC Registration** (1st trimester)\n• Zero anaemia in targeted women\n• Daily Osmania Hospital telemedicine clinic\n• 30-bed government hospital at Narnoor\n\n🏅 Governor's Gold Medal for health KPIs!",
+    te:"🍎 ఆరోగ్య విజయాలు:\n• SAM: 2.06% → 0.10% (95% తగ్గింపు)\n• 100% సంస్థాగత ప్రసవాలు\n• రోజువారీ ఓస్మానియా ఆస్పత్రి టెలిమెడిసిన్",
+    hi:"🍎 स्वास्थ्य उपलब्धियाँ:\n• SAM: 2.06% → 0.10%\n• 100% संस्थागत प्रसव\n• दैनिक टेलीमेडिसिन क्लिनिक"}},
+
+// ══════════════════════════════════════════════
+// CSR / INVESTMENT
+// ══════════════════════════════════════════════
+{q:["csr","corporate","company","invest","investment","partner","collaboration","sponsor","fund","funding","ngo","organisation","organization","contribute","donation","help narnoor"],
+ a:{en:"🤝 **CSR Opportunities in Narnoor:**\n\nNarnoor Block welcomes CSR partnerships for:\n• 📚 **Education** — Smart classrooms, libraries\n• 🏥 **Health** — Medical equipment, camps\n• 🌿 **Livelihoods** — SHG support, skill training\n• 🏛️ **Tourism** — Museum, eco-tourism\n• 🌾 **Agriculture** — FPO support, irrigation\n• 💻 **Digital** — CSC centers, connectivity\n\n📧 Contact: abpnarnoor@gmail.com\n📱 WhatsApp: +91 93919 14941\n\n✅ Government-certified tribal block. Tax benefits under CSR rules.",
+    te:"🤝 CSR అవకాశాలు: విద్య, ఆరోగ్యం, జీవనోపాధి, పర్యాటకం రంగాలలో భాగస్వామ్యం. abpnarnoor@gmail.com కి రాయండి.",
+    hi:"🤝 CSR अवसर: शिक्षा, स्वास्थ्य, आजीविका, पर्यटन में साझेदारी। abpnarnoor@gmail.com"}},
+
+// ══════════════════════════════════════════════
+// GOVERNMENT / GOI QUERIES
+// ══════════════════════════════════════════════
+{q:["government scheme","pm kisan","jal jeevan","pm awas","mnrega","ujjwala","rythu bandhu","aasara","scheme","yojana","benefit","ela apply","how to apply","apply","panchayat","government help"],
+ a:{en:"📋 **Government Schemes in Narnoor:**\n\n**Central Govt:**\n• PM Kisan — ₹6,000/year (1,247 farmers)\n• Jal Jeevan Mission — 100% tap connections\n• PM Awas Yojana — Housing\n• PM-JANMAN — PVTG welfare\n• MNREGA — Employment guarantee\n• Ujjwala Yojana — Gas connections\n\n**Telangana State:**\n• Rythu Bandhu — Farm support\n• Aasara Pension — Senior citizens\n• Kalyana Lakshmi — Marriage support\n• Rajiv Aarogya Sri — Health insurance\n\n📱 For applications: Visit MPDO office, Narnoor or WhatsApp +91 93919 14941",
+    te:"📋 నర్నూర్‌లో పథకాలు: PM కిసాన్, జల్ జీవన్ మిషన్, PM ఆవాస్, MNREGA, PMAY, ఉజ్వల\nతెలంగాణ: రైతు బంధు, ఆసరా పెన్షన్\n📱 దరఖాస్తు: MPDO కార్యాలయం లేదా WhatsApp +91 93919 14941",
+    hi:"📋 नारनूर में योजनाएँ: PM किसान, जल जीवन मिशन, PM आवास, MNREGA, PM-JANMAN\nतेलंगाना: रायथु बंधु, आसरा पेंशन\n📱 आवेदन: MPDO कार्यालय या WhatsApp +91 93919 14941"}},
+
+// ══════════════════════════════════════════════
+// GRIEVANCE
+// ══════════════════════════════════════════════
+{q:["complaint","grievance","problem","issue","report","help","samasya","trouble","wrong","not working","petition","dikku","koovukunta","ela cheppali","file complaint","register complaint"],
+ a:{en:"📝 **File a Grievance:**\n\nYou can file complaints about any government service, scheme, or local issue:\n\n1️⃣ **Online:** Go to Grievance tab on this website → Fill form → Submit via WhatsApp\n2️⃣ **WhatsApp direct:** +91 93919 14941\n3️⃣ **Email:** abpnarnoor@gmail.com\n4️⃣ **Visit:** Block Development Office, Narnoor\n\n⏱️ Response within **7 working days**\n\nAll grievances are reviewed personally by the Programme Officer.",
+    te:"📝 ఫిర్యాదు దాఖలు: వెబ్‌సైట్‌లో Grievance tab నొక్కండి లేదా WhatsApp: +91 93919 14941\n⏱️ 7 పని దినాలలో స్పందన.",
+    hi:"📝 शिकायत दर्ज करें: वेबसाइट पर Grievance टैब → WhatsApp: +91 93919 14941\n⏱️ 7 कार्य दिवसों में जवाब।"}},
+
+// ══════════════════════════════════════════════
+// GONDI LANGUAGE SUPPORT
+// ══════════════════════════════════════════════
+{q:["gondi","gond","gondi mein","gondwana","koitur","గోండి","गोंडी","gond tribe","gond community","who are gonds","gondi language"],
+ a:{en:"🌿 Narnoor is home to the **Gond tribe** (also called Koitur) — one of India's largest tribal communities!\n\nGonds have a rich culture — Gondi language, Gond art (murals), festivals like Nagara Panchami, traditional music with horns & drums.\n\n🏛️ Visit the **Tribal Museum** to see Gond heritage!\n\nI understand some Gondi — feel free to ask!\n\n**In Gondi:** Narnoor sethaa! (Narnoor is good!) 🙏",
+    te:"🌿 నర్నూర్ లో గోండ్ గిరిజనులు (కోయితూర్) నివసిస్తారు. గొప్ప సంస్కృతి, కళ, సంగీతం. మ్యూజియం లో చూడండి!",
+    hi:"🌿 नारनूर में गोंड जनजाति (कोइतूर) निवास करती है। समृद्ध संस्कृति, गोंड कला, नागरा पंचमी त्योहार। संग्रहालय में देखें!"}},
+
+// ══════════════════════════════════════════════
+// HINGLISH / TELUGU-ENGLISH MIX QUERIES
+// ══════════════════════════════════════════════
+{q:["narnoor lo em","narnoor lo","lo em undi","lo emundi","narnoor ki","narnoor ka","yeh kya hai","yeh block","yeh village","famous deniki","em cheyali","em cheyyali","ela cheyali","emi cheyali","cheppandi"],
+ a:{en:"🏡 Narnoor Block is famous for Mahua Ladoo, Tribal Museum, and being 1st Rank in South Zone NITI Aayog ABP 2025! Ask me anything specific! 😊",
+    te:"🏡 నర్నూర్ బ్లాక్ మహువా లడ్డూ, గిరిజన మ్యూజియం, దక్షిణ జోన్ 1వ ర్యాంక్‌కు ప్రసిద్ధి! ఏమి తెలుసుకోవాలి? 😊",
+    hi:"🏡 नारनूर ब्लॉक माहुआ लड्डू, आदिवासी संग्रहालय और NITI Aayog ABP South Zone 1st Rank के लिए प्रसिद्ध है!"}},
+
+{q:["subscribe","notification","alert","news","updates","inform me","notify","latest news","narnoor news","abpnarnoor news"],
+ a:{en:"🔔 **Subscribe for Narnoor Updates!**\n\nGet monthly development reports, new job opportunities, scheme alerts, and Narnoor news on WhatsApp or Email!\n\n📲 Send a WhatsApp to: +91 93919 14941\nMessage: 'Subscribe Narnoor Updates'\n\nOr go to the Subscribe section on this website! 🙏",
+    te:"🔔 నర్నూర్ అప్‌డేట్‌లకు సభ్యత్వం! WhatsApp: +91 93919 14941 కి 'Subscribe Narnoor Updates' పంపండి.",
+    hi:"🔔 नारनूर अपडेट के लिए: WhatsApp: +91 93919 14941 पर 'Subscribe Narnoor Updates' भेजें।"}},
+
+{q:["bye","thank","thanks","dhanyawad","thanks you","ok bye","goodbye","ciao","badhulu","dhanyavaadalu","shukriya"],
+ a:{en:"🙏 Thank you for visiting Narnoor Block Portal!\n\nShare www.abpnarnoor.in with your friends & family. Together we grow! 🌿",
+    te:"🙏 ధన్యవాదాలు! www.abpnarnoor.in ని మీ స్నేహితులతో పంచుకోండి! 🌿",
+    hi:"🙏 धन्यवाद! www.abpnarnoor.in को अपने दोस्तों से शेयर करें! 🌿"}}
 ];
 
-function getReply(msg){
-  const m=msg.toLowerCase();
-  // Detect language
-  const isTe=/[ఀ-౿]/.test(msg);
-  const isHi=/[ऀ-ॿ]/.test(msg);
-  const lang2=isTe?"te":isHi?"hi":"en";
-  // Find best match
-  let best=null,bestScore=0;
-  for(const item of KB){
-    let score=0;
-    for(const kw of item.q){if(m.includes(kw))score+=kw.length;}
-    if(score>bestScore){bestScore=score;best=item;}
-  }
-  if(best&&bestScore>0){
-    const reply=best.a[lang2]||best.a.en;
-    return reply.replace(/\*\*(.*?)\*\*/g,"$1");
-  }
-  // Default fallback
-  const fallbacks={
-    en:`I don't have specific information about that yet. For detailed queries:\n📞 WhatsApp: +91 93919 14941\n📧 Email: abpnarnoor@gmail.com\n\nOr try asking about: tribal products, museum, KPIs, government schemes, or contact details! 😊`,
-    te:`దానిపై నాకు ప్రత్యేక సమాచారం లేదు.\n📞 WhatsApp: +91 93919 14941\n📧 abpnarnoor@gmail.com`,
-    hi:`उसके बारे में मुझे विशेष जानकारी नहीं है।\n📞 WhatsApp: +91 93919 14941\n📧 abpnarnoor@gmail.com`
-  };
-  return fallbacks[lang2]||fallbacks.en;
+// Default reply for unknown questions
+function getDefaultReply(m, isTe, isHi) {
+  if(isTe) return "నర్నూర్ గురించి మీ ప్రశ్నకు ధన్యవాదాలు! 🙏\n\nమీరు అడగవచ్చు:\n🍯 మహువా లడ్డూ ఆర్డర్\n🏛️ మ్యూజియం టికెట్\n📊 KPI విజయాలు\n📋 ప్రభుత్వ పథకాలు\nలేదా WhatsApp: +91 93919 14941 కి నేరుగా రాయండి!";
+  if(isHi) return "नारनूर के बारे में आपके प्रश्न का धन्यवाद! 🙏\n\nपूछ सकते हैं:\n🍯 माहुआ लड्डू ऑर्डर\n🏛️ संग्रहालय टिकट\n📊 उपलब्धियाँ\nया WhatsApp: +91 93919 14941";
+  return "Thanks for your question about Narnoor! 🙏\n\nI can help with:\n🍯 Mahua Ladoo & products\n🏛️ Museum tickets\n📊 KPI achievements\n📋 Government schemes\n🗺️ How to reach Narnoor\n👤 Key officers\n\nOr contact directly: WhatsApp +91 93919 14941";
 }
 
-async function sendChat(){
-  const inp=document.getElementById("chat-in");
-  if(!inp||chatLoading)return;
-  const msg=inp.value.trim();
-  if(!msg)return;
-  inp.value="";chatLoading=true;
-  chatMsgs.push({role:"user",content:msg});
-  addChatMsg(msg,"user");
-  const tid="thinking-"+Date.now();
-  addChatMsg("🤔 Finding answer...","bot",tid);
-  // Small delay to feel natural
-  await new Promise(r=>setTimeout(r,600));
-  const reply=getReply(msg);
-  chatMsgs.push({role:"assistant",content:reply});
-  const el=document.getElementById(tid);
-  if(el){el.textContent=reply;el.style.background="linear-gradient(135deg,#e0f4f4,#d8f3dc)";}
-  chatLoading=false;
-}
-
-function addChatMsg(text,role,id){
-  const msgs=document.getElementById("chat-msgs");
-  if(!msgs)return;
-  const d=document.createElement("div");
-  if(id)d.id=id;
-  d.style.cssText=role==="user"
-    ?"background:linear-gradient(135deg,#1b4332,#0a9396);color:#fff;border-radius:12px 12px 4px 12px;padding:10px 13px;font-size:12.5px;line-height:1.6;max-width:85%;align-self:flex-end;margin-left:auto"
-    :"background:linear-gradient(135deg,#e0f4f4,#d8f3dc);color:#1b4332;border-radius:12px 12px 12px 4px;padding:10px 13px;font-size:12.5px;line-height:1.6;max-width:90%";
-  d.textContent=text;
-  msgs.appendChild(d);
-  msgs.scrollTop=msgs.scrollHeight;
-}
-</script>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-</body>
-</html>
+let lbIdx
