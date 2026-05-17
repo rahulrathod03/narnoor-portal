@@ -1146,6 +1146,37 @@ function pgHome(){
     <div class="g4">${D.awards.slice(0,8).map(a=>`<div class="awc cg"><div style="font-size:30px;margin-bottom:9px">${a.icon}</div><div style="font-size:13px;font-weight:800;margin-bottom:4px;font-family:'Playfair Display',serif">${a.title}</div><div style="font-size:11px;color:var(--tx2);line-height:1.55;margin-bottom:7px">${a.subtitle}</div><div style="font-size:9px;font-weight:800;color:var(--s);text-transform:uppercase;margin-bottom:7px;letter-spacing:.5px">${a.year}</div>${pill(a.grant_info,"pgold")}</div>`).join("")||`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--tx3)">Run SQL setup to load awards</div>`}</div>
   </div>
   
+  
+  <!-- Narnoor Entrepreneurial Hub -->
+  <div style="background:linear-gradient(135deg,#1b4332,#0d2b1a);padding:36px 0;margin:0">
+    <div class="sec" style="padding-top:0;padding-bottom:0">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px">
+        <div>
+          <div style="font-size:9.5px;font-weight:800;color:var(--teal);text-transform:uppercase;letter-spacing:2px;margin-bottom:7px">🏭 Enterprise Development</div>
+          <div style="font-family:'Playfair Display',serif;font-size:clamp(20px,3.5vw,32px);font-weight:800;color:#fff">Narnoor — <span style="color:var(--s)">Entrepreneurial Hub</span></div>
+          <div style="font-size:12.5px;color:rgba(255,255,255,.5);margin-top:6px">Tribal enterprises powered by PMEGP · PMFME · SHG · ABP</div>
+        </div>
+        <button onclick="go('initiatives');window.initF='Small Scale Units';R()" style="background:var(--s);color:#fff;border:none;padding:10px 20px;border-radius:50px;font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap">View All Units →</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+        ${[
+          {ic:"🍯",n:"Mahua Ladoo Unit",loc:"Khairdatwa",st:"✅ Functional",c:"#22c55e",d:"₹150/250g · SHG Women"},
+          {ic:"🎋",n:"Bamboo Processing Unit",loc:"Naddamguda",st:"✅ Functional",c:"#22c55e",d:"₹200/piece · Tribal Artisans"},
+          {ic:"🌾",n:"Dal Mill Unit",loc:"Tadihatnoor",st:"✅ Functional",c:"#22c55e",d:"Serves 200+ farmers"},
+          {ic:"🧶",n:"Crochet Unit",loc:"Narnoor",st:"🔄 Coming Soon",c:"#f59e0b",d:"PMEGP · 20 women"},
+          {ic:"👗",n:"Garment Unit",loc:"Narnoor",st:"🔄 Coming Soon",c:"#f59e0b",d:"PMFME · 15 women"},
+          {ic:"🏢",n:"PMEGP Units",loc:"Block-wide",st:"✅ 8 Sanctioned",c:"#22c55e",d:"Youth Entrepreneurs"},
+        ].map(u=>`<div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;border-left:3px solid ${u.c}">
+          <div style="font-size:24px;margin-bottom:8px">${u.ic}</div>
+          <div style="font-size:12.5px;font-weight:800;color:#fff;margin-bottom:3px">${u.n}</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.4);margin-bottom:5px">📍 ${u.loc}</div>
+          <div style="font-size:9.5px;font-weight:700;color:${u.c};margin-bottom:4px">${u.st}</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.45)">${u.d}</div>
+        </div>`).join("")}
+      </div>
+    </div>
+  </div>
+
   <div class="salt" style="padding:46px 0"><div class="sec" style="padding-top:0;padding-bottom:0">
     <div style="text-align:center;margin-bottom:26px"><div class="stag" style="justify-content:center">${tr("nav_impact","For Everyone")}</div><div class="sh">Narnoor — <span>${tr("platform_title","One Stop Platform")}</span></div></div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;max-width:900px;margin:0 auto">
@@ -1209,6 +1240,22 @@ function pgProfile(){
             <div style="position:absolute;top:${p.t};left:${p.l};transform:translate(-50%,-50%);z-index:3">
               <div style="width:9px;height:9px;border-radius:50%;background:rgba(232,105,26,.95);box-shadow:0 0 0 0 rgba(232,105,26,.5);animation:ripple 2.5s ease infinite ${i*.3}s;position:relative;z-index:2"></div>
               <div style="position:absolute;top:-22px;left:50%;transform:translateX(-50%);background:rgba(5,46,22,.9);color:#fff;font-size:7.5px;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.3)">${p.n}</div>
+            </div>`).join("")}
+          </div>
+          <!-- Infrastructure markers — PM Gati Shakti style -->
+          <div style="position:absolute;inset:0;pointer-events:none;z-index:5">
+            ${[
+              {t:"43%",l:"46%",ic:"🏥",n:"30-Bed Hospital + Telemedicine",c:"#dc2626"},
+              {t:"44%",l:"44%",ic:"🏛️",n:"Tribal Museum & Cultural Centre",c:"#d97706"},
+              {t:"45%",l:"48%",ic:"🎋",n:"Bamboo Processing Unit, Naddamguda",c:"#059669"},
+              {t:"38%",l:"53%",ic:"🍯",n:"Mahua Ladoo Unit, Khairdatwa",c:"#ea580c"},
+              {t:"26%",l:"56%",ic:"🌾",n:"Dal Mill Unit, Tadihatnoor",c:"#65a30d"},
+              {t:"37%",l:"30%",ic:"🏫",n:"Digital Classroom, AHS Jamda",c:"#2563eb"},
+              {t:"71%",l:"54%",ic:"💻",n:"CSC Digital Centre",c:"#0891b2"},
+              {t:"42%",l:"46%",ic:"📡",n:"Telemedicine Clinic (Osmania Hospital)",c:"#7c3aed"},
+            ].map((p,i)=>`
+            <div style="position:absolute;top:${p.t};left:${p.l};transform:translate(-50%,-50%);z-index:3;cursor:pointer" onclick="alert('${p.n}\\n📍 Narnoor Block, Adilabad')" title="${p.n}">
+              <div style="background:${p.c};color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;box-shadow:0 2px 8px rgba(0,0,0,.35);border:2px solid rgba(255,255,255,.8);animation:ripple 2.5s ease infinite ${i*.2}s">${p.ic}</div>
             </div>`).join("")}
           </div>
         </div>
@@ -1430,10 +1477,20 @@ function pgCamps(){
 }
 
 function pgInits(){
+  const initSectors=["All","Health & Nutrition","Education","Agriculture","Basic Infrastructure","Social Development","Small Scale Units"];
+  if(!window.initF)window.initF="All";
+  const filtered=D.initiatives.sort((a,b)=>(b.id||0)-(a.id||0)).filter(x=>window.initF==="All"||x.sector===window.initF);
   return`<div class="sec">
-  <div class="stag">${tr("nav_initiatives","Key Initiatives")}</div><div class="sh" style="margin-bottom:6px">Narnoor's <span>${tr("init_title","Flagship Initiatives")}</span></div>
-  <div class="ss" style="margin-bottom:22px">Ground-level programmes making real impact across all sectors</div>
-  ${D.initiatives.length?`<div class="g3">${D.initiatives.map(x=>{const ip=fixUrl(x.photo_url||"");return`<div class="ic">
+  <div class="stag">${tr("nav_initiatives","Key Initiatives")}</div>
+  <div class="sh" style="margin-bottom:6px">Narnoor's <span>${tr("init_title","Flagship Initiatives")}</span></div>
+  <div class="ss" style="margin-bottom:14px">Ground-level programmes making real impact — including Small Scale Units & Enterprises</div>
+
+  <!-- Sector filter tabs -->
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px">
+    ${initSectors.map(s=>`<button onclick="window.initF='${s}';R()" style="padding:6px 14px;border-radius:50px;border:1.5px solid ${window.initF===s?"var(--t)":"var(--b)"};background:${window.initF===s?"var(--t)":"var(--w)"};color:${window.initF===s?"#fff":"var(--tx2)"};font-size:11px;font-weight:700;cursor:pointer;transition:all .2s">${s}</button>`).join("")}
+  </div>
+
+  ${filtered.length?`<div class="g3">${filtered.map(x=>{const ip=fixUrl(x.photo_url||"");return`<div class="ic">
     <div class="ith" style="background:linear-gradient(135deg,${x.bg_color||"var(--fd)"},${x.bg_color||"var(--fd)"}88);overflow:hidden">
       ${ip?`<img src="${ip}" alt="${x.title}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.7" onerror="this.style.display='none'">`:""}
       <span class="iemj">${x.emoji||"✨"}</span></div>
@@ -2340,6 +2397,67 @@ async function dJob(id){if(!confirm("Delete?"))return;await sD("jobs",id);D.jobs
 function go(p){pg=p;mob=false;R();}
 function openMob(){mob=true;R();}
 function cMob(){mob=false;R();}
+// Save Block Profile
+async function saveBP(){
+  const fields={blockName:"bp-name",district:"bp-district",state:"bp-state",
+    population:"bp-pop",stPct:"bp-st",totalGPs:"bp-gps",totalHabs:"bp-habs",
+    totalSchools:"bp-schools",totalAWC:"bp-awc",totalPHC:"bp-phc",
+    blockDesc:"bp-desc",mapUrl:"bp-map"};
+  const saves=[];
+  for(const[k,id] of Object.entries(fields)){
+    const el=document.getElementById(id);
+    if(el){saves.push(sP("site_settings",{key:k,value:el.value}));}
+  }
+  await Promise.all(saves);
+  await loadAll();
+  toast("✓ Block Profile saved!");
+  R();
+}
+
+// Chat send
+function addMsg(text,isUser){
+  const msgs=document.getElementById("chat-msgs");
+  if(!msgs)return;
+  const d=document.createElement("div");
+  d.style.cssText=isUser
+    ?"background:linear-gradient(135deg,#1b4332,#0a9396);color:#fff;border-radius:13px 13px 3px 13px;padding:10px 13px;font-size:12.5px;line-height:1.6;max-width:88%;align-self:flex-end;margin-left:auto"
+    :"background:linear-gradient(135deg,#e0f4f4,#d8f3dc);color:#1b4332;border-radius:13px 13px 13px 3px;padding:10px 13px;font-size:12.5px;line-height:1.6;max-width:90%";
+  d.innerHTML=text;
+  msgs.appendChild(d);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function sendChat(){
+  const inp=document.getElementById("chat-in");
+  if(!inp||!inp.value.trim())return;
+  const msg=inp.value.trim();
+  inp.value="";
+  addMsg(msg,true);
+  // Show typing indicator
+  const msgs=document.getElementById("chat-msgs");
+  const typing=document.createElement("div");
+  typing.id="chat-typing";
+  typing.style.cssText="color:#1b4332;font-size:12px;padding:6px;opacity:.6";
+  typing.textContent="● typing...";
+  if(msgs)msgs.appendChild(typing);
+  setTimeout(()=>{
+    if(typing)typing.remove();
+    const reply=typeof getReply==="function"?getReply(msg):"Ask me anything about Narnoor! 😊";
+    addMsg(reply,false);
+  },500);
+}
+
+// WhatsApp auto-response helper
+// When user orders via WhatsApp, they get auto-message template
+function waOrder(product,price){
+  const msg=`Hello! I would like to order:\n\nProduct: ${product}\nPrice: ${price}\n\nMy Name: \nDelivery Address: \nQuantity: \n\nPlease confirm my order. Thank you!`;
+  WS(msg,"shop");
+}
+function waSubscribe(name,phone){
+  const msg=`Subscribe Request:\nName: ${name||""}\nPhone: ${phone||""}\n\nPlease add me to Narnoor Block updates WhatsApp list. Thank you!`;
+  WS(msg,"subscribe");
+}
+
 function adminTab(icon,title,content){
   return `<div class="as"><div class="at">${icon} ${title}</div>${content}</div>`;
 }
