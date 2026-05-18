@@ -1,0 +1,22 @@
+{
+  "name": "Narnoor Block ABP Portal",
+  "short_name": "Narnoor ABP",
+  "description": "Official portal of Narnoor Block — NITI Aayog Aspirational Blocks Programme, Adilabad, Telangana",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1b4332",
+  "theme_color": "#0a9396",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "/favicon.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/favicon.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "shortcuts": [
+    { "name": "KPI Dashboard", "url": "/?page=dashboard", "description": "View all KPIs" },
+    { "name": "Mahua Ladoo Shop", "url": "/?page=shop", "description": "Buy tribal products" },
+    { "name": "Museum Ticket", "url": "/?page=tourism", "description": "Book museum entry" }
+  ],
+  "categories": ["government", "productivity"],
+  "lang": "en-IN",
+  "dir": "ltr"
+}
