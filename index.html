@@ -1713,7 +1713,7 @@ function pgDash(){
           <span style="font-size:9px;color:var(--tx3)">2023: ${k.baseline}</span>
           <span style="font-size:9px;font-weight:800;color:${c}">${k.note||""}</span>
         </div>
-        <span class="pill" style="background:${bg};color:${c};font-size:9px;margin-top:5px">${effectiveSat?"✓ Saturated":k.progress>=75?"★ Excellent":"● Ongoing"}</span>
+        <span class="pill" style="background:${bg};color:${c};font-size:9px;margin-top:5px">${isSat?"✓ Saturated":isGood?"★ Excellent":"● Ongoing"}</span>
       </div>`;
     }).join("")}
   </div>`:`<div style="text-align:center;padding:50px;color:var(--tx3)"><div style="font-size:40px;margin-bottom:12px">📊</div><div style="font-size:14px;font-weight:800;color:var(--tx)">Run SQL Setup to load KPI data</div></div>`}
