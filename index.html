@@ -1236,26 +1236,80 @@ function pgProfile(){
           </div>
           <span class="pill pg" style="font-size:9px;animation:pulse 2s ease infinite">● Live</span>
         </div>
-        <!-- PM Gati Shakti Style Interactive Map — Leaflet.js (FREE) -->
-        <div style="position:relative;height:520px;background:#1b4332" id="gati-map-wrap">
-          <div id="gati-map" style="width:100%;height:100%;z-index:1"></div>
-          <div style="position:absolute;top:12px;right:12px;z-index:1000;display:flex;flex-direction:column;gap:6px">
-            <button onclick="setMapLayer('street')" id="btn-street" style="background:#fff;border:2px solid #0a9396;border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;color:#0a9396;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)">🗺️ Map</button>
-            <button onclick="setMapLayer('satellite')" id="btn-sat" style="background:#fff;border:2px solid #ddd;border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;color:#666;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)">🛰️ Satellite</button>
-            <button onclick="setMapLayer('terrain')" id="btn-terrain" style="background:#fff;border:2px solid #ddd;border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;color:#666;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)">⛰️ Terrain</button>
-          </div>
-          <div style="position:absolute;top:12px;left:12px;z-index:1000;background:rgba(5,46,22,.9);color:#fff;border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:6px;pointer-events:none">
-            <span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block"></span>
-            Narnoor Block · PM Gati Shakti
-          </div>
-          <div style="position:absolute;bottom:30px;left:12px;z-index:1000;background:rgba(255,255,255,.95);border-radius:10px;padding:9px 11px;font-size:10px;box-shadow:0 2px 10px rgba(0,0,0,.2);pointer-events:none">
-            <div style="font-weight:800;color:#1b4332;margin-bottom:5px;font-size:9.5px;text-transform:uppercase;letter-spacing:.5px">Infrastructure Layer</div>
-            <div style="display:flex;flex-direction:column;gap:3px">
-              ${[["#dc2626","🏥 Health"],["#d97706","🏛️ Culture"],["#059669","🎋 Industry"],["#2563eb","🏫 Education"],["#0891b2","💻 Digital"],["#16a34a","🍯 Livelihood"],["#0369a1","🌊 Water"]].map(([c,l])=>`<div style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:50%;background:${c};display:inline-block;flex-shrink:0"></span><span>${l}</span></div>`).join("")}
+        <!-- MAP SECTION: Static GP Map + Interactive Gati Shakti Map -->
+
+        <!-- TAB SWITCHER -->
+        <div style="display:flex;border-bottom:2px solid var(--b);background:var(--w)">
+          <button id="tab-static" onclick="switchMapTab('static')"
+            style="flex:1;padding:11px 16px;border:none;background:var(--t);color:#fff;font-weight:700;font-size:12.5px;cursor:pointer;transition:all .2s">
+            🗺️ Narnoor Block Map
+          </button>
+          <button id="tab-gati" onclick="switchMapTab('gati')"
+            style="flex:1;padding:11px 16px;border:none;background:var(--w);color:var(--tx2);font-weight:700;font-size:12.5px;cursor:pointer;transition:all .2s">
+            🛰️ PM Gati Shakti Interactive
+          </button>
+        </div>
+
+        <!-- MAP 1: Static Narnoor Map with GP Names -->
+        <div id="map-static-panel" style="position:relative;display:block">
+          <div style="position:relative;overflow:hidden;background:#eef7f4">
+            <img src="${fixUrl(g('mapUrl'))||MAP_EMBEDDED}" alt="Narnoor Block Map"
+              style="width:100%;height:auto;display:block;object-fit:contain;max-height:460px;filter:contrast(1.1) saturate(1.2) brightness(1.06)"
+              onmouseover="this.style.transform='scale(1.02)'"
+              onmouseout="this.style.transform='scale(1)'">
+            <!-- All 23 GP name overlays -->
+            <div style="position:absolute;inset:0;pointer-events:none">
+              ${[
+                {t:"44%",l:"46%",n:"Narnoor HQ ★",hq:true},
+                {t:"30%",l:"31%",n:"Gundala G",hq:false},
+                {t:"59%",l:"60%",n:"Balanpur",hq:false},
+                {t:"26%",l:"56%",n:"Tadihadpanur",hq:false},
+                {t:"66%",l:"37%",n:"Bheempur",hq:false},
+                {t:"40%",l:"69%",n:"Khampur",hq:false},
+                {t:"51%",l:"24%",n:"Malepur",hq:false},
+                {t:"36%",l:"73%",n:"Bethalguda",hq:false},
+                {t:"21%",l:"44%",n:"Mahagaon",hq:false},
+                {t:"55%",l:"51%",n:"Gangapur",hq:false},
+                {t:"71%",l:"54%",n:"Kothapally H",hq:false},
+                {t:"28%",l:"62%",n:"Nagalkonda",hq:false},
+                {t:"48%",l:"34%",n:"Empally G",hq:false},
+                {t:"62%",l:"23%",n:"Malangi",hq:false},
+                {t:"38%",l:"53%",n:"Khairdatwa",hq:false},
+                {t:"53%",l:"71%",n:"Gunjala",hq:false},
+                {t:"72%",l:"41%",n:"Umri",hq:false},
+                {t:"23%",l:"35%",n:"Babejhari",hq:false},
+                {t:"61%",l:"45%",n:"Chorgaon",hq:false},
+                {t:"44%",l:"80%",n:"Mankapur",hq:false},
+                {t:"33%",l:"47%",n:"Sungapur",hq:false},
+                {t:"77%",l:"29%",n:"Marapaguda",hq:false},
+                {t:"18%",l:"58%",n:"Jamda",hq:false}
+              ].map((p,i)=>`
+              <div style="position:absolute;top:${p.t};left:${p.l};transform:translate(-50%,-50%);text-align:center">
+                <div style="width:${p.hq?10:7}px;height:${p.hq?10:7}px;border-radius:50%;background:${p.hq?"#E8691A":"#0a9396"};border:2px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.4);margin:0 auto 2px;animation:ripple 2.5s ease infinite ${i*.12}s"></div>
+                <div style="background:${p.hq?"rgba(27,67,50,.92)":"rgba(5,46,22,.82)"};color:#fff;font-size:${p.hq?7:6}px;font-weight:${p.hq?800:700};padding:2px 5px;border-radius:3px;white-space:nowrap;letter-spacing:.2px">${p.n}</div>
+              </div>`).join("")}
             </div>
           </div>
+          <div style="padding:8px 14px;background:#f0fdf4;font-size:10px;color:var(--tx3);display:flex;justify-content:space-between">
+            <span>23 GPs · 46 Habitations · 29,152 Population</span>
+            <span>📍 Narnoor Block, Adilabad, Telangana</span>
+          </div>
         </div>
-        <!-- Footer stats bar -->
+
+        <!-- MAP 2: Interactive Gati Shakti Map -->
+        <div id="map-gati-panel" style="display:none">
+          <div style="display:flex;gap:0;background:var(--w2);border-bottom:1px solid var(--b)">
+            <button onclick="setMapLayer('street')" id="btn-street" style="flex:1;padding:8px;border:none;border-right:1px solid var(--b);background:var(--t);color:#fff;font-size:11px;font-weight:700;cursor:pointer">🗺️ Street</button>
+            <button onclick="setMapLayer('satellite')" id="btn-sat" style="flex:1;padding:8px;border:none;border-right:1px solid var(--b);background:transparent;color:var(--tx2);font-size:11px;font-weight:700;cursor:pointer">🛰️ Satellite</button>
+            <button onclick="setMapLayer('terrain')" id="btn-terrain" style="flex:1;padding:8px;border:none;background:transparent;color:var(--tx2);font-size:11px;font-weight:700;cursor:pointer">⛰️ Terrain</button>
+          </div>
+          <div id="gati-map" style="width:100%;height:480px;z-index:1"></div>
+          <div style="padding:8px 14px;background:#e8f5e9;font-size:10px;color:#1b4332;font-weight:600">
+            👆 Click any pin to see details · Scroll to zoom · Drag to pan · Switch layers above
+          </div>
+        </div>
+
+<!-- Footer stats bar -->
         <div style="padding:11px 16px;background:linear-gradient(135deg,var(--tp),#f0fdf4);border-top:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
           <div style="display:flex;gap:16px;flex-wrap:wrap">
             ${[["23","Gram Panchayats"],["46","Habitations"],["29,152","Population"],["61.8%","Tribal ST"]].map(([n,l])=>`<div><span style="font-family:'Poppins',sans-serif;font-size:14px;font-weight:900;color:var(--td)">${n}</span> <span style="font-size:10px;color:var(--tx3);font-weight:600">${l}</span></div>`).join("")}
@@ -3346,118 +3400,167 @@ function getDefaultReply(m, isTe, isHi) {
 </script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
+// ══════════════════════════════════════════
+// TAB SWITCHER - Static vs Gati Shakti
+// ══════════════════════════════════════════
+function switchMapTab(tab){
+  var s=document.getElementById("map-static-panel");
+  var g=document.getElementById("map-gati-panel");
+  var ts=document.getElementById("tab-static");
+  var tg=document.getElementById("tab-gati");
+  if(!s||!g)return;
+  if(tab==="static"){
+    s.style.display="block";g.style.display="none";
+    if(ts){ts.style.background="var(--t)";ts.style.color="#fff";}
+    if(tg){tg.style.background="var(--w)";tg.style.color="var(--tx2)";}
+  } else {
+    s.style.display="none";g.style.display="block";
+    if(ts){ts.style.background="var(--w)";ts.style.color="var(--tx2)";}
+    if(tg){tg.style.background="var(--t)";tg.style.color="#fff";}
+    // Init or resize map
+    if(typeof L!=="undefined"){
+      if(!gatiMap)initGatiMap();
+      else setTimeout(function(){gatiMap.invalidateSize();},200);
+    }
+  }
+}
+
+// ══════════════════════════════════════════
+// PM GATI SHAKTI MAP - Leaflet.js
+// ══════════════════════════════════════════
 var gatiMap=null,currentTileLayer=null;
-var NARNOOR=[19.097,78.550];
 
 var INFRA=[
-  {lat:19.097,lng:78.548,ic:"🏥",n:"30-Bed Hospital + Telemedicine",c:"#dc2626",d:"Primary Health Centre. Daily telemedicine with Osmania Hospital, Hyderabad."},
-  {lat:19.096,lng:78.545,ic:"🏛️",n:"Tribal Heritage Museum",c:"#d97706",d:"Built with Rs 18 Lakh NITI Aayog ABP grant. Entry Rs 10. Tue-Sun 9AM-5PM."},
-  {lat:19.103,lng:78.561,ic:"🎋",n:"Bamboo Processing Unit",c:"#059669",d:"Naddamguda — Tribal artisan bamboo crafts. Employs 25+ artisans."},
-  {lat:19.088,lng:78.539,ic:"🍯",n:"Mahua Ladoo Unit",c:"#16a34a",d:"Khairdatwa — Women SHG unit. Rs 150/250g. 100% natural forest produce."},
-  {lat:19.125,lng:78.572,ic:"🌾",n:"Dal Mill Unit",c:"#059669",d:"Tadihatnoor — SHG dal mill serving 200+ farming families."},
-  {lat:19.143,lng:78.581,ic:"🏫",n:"Digital Classroom AHS Jamda",c:"#2563eb",d:"Smart boards, computers, NASSCOM digital literacy."},
-  {lat:19.098,lng:78.554,ic:"💻",n:"CSC Digital Centre",c:"#0891b2",d:"Common Service Centre — Aadhaar, certificates, e-banking."},
-  {lat:19.094,lng:78.543,ic:"📚",n:"Digital Library",c:"#2563eb",d:"Digital library and reading room open to all citizens."},
-  {lat:19.097,lng:78.546,ic:"🖥️",n:"ICT Centre",c:"#0891b2",d:"Computer training for tribal youth."},
-  {lat:19.097,lng:78.549,ic:"🏢",n:"MPDO Office",c:"#6b7280",d:"Mandal Panchayat Development Officer — Block HQ."},
-  {lat:19.105,lng:78.558,ic:"🌊",n:"Water Rejuvenation Tank",c:"#0369a1",d:"Jal Jeevan Mission — 10 tanks Phase 1 complete. 100% tap water."},
-  {lat:19.099,lng:78.551,ic:"📡",n:"Telemedicine Clinic",c:"#7c3aed",d:"Daily specialist consultations via telemedicine."},
-  {lat:19.089,lng:78.542,ic:"🏘️",n:"PM Awas Houses",c:"#7c3aed",d:"Completed pucca houses under PM Awas Yojana for tribal families."},
-  {lat:19.112,lng:78.563,ic:"☀️",n:"Solar Street Lights",c:"#d97706",d:"Solar-powered LED street lights across Narnoor habitations."},
+  {lat:19.097,lng:78.548,ic:"🏥",n:"30-Bed Government Hospital",c:"#dc2626",cat:"Health",d:"Primary Health Centre with 30 beds. Emergency care, maternal health, child health. Serving 29,152 population of Narnoor Block."},
+  {lat:19.099,lng:78.552,ic:"📡",n:"Telemedicine Clinic",c:"#7c3aed",cat:"Health",d:"Daily specialist consultations via telemedicine with Osmania Hospital, Hyderabad. Cardiology, gynaecology, paediatrics available."},
+  {lat:19.096,lng:78.545,ic:"🏛️",n:"Tribal Heritage Museum",c:"#d97706",cat:"Culture",d:"Built with Rs 18 Lakh NITI Aayog ABP grant. Gond tribal art, costumes, musical instruments, murals of Tribes of East & South India. Entry Rs 10 · Tue-Sun 9AM-5PM."},
+  {lat:19.103,lng:78.561,ic:"🎋",n:"Bamboo Processing Unit",c:"#059669",cat:"Industry",d:"Naddamguda — Tribal artisan bamboo crafts. Baskets, trays, decorative items using traditional Gond techniques. Rs 200/piece. Employs 25+ tribal artisans."},
+  {lat:19.088,lng:78.539,ic:"🍯",n:"Mahua Ladoo Unit - Khairdatwa",c:"#16a34a",cat:"Livelihood",d:"Women SHG Mahua Ladoo unit at Khairdatwa. 100% natural forest produce sweet. Rs 150/250g pack. 40+ women employed. 50kg/week output. PMFME supported."},
+  {lat:19.125,lng:78.572,ic:"🌾",n:"Dal Mill Unit - Tadihatnoor",c:"#65a30d",cat:"Industry",d:"SHG-run dal mill at Tadihatnoor. Processes pulses locally. Reduces cost by 30% for farmers. Serves 200+ farming families in the area."},
+  {lat:19.143,lng:78.581,ic:"🏫",n:"Digital Classroom - AHS Jamda",c:"#2563eb",cat:"Education",d:"State-of-the-art digital classroom at AHS Jamda. Smart boards, computers, internet connectivity. NASSCOM digital literacy for tribal students. Model school for the block."},
+  {lat:19.098,lng:78.554,ic:"💻",n:"CSC Digital Centre",c:"#0891b2",cat:"Digital",d:"Common Service Centre — Aadhaar enrolment, certificates, banking, e-commerce, government scheme applications. Digital hub for Narnoor citizens."},
+  {lat:19.094,lng:78.543,ic:"📚",n:"Digital Library & Reading Room",c:"#1d4ed8",cat:"Education",d:"Digital library with e-books, newspapers, reading room. Open to all citizens. Promotes literacy and digital education in tribal community."},
+  {lat:19.096,lng:78.548,ic:"🖥️",n:"ICT Centre",c:"#0284c7",cat:"Digital",d:"Information & Communication Technology Centre. Computer skill training for tribal youth. Part of Frontier Technology Programme, NITI Aayog."},
+  {lat:19.097,lng:78.546,ic:"🏢",n:"MPDO Office & Block HQ",c:"#6b7280",cat:"Admin",d:"Mandal Panchayat Development Officer — Block Administration Headquarters. All government scheme applications, certificates, grievances handled here."},
+  {lat:19.105,lng:78.558,ic:"🌊",n:"Water Rejuvenation Tanks",c:"#0369a1",cat:"Infrastructure",d:"Phase 1 — 10 tanks completed under Jal Jeevan Mission. 100% functional tap water connections across all 46 habitations. ODF Plus achieved."},
+  {lat:19.112,lng:78.563,ic:"☀️",n:"Solar Street Lights",c:"#ca8a04",cat:"Infrastructure",d:"Solar-powered LED street lights installed across Narnoor habitations. Energy-efficient, sustainable lighting for tribal communities."},
+  {lat:19.089,lng:78.542,ic:"🏘️",n:"PM Awas Yojana Houses",c:"#7c3aed",cat:"Housing",d:"Completed pucca (permanent) houses under PM Awas Yojana for tribal families. All BPL and tribal households covered in Narnoor Block."},
+  {lat:19.098,lng:78.551,ic:"🧶",n:"Crochet Unit (Coming Soon)",c:"#db2777",cat:"Livelihood",d:"Upcoming SHG women Crochet unit under PMEGP scheme. 20 women trained. Will produce crochet bags and decorative items for urban markets."},
+  {lat:19.094,lng:78.555,ic:"👗",n:"Garment Unit (Coming Soon)",c:"#9333ea",cat:"Livelihood",d:"Upcoming garment stitching unit under PMFME. 15 tribal women trained in tailoring. Will produce school uniforms and tribal dress items."},
+  {lat:19.100,lng:78.547,ic:"🏦",n:"Bank & SHG Linkage Centre",c:"#0f766e",cat:"Finance",d:"Bank linkage for 85 SHGs with 900+ women. Micro-credit, savings accounts, PMJDY accounts. Financial inclusion for tribal families."},
+  {lat:19.097,lng:78.545,ic:"🩺",n:"Anganwadi Centre (AWC)",c:"#ef4444",cat:"Health",d:"77 Anganwadi Centres across Narnoor Block. Child nutrition, immunisation, pre-school education. Zero anaemia campaign ongoing."},
 ];
 
-var GP_LIST=[
-  [19.097,78.550,"Narnoor HQ ★",true],[19.143,78.581,"Jamda",false],[19.088,78.539,"Khairdatwa",false],
+var GP_MARKERS=[
+  [19.097,78.550,"Narnoor",true],[19.143,78.581,"Jamda",false],[19.088,78.539,"Khairdatwa",false],
   [19.125,78.572,"Tadihadpanur",false],[19.115,78.520,"Mahagaon",false],[19.080,78.510,"Bheempur",false],
   [19.070,78.540,"Marapaguda",false],[19.110,78.595,"Bethalguda",false],[19.120,78.535,"Gangapur",false],
   [19.130,78.560,"Nagalkonda",false],[19.085,78.565,"Gunjala",false],[19.075,78.520,"Malangi",false],
   [19.060,78.555,"Umri",false],[19.065,78.530,"Malepur",false],[19.135,78.545,"Sungapur",false],
-  [19.050,78.515,"Balanpur",false],[19.145,78.600,"Kothapally",false],[19.100,78.520,"Empally G",false],
+  [19.050,78.515,"Balanpur",false],[19.145,78.600,"Kothapally H",false],[19.100,78.520,"Empally G",false],
   [19.055,78.545,"Chorgaon",false],[19.145,78.530,"Babejhari",false],[19.155,78.565,"Gundala G",false],
   [19.095,78.575,"Khampur",false],[19.085,78.580,"Mankapur",false],
 ];
+
+var CAT_COLORS={Health:"#dc2626",Culture:"#d97706",Industry:"#059669",Education:"#2563eb",Digital:"#0891b2",Livelihood:"#16a34a",Infrastructure:"#0369a1",Housing:"#7c3aed",Admin:"#6b7280",Finance:"#0f766e"};
 
 function initGatiMap(){
   var el=document.getElementById("gati-map");
   if(!el||gatiMap)return;
   
-  gatiMap=L.map("gati-map",{center:NARNOOR,zoom:13});
-  
+  gatiMap=L.map("gati-map",{center:[19.097,78.550],zoom:13,zoomControl:true});
   currentTileLayer=L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
-    attribution:"&copy; OpenStreetMap",maxZoom:19
+    attribution:"&copy; <a href='https://openstreetmap.org'>OpenStreetMap</a>",maxZoom:19
   }).addTo(gatiMap);
 
-  // Infrastructure markers
+  // Add infrastructure markers with detailed popups
   INFRA.forEach(function(p){
     var icon=L.divIcon({
       className:"",
-      html:'<div style="background:'+p.c+';width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.35)">'+p.ic+"</div>",
-      iconSize:[32,32],iconAnchor:[16,16],popupAnchor:[0,-20]
+      html:'<div title="'+p.n+'" style="background:'+p.c+';width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;border:3px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,.4);cursor:pointer">'+p.ic+"</div>",
+      iconSize:[36,36],iconAnchor:[18,18],popupAnchor:[0,-22]
     });
     L.marker([p.lat,p.lng],{icon:icon}).addTo(gatiMap).bindPopup(
-      '<div style="font-family:sans-serif;min-width:180px"><div style="font-size:18px">'+p.ic+"</div><strong style='color:#1b4332;font-size:13px'>"+p.n+"</strong><br><div style='font-size:11px;color:#555;margin-top:4px;line-height:1.5'>"+p.d+"</div></div>",
-      {maxWidth:220}
+      '<div style="font-family:sans-serif;min-width:210px;max-width:240px">'
+      +'<div style="font-size:22px;margin-bottom:6px">'+p.ic+'</div>'
+      +'<div style="font-weight:800;font-size:13.5px;color:#1b4332;margin-bottom:3px">'+p.n+'</div>'
+      +'<div style="display:inline-block;background:'+p.c+'22;color:'+p.c+';font-size:9.5px;font-weight:700;padding:2px 8px;border-radius:50px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px">'+p.cat+'</div>'
+      +'<div style="font-size:11.5px;color:#444;line-height:1.6">'+p.d+'</div>'
+      +'</div>',
+      {maxWidth:250,className:"gati-popup"}
     );
   });
 
-  // GP markers
-  GP_LIST.forEach(function(g){
+  // All 23 GP markers with labels
+  GP_MARKERS.forEach(function(g){
+    var isHQ=g[3];
     var icon=L.divIcon({
       className:"",
-      html:'<div style="background:'+(g[3]?"#1b4332":"#0a9396")+'88;color:#fff;padding:2px 7px;border-radius:5px;font-size:9px;font-weight:700;border:1.5px solid #fff;white-space:nowrap;backdrop-filter:blur(2px)">'+g[2]+"</div>",
-      iconAnchor:[35,10],popupAnchor:[0,-12]
+      html:'<div style="display:flex;align-items:center;gap:4px">'
+        +'<div style="width:'+(isHQ?10:7)+'px;height:'+(isHQ?10:7)+'px;border-radius:50%;background:'+(isHQ?"#E8691A":"#0a9396")+';border:2px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.4);flex-shrink:0"></div>'
+        +'<div style="background:'+(isHQ?"rgba(27,67,50,.92)":"rgba(5,46,22,.8)")+';color:#fff;padding:2px 7px;border-radius:5px;font-size:'+(isHQ?9:8)+'px;font-weight:'+(isHQ?900:700)+';white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.3)">'+(isHQ?"★ ":"")+g[2]+(isHQ?" HQ":"")+"</div></div>",
+      iconAnchor:[10,9],popupAnchor:[60,0]
     });
-    L.marker([g[0],g[1]],{icon:icon}).addTo(gatiMap).bindPopup("<strong>"+g[2]+"</strong><br><small>Gram Panchayat — Narnoor Block</small>");
+    L.marker([g[0],g[1]],{icon:icon}).addTo(gatiMap)
+      .bindPopup("<div style='font-family:sans-serif'><strong style='font-size:13px'>"+(isHQ?"★ ":"")+g[2]+(isHQ?" — Mandal HQ":"")+"</strong><br><span style='font-size:11px;color:#666'>Gram Panchayat · Narnoor Block · Adilabad</span></div>");
   });
 
-  // Block approximate boundary
-  L.circle(NARNOOR,{
+  // Block boundary
+  L.circle([19.097,78.550],{
     color:"#0a9396",fillColor:"#0a9396",fillOpacity:0.05,
     weight:2,dashArray:"8,6",radius:14000
-  }).addTo(gatiMap).bindPopup("<strong>Narnoor Block Boundary</strong><br>23 GPs · 46 Habitations · 29,152 Population");
+  }).addTo(gatiMap).bindPopup("<div style='font-family:sans-serif'><strong>Narnoor Block Boundary</strong><br>23 GPs · 46 Habitations · 29,152 Population<br>Adilabad District, Telangana</div>");
 
-  // Route Adilabad → Narnoor
-  var route=[[19.665,78.529],[19.395,78.552],[19.143,78.581],[19.125,78.572],[19.097,78.550]];
-  L.polyline(route,{color:"#E8691A",weight:3.5,opacity:0.85,dashArray:"10,6"})
-    .addTo(gatiMap).bindPopup("🛣️ Route: Adilabad → Utnoor → Jamda → Tadihatnoor → Narnoor HQ (~60 km)");
+  // Route: Adilabad → Narnoor
+  L.polyline([[19.665,78.529],[19.395,78.552],[19.143,78.581],[19.125,78.572],[19.097,78.550]],{
+    color:"#E8691A",weight:4,opacity:.8,dashArray:"12,7"
+  }).addTo(gatiMap).bindPopup("<div style='font-family:sans-serif'><strong>🛣️ Route to Narnoor</strong><br>Adilabad → Utnoor → Jamda → Tadihatnoor → Narnoor HQ<br><em style='font-size:11px;color:#666'>~60 km via NH-44 & State Highway</em></div>");
 
-  // Adilabad city marker
-  L.marker([19.665,78.529],{icon:L.divIcon({
-    className:"",
-    html:'<div style="background:#E8691A;color:#fff;padding:3px 8px;border-radius:6px;font-size:9px;font-weight:700;white-space:nowrap;box-shadow:0 1px 5px rgba(0,0,0,.3)">📍 Adilabad City</div>',
-    iconAnchor:[45,10]
-  })}).addTo(gatiMap);
+  // City markers
+  [[[19.665,78.529],"📍 Adilabad City","#E8691A"],[[19.395,78.552],"Utnoor","#888"]].forEach(function(m){
+    L.marker(m[0],{icon:L.divIcon({className:"",html:'<div style="background:'+m[2]+';color:#fff;padding:3px 9px;border-radius:6px;font-size:9px;font-weight:700;white-space:nowrap;box-shadow:0 1px 5px rgba(0,0,0,.3)">'+m[1]+"</div>",iconAnchor:[40,10]})}).addTo(gatiMap);
+  });
+
+  // Fit map to show all content
+  gatiMap.fitBounds([[19.0,78.45],[19.75,78.65]],{padding:[20,20]});
+  
+  setTimeout(function(){gatiMap.invalidateSize();},300);
 }
 
 function setMapLayer(type){
-  if(!gatiMap)return;
+  if(!gatiMap){initGatiMap();return;}
   if(currentTileLayer)gatiMap.removeLayer(currentTileLayer);
   var urls={
     street:"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     satellite:"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
     terrain:"https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
   };
-  currentTileLayer=L.tileLayer(urls[type],{attribution:"&copy; Map data",maxZoom:19}).addTo(gatiMap);
+  var attrs={street:"&copy; OpenStreetMap",satellite:"&copy; Esri",terrain:"&copy; OpenTopoMap"};
+  currentTileLayer=L.tileLayer(urls[type],{attribution:attrs[type],maxZoom:19}).addTo(gatiMap);
   ["street","sat","terrain"].forEach(function(t){
     var btn=document.getElementById("btn-"+t);
-    if(btn){btn.style.border=t===type||("street"===type&&t==="street")?"2px solid #0a9396":"2px solid #ddd";btn.style.color=t===type?"#0a9396":"#666";}
+    if(btn){
+      var active=(t===type)||(type==="street"&&t==="street");
+      btn.style.background=active?"var(--t)":"transparent";
+      btn.style.color=active?"#fff":"var(--tx2)";
+    }
   });
 }
 
-// Init Gati Shakti map when profile page loads
-// DO NOT redefine go() - just watch for DOM changes
+// Auto-init when profile page loads via MutationObserver
 document.addEventListener("DOMContentLoaded",function(){
-  // Watch for profile page navigation via MutationObserver
   var observer=new MutationObserver(function(){
     if(document.getElementById("gati-map")&&typeof L!=="undefined"&&!gatiMap){
-      initGatiMap();
+      // Only init if Gati Shakti tab is visible
+      var panel=document.getElementById("map-gati-panel");
+      if(panel&&panel.style.display!=="none")initGatiMap();
     }
-    if(gatiMap)setTimeout(function(){gatiMap.invalidateSize();},200);
   });
   var app=document.getElementById("app");
   if(app)observer.observe(app,{childList:true,subtree:false});
 });
 </script>
+
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </body>
 </html>
