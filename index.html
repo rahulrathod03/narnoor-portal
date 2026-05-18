@@ -888,6 +888,18 @@ const FALLBACK={
   ]
 };
 
+// Pre-populate D with fallback data so page shows content immediately
+(()=>{
+  D.kpis=FALLBACK.kpis||[];
+  D.officers=FALLBACK.officers||[];
+  D.campaigns=FALLBACK.campaigns||[];
+  D.initiatives=FALLBACK.initiatives||[];
+  D.awards=FALLBACK.awards||[];
+  D.jobs=FALLBACK.jobs||[];
+  D.transformation=FALLBACK.transformation||[];
+  D.highlights=FALLBACK.highlights||[];
+})();
+
 let DB_LIVE=false; // tracks if we got real DB data
 
 async function loadAll(){
@@ -1037,6 +1049,8 @@ function bPage(){
 <script>
 /* ══ PAGE FUNCTIONS ══ */
 function pgHome(){
+  // Dedup highlights before render
+  const seenH=new Set(); D.highlights=D.highlights.filter(h=>{const k=h.title||h.id;return seenH.has(k)?false:seenH.add(k)});
   const def=[[g("stat1n")||"29,152",tr("pop","Population")],[g("stat2n")||"61.8%",tr("tribal","Tribal ST")],[g("stat3n")||"23",tr("gp","GPs")],[g("stat4n")||"39/39",tr("kpi","KPIs")],[g("stat5n")||"#1",tr("zone","South Zone")],[g("stat6n")||"₹2.5Cr+",tr("grants","Grants")]];
   const sk=[["stat1n","stat1l"],["stat2n","stat2l"],["stat3n","stat3l"],["stat4n","stat4l"],["stat5n","stat5l"],["stat6n","stat6l"]];
   setTimeout(()=>{document.querySelectorAll('.hst').forEach((el,i)=>{el.style.animation=`fadeUp .5s ease ${i*.08}s both`;});},100);
@@ -1104,7 +1118,7 @@ function pgHome(){
       </div>
   </div>
   <!-- WEATHER SECTION -->
-  <div style="background:linear-gradient(135deg,#0d1b2a,#1b4332);padding:36px 24px">
+  <div style="margin-top:28px;background:linear-gradient(135deg,#0d1b2a,#1b4332);padding:36px 24px">
     <div style="max-width:1220px;margin:0 auto">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
         <div><div style="font-size:10px;font-weight:800;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:2px;margin-bottom:5px">Live Weather</div>
@@ -1278,7 +1292,6 @@ function pgProfile(){
   <div style="margin-top:24px">
     <div style="font-size:10px;font-weight:800;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">📋 23 Gram Panchayats — Official Records (Narnoor Mandal, March 2025)</div>
     <div style="margin-top:4px">
-  <div style="font-size:10px;font-weight:800;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">📋 23 Gram Panchayats — Official Records (Narnoor Mandal, March 2025) · Tap to see habitations</div>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px">
 <div style="background:#fff;border:1px solid var(--b);border-radius:12px;overflow:hidden;border-top:3px solid var(--t);cursor:pointer;transition:all .2s" onclick="const h=this.querySelector('.gp-habs');const ic=this.querySelector('.gp-ic');h.style.display=h.style.display==='none'?'flex':'none';ic.textContent=ic.textContent==='▼'?'▲':'▼'">
       <div style="padding:11px 13px;display:flex;align-items:center;justify-content:space-between">
@@ -1801,7 +1814,7 @@ function pgInits(){
     ${initSectors.map(s=>`<button onclick="window.initF='${s}';R()" style="padding:6px 14px;border-radius:50px;border:1.5px solid ${window.initF===s?"var(--t)":"var(--b)"};background:${window.initF===s?"var(--t)":"var(--w)"};color:${window.initF===s?"#fff":"var(--tx2)"};font-size:11px;font-weight:700;cursor:pointer;transition:all .2s">${s}</button>`).join("")}
   </div>
 
-  ${filtered.length?`<div class="g3">${filtered.map(x=>{const ip=fixUrl(x.photo_url||"");return`<div class="ic">
+  ${(filtered&&filtered.length)?`<div class="g3">${filtered.map(x=>{const ip=fixUrl(x.photo_url||"");return`<div class="ic">
     <div class="ith" style="background:linear-gradient(135deg,${x.bg_color||"var(--fd)"},${x.bg_color||"var(--fd)"}88);overflow:hidden">
       ${ip?`<img src="${ip}" alt="${x.title}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.7" onerror="this.style.display='none'">`:""}
       <span class="iemj">${x.emoji||"✨"}</span></div>
@@ -1862,6 +1875,9 @@ function pgGrants(){
 const SCH=[{n:"PM Kisan Samman Nidhi",ty:"central",dp:"Agriculture",d:"₹6,000/year direct income. 100% seeding completed.",ic:"🌾"},{n:"PM Awas Yojana (Gramin)",ty:"central",dp:"Rural Dev.",d:"Pucca housing for rural homeless families.",ic:"🏠"},{n:"Jal Jeevan Mission",ty:"central",dp:"PHE",d:"100% functional tap water across all 46 habitations.",ic:"💧"},{n:"MNREGA",ty:"central",dp:"Labour",d:"100-day employment guarantee per household.",ic:"⛏️"},{n:"PM Jan Dhan Yojana",ty:"central",dp:"Finance",d:"Universal banking — zero-balance accounts.",ic:"🏦"},{n:"Ujjwala Yojana",ty:"central",dp:"Petroleum",d:"Free LPG connections to BPL women.",ic:"🔥"},{n:"PMFME Scheme",ty:"central",dp:"Food Processing",d:"~12 food processing units operational.",ic:"🏭"},{n:"PM-JANMAN",ty:"central",dp:"Tribal Affairs",d:"PVTG welfare. Narnoor in Super 60.",ic:"🏕️"},{n:"Rythu Bandhu / Barosa",ty:"state",dp:"Agriculture",d:"Investment support per acre per season.",ic:"🌿"},{n:"Aasara Pension",ty:"state",dp:"Social Welfare",d:"Monthly pension — elderly, widows, disabled.",ic:"👴"},{n:"KCR Kits (Bangaru Thalli)",ty:"state",dp:"Health",d:"Delivery kit for institutional births.",ic:"🤱"},{n:"Kalyana Lakshmi / Shaadi Mubarak",ty:"state",dp:"Social Welfare",d:"Financial assistance for SC/ST girl marriage.",ic:"💍"},{n:"Rajiv Aarogya Sri",ty:"state",dp:"Health",d:"₹5 Lakh health insurance per BPL family.",ic:"🏥"},{n:"TS-iPASS",ty:"state",dp:"Industries",d:"Single window for self-employment.",ic:"📋"}];
 
 function pgAwards(){
+  // Dedup awards, visits, jobs before render
+  const seenA=new Set(); D.awards=D.awards.filter(a=>{const k=a.name||a.id;return seenA.has(k)?false:seenA.add(k)});
+  const seenV=new Set(); D.visits=D.visits.filter(v=>{const k=v.visitor_name||v.id;return seenV.has(k)?false:seenV.add(k)});
   return`<div class="sec">
   <div class="tabs">${[["awards","🏆 Awards & Recognition"],["schemes","📋 Schemes Awareness"]].map(([v,l])=>`<button class="tab ${at2===v?"on":""}" onclick="setAT('${v}')">${l}</button>`).join("")}</div>
   ${at2==="awards"?`
@@ -2196,6 +2212,7 @@ function pgPartners(){
 }
 
 function pgVisits(){
+  const seenVis=new Set(); D.visits=D.visits.filter(v=>{const k=(v.visitor_name||"")+v.date;return seenVis.has(k)?false:seenVis.add(k)});
   return`<div class="sec">
   <div class="stag">${lang==="TE"?"అధికారిక సందర్శనలు":"Official Visits"}</div><div class="sh" style="margin-bottom:6px">${lang==="TE"?"ఉన్నత స్థాయి సందర్శనలు":"High-Level <span>Visits to Narnoor</span>"}</div><div class="ss" style="margin-bottom:22px">Senior officials, NITI Aayog teams and consultants who visited</div>
   ${D.visits.length?`<div class="g2">${D.visits.sort((a,b)=>(b.id||0)-(a.id||0)).map(v=>{const vp=fixUrl(v.photo_url||"");return`<div class="card clt">${vp?`<img src="${vp}" style="width:100%;height:140px;object-fit:cover;border-radius:10px;margin-bottom:12px" onerror="this.style.display='none'">`:""}<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px;flex-wrap:wrap;gap:6px"><div><div style="font-family:'Playfair Display',serif;font-size:14px;font-weight:700">${v.visitor_name}</div><div style="font-size:12px;color:var(--td);font-weight:700">${v.organisation}</div></div>${pill(v.visit_date,"pb")}</div><div style="font-size:13px;color:var(--tx2);line-height:1.7">Purpose: ${v.purpose}</div></div>`;}).join("")}</div>`:`<div style="text-align:center;padding:60px;color:var(--tx3)"><div style="font-size:46px;margin-bottom:14px">🚗</div><div style="font-size:14px;font-weight:700;color:var(--tx)">No visits data</div><div style="font-size:12.5px;margin-top:8px">Run SQL setup or add via Admin → Visits tab</div></div>`}
@@ -2269,6 +2286,8 @@ function pgMedia(){
   </div>`;
 }
 function pgGriev(){
+  // Dedup jobs before render
+  const seenJ=new Set(); D.jobs=D.jobs.filter(j=>{const k=j.title||j.id;return seenJ.has(k)?false:seenJ.add(k)});
   const gF=gSent?`<div class="suc"><div style="font-size:30px;margin-bottom:11px">✅</div><div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:800;margin-bottom:7px">Grievance Submitted</div><div style="font-size:13px;color:var(--tx2);line-height:1.75;margin-bottom:15px">Sent to ${g("siteEmail")||"abpnarnoor@gmail.com"}. Response within 7 working days.</div><button class="btn-g" onclick="gSent=false;R()">Submit Another</button></div>`
   :`<div class="card cs"><div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:800;margin-bottom:17px">${tr("griev_title","File Your Grievance")}</div><label class="fl">Full Name</label><input class="fi" id="gn" placeholder="Your full name"><label class="fl">Mobile Number</label><input class="fi" id="gp" placeholder="+91 XXXXXXXXXX"><label class="fl">Village / Habitation</label><input class="fi" id="gv" placeholder="Your village"><label class="fl">Category</label><select class="fi" id="gc"><option>Health & Nutrition</option><option>Education</option><option>Water & Sanitation</option><option>Agriculture</option><option>Government Scheme</option><option>Infrastructure</option><option>Social Development</option><option>Other</option></select><label class="fl" style="margin-top:4px">Description</label><textarea class="fi" id="gd" placeholder="Describe your issue clearly..." style="margin-bottom:13px"></textarea><button class="btn-wa" onclick="subGriev()">📲 Submit via WhatsApp</button></div>`;
   return`<div class="sec">
@@ -2308,7 +2327,7 @@ function subGriev(){
 <script>
 function pgAdmin(){
   if(!adm)return`<div class="sec" style="text-align:center;padding:80px 24px"><div style="font-size:46px;margin-bottom:15px">🔐</div><div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:900;margin-bottom:12px">Admin Access Required</div><button class="bp" onclick="openL()">Login to Admin Panel</button></div>`;
-  const tabs=[["hero","🏠 Hero & Site"],["blockprofile","📋 Block Profile"],["kpi","📊 KPIs"],["grants","💰 Grants"],["campaigns","📢 Campaigns"],["initiatives","✨ Initiatives"],["transformation","🔄 Transformation"],["highlights","💡 Highlights"],["awards","🏆 Awards"],["schemes","📋 Schemes"],["tourism","🏛️ Tourism"],["officers","👤 Officers"],["partners","🤝 Partners"],["visits","🚗 Visits"],["products","🛒 Shop"],["media","📰 Media"],["jobs","💼 Jobs"],["creds","🔐 Credentials"]];
+  const tabs=[["hero","🏠 Hero & Site"],["blockprofile","📋 Block Profile"],["kpi","📊 KPIs"],["prediction","🤖 AI Prediction"],["grants","💰 Grants"],["campaigns","📢 Campaigns"],["initiatives","✨ Initiatives"],["transformation","🔄 Transformation"],["highlights","💡 Highlights"],["awards","🏆 Awards"],["schemes","📋 Schemes"],["tourism","🏛️ Tourism"],["officers","👤 Officers"],["partners","🤝 Partners"],["visits","🚗 Visits"],["products","🛒 Shop"],["media","📰 Media"],["jobs","💼 Jobs"],["creds","🔐 Credentials"]];
   let c="";
   if(adt==="hero")c=`<div class="as"><div class="at">✏️ Edit Hero Section & Site-wide Settings</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
@@ -2357,6 +2376,27 @@ function pgAdmin(){
       <div style="grid-column:1/-1"><label class="fl">Map URL (Google Drive / imgbb)</label><input class="fi" id="bp-map" value="${g('mapUrl')||''}" placeholder="Paste map image URL" style="margin-bottom:0"></div>
     </div>
     <button class="btn-g" onclick="saveBP()">Save Block Profile</button>`);
+  if(adt==="prediction")c=adminTab("🤖","AI Prediction Engine — Edit Timeline & Status",`
+    <div style="background:#e8f4f8;border:1px solid #b3d9e8;border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#1a5276">
+      💡 Edit KPI current values and status in the <strong>📊 KPIs tab</strong>. The prediction engine auto-calculates timelines based on progress % and baseline data.<br>
+      You can also set manual target dates and notes for each KPI below.
+    </div>
+    <div style="font-size:11px;font-weight:800;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">📅 Manual Timeline Overrides</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">Overall Target Year</label><input class="fi" id="pred-yr" value="${g('predTargetYear')||'2027'}" style="margin-bottom:0"></div>
+      <div><label class="fl">Last Delta Ranking</label><input class="fi" id="pred-rank" value="${g('predLastRank')||'1st Rank South Zone, Sep 2025'}" style="margin-bottom:0"></div>
+      <div><label class="fl">Next Review Date</label><input class="fi" id="pred-next" value="${g('predNextReview')||'July 2026'}" style="margin-bottom:0"></div>
+    </div>
+    <div style="font-size:11px;font-weight:800;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">🎯 Saturation Status Overrides</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">SAM Target (lower is better)</label><input class="fi" id="pred-sam" value="${g('predSAMTarget')||'< 0.5%'}" placeholder="Target value" style="margin-bottom:0"></div>
+      <div><label class="fl">MAM Target</label><input class="fi" id="pred-mam" value="${g('predMAMTarget')||'< 5%'}" placeholder="Target value" style="margin-bottom:0"></div>
+      <div><label class="fl">LBW Target</label><input class="fi" id="pred-lbw" value="${g('predLBWTarget')||'< 3%'}" placeholder="Target value" style="margin-bottom:0"></div>
+      <div><label class="fl">Priority Focus Areas</label><input class="fi" id="pred-focus" value="${g('predFocusAreas')||'Education, Agriculture'}" placeholder="e.g. Education, Health" style="margin-bottom:0"></div>
+    </div>
+    <div style="font-size:11px;font-weight:800;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">📝 Dashboard Note (shown at top of prediction section)</div>
+    <textarea class="fi" id="pred-note" rows="2" style="margin-bottom:14px">${g('predNote')||'Based on 2023→2026 trend data. Timelines are estimates assuming current rate of progress.'}</textarea>
+    <button class="btn-g" onclick="savePred()">💾 Save Prediction Settings</button>`);
   if(adt==="kpi")c=`<div class="as"><div class="at">➕ Add New KPI</div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:8px;align-items:end">
       <div><label class="fl">KPI Name</label><input class="fi" id="ak-n" placeholder="KPI name" style="margin-bottom:0"></div>
@@ -2780,6 +2820,20 @@ function waSubscribe(name,phone){
   WS(msg,"subscribe");
 }
 
+async function savePred(){
+  const fields={predTargetYear:"pred-yr",predLastRank:"pred-rank",predNextReview:"pred-next",
+    predSAMTarget:"pred-sam",predMAMTarget:"pred-mam",predLBWTarget:"pred-lbw",
+    predFocusAreas:"pred-focus",predNote:"pred-note"};
+  const saves=[];
+  for(const[k,id] of Object.entries(fields)){
+    const el=document.getElementById(id);
+    if(el)saves.push(sP("site_settings",{key:k,value:el.value}));
+  }
+  await Promise.all(saves);
+  await loadAll();
+  toast("✓ Prediction settings saved!");
+}
+
 function adminTab(icon,title,content){
   return `<div class="as"><div class="at">${icon} ${title}</div>${content}</div>`;
 }
@@ -3179,14 +3233,18 @@ document.addEventListener("DOMContentLoaded",setLogos);
   setTimeout(initChat,800);
   setTimeout(initAnimations,1000);
   
-  // Try loading DB data again in background after page shows
+  // Silent background data refresh - only re-render if page is still on same view
   setTimeout(async()=>{
     try{
+      const prevLen=D.campaigns.length+D.awards.length+D.visits.length+D.jobs.length;
       await loadAll();
-      R(); // Re-render with fresh DB data
-      if(lang!=="EN")setTimeout(applyTranslation,80);
+      const newLen=D.campaigns.length+D.awards.length+D.visits.length+D.jobs.length;
+      if(newLen!==prevLen){
+        R();
+        if(lang!=="EN")setTimeout(applyTranslation,80);
+      }
     }catch(e){}
-  },4000);
+  },6000);
 })();
 
 /* ══ LIVE WEATHER — Open-Meteo (free, no API key) ══ */
