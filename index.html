@@ -3444,23 +3444,18 @@ function setMapLayer(type){
   });
 }
 
-// Init when profile page shows
-var _origGo2=typeof go==="function"?go:null;
-function go(p){
-  if(_origGo2)_origGo2(p);
-  if(p==="profile"){
-    setTimeout(function(){
-      if(typeof L!=="undefined"&&document.getElementById("gati-map")){
-        initGatiMap();
-        if(gatiMap)gatiMap.invalidateSize();
-      }
-    },400);
-  }
-}
+// Init Gati Shakti map when profile page loads
+// DO NOT redefine go() - just watch for DOM changes
 document.addEventListener("DOMContentLoaded",function(){
-  setTimeout(function(){
-    if(document.getElementById("gati-map")&&typeof L!=="undefined")initGatiMap();
-  },600);
+  // Watch for profile page navigation via MutationObserver
+  var observer=new MutationObserver(function(){
+    if(document.getElementById("gati-map")&&typeof L!=="undefined"&&!gatiMap){
+      initGatiMap();
+    }
+    if(gatiMap)setTimeout(function(){gatiMap.invalidateSize();},200);
+  });
+  var app=document.getElementById("app");
+  if(app)observer.observe(app,{childList:true,subtree:false});
 });
 </script>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
