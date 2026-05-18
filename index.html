@@ -2381,7 +2381,31 @@ function pgGriev(){
     </div>
     ${D.jobs.length?`<div style="display:flex;flex-direction:column;gap:13px">${D.jobs.sort((a,b)=>(b.id||0)-(a.id||0)).map(j=>`<div class="jc"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px;flex-wrap:wrap;gap:7px"><div><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:800">${j.title}</div><div style="font-size:12.5px;color:var(--sd);font-weight:700">${j.department}</div></div><div style="display:flex;gap:6px">${pill(j.type,"pb")}${pill("Last Date: "+j.last_date,"pr")}</div></div><div style="font-size:13px;color:var(--tx2);line-height:1.75;margin-bottom:13px">${j.description}</div><button class="btn-wa" style="width:auto;padding:10px 20px" onclick="WS('Enquiry — ${j.title}\\nDept: ${j.department}\\nLast Date: ${j.last_date}\\n\\nPlease share details.\\nwww.abpnarnoor.in')">📲 Enquire via WhatsApp</button></div>`).join("")}</div>`:`<div style="text-align:center;padding:60px;color:var(--tx3)"><div style="font-size:46px;margin-bottom:14px">💼</div><div style="font-size:14px;font-weight:700;color:var(--tx)">No jobs or notices</div><div style="font-size:12.5px;margin-top:8px">Add via Admin → Jobs tab</div></div>`}
   `:""}
-  </div>`;
+  
+
+  <!-- Citizen Survey -->
+  <div style="margin-top:28px;background:linear-gradient(135deg,var(--fd),var(--n));border-radius:var(--r2);padding:22px;color:#fff">
+    <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;margin-bottom:8px">📊 Quick Survey</div>
+    <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:800;margin-bottom:6px">How is Narnoor Block Performing?</div>
+    <div style="font-size:12px;opacity:.7;margin-bottom:18px">Your feedback helps us improve services. Takes 30 seconds!</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:18px">
+      ${[
+        {q:"Overall village development?",id:"sq1"},
+        {q:"Government scheme benefits?",id:"sq2"},
+        {q:"Healthcare service quality?",id:"sq3"},
+        {q:"Roads & infrastructure?",id:"sq4"},
+      ].map(s=>`
+      <div style="background:rgba(255,255,255,.1);border-radius:10px;padding:12px">
+        <div style="font-size:11.5px;font-weight:700;margin-bottom:8px">${s.q}</div>
+        <div style="display:flex;gap:5px">
+          ${["😞","😐","😊","🌟"].map((r,i)=>`<button onclick="setSurveyRating('${s.id}',${i+1},this)" style="flex:1;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:5px 2px;font-size:14px;cursor:pointer;transition:all .2s" title="${["Poor","OK","Good","Excellent"][i]}">${r}</button>`).join("")}
+        </div>
+      </div>`).join("")}
+    </div>
+    <textarea id="survey-comment" placeholder="Any suggestions? (optional)" style="width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:10px;color:#fff;font-size:12px;margin-bottom:12px;resize:vertical;min-height:55px;box-sizing:border-box;font-family:inherit"></textarea>
+    <button onclick="submitSurvey()" style="background:#fff;color:var(--fd);border:none;padding:10px 24px;border-radius:50px;font-weight:800;font-size:13px;cursor:pointer">📤 Submit Feedback via WhatsApp</button>
+    <div style="font-size:10px;opacity:.4;margin-top:8px">Responses go to Block Office for analysis.</div>
+  </div></div>`;
 }
 
 function bkTicket(){
@@ -3950,11 +3974,21 @@ window.addEventListener('beforeinstallprompt', e => {
   deferredPrompt = e;
   // Show install banner after 3 seconds
   setTimeout(() => {
+    // iOS Safari - show manual instruction
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    if (isIOS && isSafari) {
+      const iosBanner = document.createElement('div');
+      iosBanner.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#1b4332,#0a9396);color:#fff;border-radius:14px;padding:12px 18px;z-index:9999;display:flex;align-items:center;gap:12px;box-shadow:0 8px 24px rgba(0,0,0,.3);font-family:sans-serif;max-width:340px;width:calc(100% - 40px)';
+      iosBanner.innerHTML = '<span style="font-size:24px">📱</span><div style="flex:1"><div style="font-weight:800;font-size:13px">Install on iPhone/iPad</div><div style="font-size:11px;opacity:.8">Tap <strong>Share ⬆️</strong> → <strong>Add to Home Screen</strong></div></div><button onclick="this.parentElement.remove()" style="background:transparent;color:#fff;border:none;font-size:18px;cursor:pointer">×</button>';
+      document.body.appendChild(iosBanner);
+      return;
+    }
     if (deferredPrompt) {
       const banner = document.createElement('div');
       banner.id = 'pwa-banner';
       banner.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#1b4332,#0a9396);color:#fff;border-radius:14px;padding:12px 18px;z-index:9999;display:flex;align-items:center;gap:12px;box-shadow:0 8px 24px rgba(0,0,0,.3);font-family:sans-serif;max-width:340px;width:calc(100% - 40px)';
-      banner.innerHTML = '<span style="font-size:24px">📱</span><div style="flex:1"><div style="font-weight:800;font-size:13px">Install Narnoor ABP App</div><div style="font-size:11px;opacity:.8">Add to home screen — works offline!</div></div><button onclick="installPWA()" style="background:#fff;color:#1b4332;border:none;padding:7px 14px;border-radius:8px;font-weight:800;font-size:12px;cursor:pointer;white-space:nowrap">Install</button><button onclick="this.parentElement.remove()" style="background:transparent;color:#fff;border:none;font-size:18px;cursor:pointer;padding:0 4px">×</button>';
+      banner.innerHTML = '<span style="font-size:24px">📱</span><div style="flex:1"><div style="font-weight:800;font-size:13px">Install Narnoor ABP App</div><div style="font-size:11px;opacity:.8">Works offline! Add to Home Screen.</div></div><button onclick="installPWA()" style="background:#fff;color:#1b4332;border:none;padding:7px 14px;border-radius:8px;font-weight:800;font-size:12px;cursor:pointer;white-space:nowrap">Install ✓</button><button onclick="this.parentElement.remove()" style="background:transparent;color:#fff;border:none;font-size:18px;cursor:pointer;padding:0 4px">×</button>';
       document.body.appendChild(banner);
     }
   }, 3000);
@@ -4008,12 +4042,17 @@ function startVoice() {
 const surveyRatings = {};
 function setSurveyRating(id, val, el) {
   surveyRatings[id] = val;
-  // Highlight selected button
-  el.closest('.survey-q-btns')
-    ? el.closest('.survey-q-btns').querySelectorAll('button').forEach(b => b.style.background = 'rgba(255,255,255,.1)')
-    : el.parentElement.querySelectorAll('button').forEach(b => { b.style.background='rgba(255,255,255,.1)'; b.style.borderColor='rgba(255,255,255,.2)'; });
-  el.style.background = 'rgba(255,255,255,.4)';
+  // Reset all buttons in same row
+  const parent = el.parentElement;
+  if(parent) parent.querySelectorAll('button').forEach(b => {
+    b.style.background = 'rgba(255,255,255,.1)';
+    b.style.borderColor = 'rgba(255,255,255,.2)';
+    b.style.fontWeight = '400';
+  });
+  // Highlight selected
+  el.style.background = 'rgba(255,255,255,.5)';
   el.style.borderColor = '#fff';
+  el.style.fontWeight = '700';
 }
 
 function submitSurvey() {
