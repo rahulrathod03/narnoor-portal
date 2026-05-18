@@ -1712,7 +1712,7 @@ function pgDash(){
             <svg width="50" height="50" viewBox="0 0 80 80"><circle cx="40" cy="40" r="${r2}" fill="none" stroke="${bg}" stroke-width="12"/><circle cx="40" cy="40" r="${r2}" fill="none" stroke="${c}" stroke-width="12" stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${dash.toFixed(1)}" stroke-linecap="round" transform="rotate(-90 40 40)"/></svg>
             <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-size:9px;font-weight:900;color:${c}">${k.progress}%</div>
           </div>
-          <div style="flex:1;min-width:0"><div class="kn" style="font-size:10.5px;line-height:1.4;margin-bottom:3px">${k.name}</div>
+          <div style="flex:1;min-width:0"><div class="kn" style="font-size:10.5px;line-height:1.4;margin-bottom:3px">${k.name||k.title||"—"}</div>
           <div style="font-family:'Poppins',sans-serif;font-size:17px;font-weight:900;color:${c};line-height:1">${k.current_value}</div></div>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">
@@ -1755,7 +1755,7 @@ function pgDash(){
           const uc = urgency==="imminent"?"#22c55e" : urgency==="urgent"?"#f59e0b" : urgency==="moderate"?"#f97316" : "#ef4444";
           const badge = urgency==="imminent"?"🟢 Very Soon!" : urgency==="urgent"?"🟡 Within a Year" : urgency==="moderate"?"🟠 1–2 Years" : "🔴 Needs Push";
           return `<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:15px;border-left:4px solid ${uc}">
-            <div style="font-size:10.5px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:8px;line-height:1.45">${k.name}</div>
+            <div style="font-size:10.5px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:8px;line-height:1.45">${k.name||k.title||"—"}</div>
             <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:8px">
               <div>
                 <div style="font-family:'Poppins',sans-serif;font-size:26px;font-weight:900;color:#fff;line-height:1">${k.progress}%</div>
@@ -1793,7 +1793,7 @@ function pgDash(){
       ${blockKPIs.map((k,i)=>{
         const c="#1a2744";const bg="#e8eaf6";
         return`<div style="background:#fff;border:1px solid #c5cae9;border-radius:12px;padding:13px;border-top:3px solid #3f51b5;animation:fadeUp .4s ease ${i*.04}s both">
-          <div class="kn" style="font-size:10.5px;margin-bottom:5px;color:#283593">${k.name}</div>
+          <div class="kn" style="font-size:10.5px;margin-bottom:5px;color:#283593">${k.name||k.title||"—"}</div>
           <div style="font-family:'Poppins',sans-serif;font-size:18px;font-weight:900;color:#1a237e">${k.current_value}</div>
           <div style="font-size:9px;color:#5c6bc0;margin-top:2px">Base: ${k.baseline}</div>
           <div class="pb2" style="margin:8px 0 6px;background:#e8eaf6;height:5px"><div class="pbf" style="width:${k.progress}%;background:#3f51b5;height:5px"></div></div>
@@ -2506,6 +2506,310 @@ function pgAdmin(){
       <div><label class="fl">Contact</label><input class="fi" id="ap-c" placeholder="Email or website" style="margin-bottom:0"></div>
     </div>
     <button class="btn-g" onclick="aPartner()">+ Add Partner</button>`);
+  if(adt==="grants"){
+    c=`<div class="as"><div class="at">💰 Grants — Add / Edit</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">Grant Title</label><input class="fi" id="ag-t" placeholder="e.g. Delta Ranking Grant"></div>
+      <div><label class="fl">Amount</label><input class="fi" id="ag-a" placeholder="e.g. ₹1.5 Crore"></div>
+      <div><label class="fl">Source / Authority</label><input class="fi" id="ag-s" placeholder="e.g. NITI Aayog"></div>
+      <div><label class="fl">Year</label><input class="fi" id="ag-y" placeholder="e.g. 2025"></div>
+      <div><label class="fl">Status</label><select class="fi" id="ag-st"><option>Received</option><option>Utilised</option><option>Pending</option><option>Proposed</option></select></div>
+      <div><label class="fl">Purpose</label><input class="fi" id="ag-p" placeholder="Purpose of grant"></div>
+    </div>
+    <button class="btn-g" onclick="aGrant()">+ Add Grant</button>
+    <div style="margin-top:16px;font-size:11px;font-weight:800;color:var(--td);margin-bottom:8px">Existing Grants (${D.highlights.filter(h=>h.category==="grant").length})</div>
+    <div>${D.highlights.filter(h=>h.category==="grant").map(h=>`<div class="arow"><div class="ai"><span style="font-weight:700">${h.title}</span> <span style="color:var(--tx3);font-size:11px">${h.subtitle||""}</span></div><div class="aa"><button class="btn-e" onclick="dHL(${h.id})">🗑 Delete</button></div></div>`).join("")||"<div style='color:var(--tx3);padding:20px;text-align:center'>No grants yet. Add above.</div>"}</div>
+    </div>`;}
+
+  if(adt==="campaigns"){
+    const campRows=D.campaigns.sort((a,b)=>(b.id||0)-(a.id||0)).map(c2=>`
+      <div class="arow" id="ca-${c2.id}">
+        <div class="ai"><span style="font-weight:700">${c2.name}</span> <span style="font-size:10px;color:var(--tx3)">· ${c2.type} · ${c2.period}</span></div>
+        <div class="aa">
+          <button class="btn-e" onclick="tE('ca',${c2.id})">✏️</button>
+          <button class="btn-e" onclick="dCamp(${c2.id})">🗑</button>
+        </div>
+        <div id="ca-e${c2.id}" style="display:none;width:100%;padding:10px 0">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <div><label class="fl">Name</label><input class="fi" id="can${c2.id}" value="${c2.name}" style="margin-bottom:0"></div>
+            <div><label class="fl">Type</label><select class="fi" id="cat${c2.id}" style="margin-bottom:0"><option ${c2.type==="block"?"selected":""}>block</option><option ${c2.type==="central"?"selected":""}>central</option><option ${c2.type==="state"?"selected":""}>state</option></select></div>
+            <div><label class="fl">Period</label><input class="fi" id="cap${c2.id}" value="${c2.period||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Description</label><input class="fi" id="cad${c2.id}" value="${c2.description||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">PDF URL</label><input class="fi" id="capdf${c2.id}" value="${c2.pdf_url||""}" placeholder="Google Drive PDF link" style="margin-bottom:0"></div>
+            <div><label class="fl">End Date</label><input class="fi" type="date" id="caed${c2.id}" value="${c2.end_date||""}" style="margin-bottom:0"></div>
+          </div>
+          <div class="eac"><button class="btn-sv" onclick="sCamp(${c2.id})">💾 Save</button><button class="btn-ca" onclick="tE('ca',${c2.id})">Cancel</button></div>
+        </div>
+      </div>`).join("");
+    c=`<div class="as"><div class="at">📢 Campaigns — Add / Edit / Delete</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">Campaign Name</label><input class="fi" id="nc-n" placeholder="Campaign name"></div>
+      <div><label class="fl">Type</label><select class="fi" id="nc-t"><option value="block">Block Level</option><option value="central">Central Govt</option><option value="state">State — Telangana</option></select></div>
+      <div><label class="fl">Period</label><input class="fi" id="nc-p" placeholder="e.g. July–Sep 2025"></div>
+      <div><label class="fl">Description</label><input class="fi" id="nc-d" placeholder="Brief description"></div>
+      <div><label class="fl">PDF URL (optional)</label><input class="fi" id="nc-pdf" placeholder="Google Drive PDF link"></div>
+      <div><label class="fl">End Date (optional)</label><input class="fi" type="date" id="nc-ed"></div>
+    </div>
+    <button class="btn-g" onclick="aCamp()">+ Add Campaign</button>
+    <div style="margin-top:16px">${campRows||"<div style='color:var(--tx3);padding:20px;text-align:center'>No campaigns. Add above.</div>"}</div>
+    </div>`;}
+
+  if(adt==="initiatives"){
+    const initRows=D.initiatives.sort((a,b)=>(b.id||0)-(a.id||0)).map(x=>`
+      <div class="arow" id="in-${x.id}">
+        <div class="ai"><span style="font-weight:700">${x.title||x.name||""}</span> <span style="font-size:10px;color:var(--tx3)">· ${x.category||x.sector||""}</span></div>
+        <div class="aa">
+          <button class="btn-e" onclick="tE('in',${x.id})">✏️</button>
+          <button class="btn-e" onclick="dInit(${x.id})">🗑</button>
+        </div>
+        <div id="in-e${x.id}" style="display:none;width:100%;padding:10px 0">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div><label class="fl">Title</label><input class="fi" id="int${x.id}" value="${x.title||x.name||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Category/Sector</label><input class="fi" id="inc${x.id}" value="${x.category||x.sector||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Tag</label><input class="fi" id="intag${x.id}" value="${x.tag||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Emoji</label><input class="fi" id="inem${x.id}" value="${x.emoji||"✨"}" style="margin-bottom:0;width:60px"></div>
+            <div><label class="fl">Photo URL</label><input class="fi" id="inph${x.id}" value="${x.photo_url||""}" placeholder="Image URL" style="margin-bottom:0"></div>
+            <div><label class="fl">PDF URL</label><input class="fi" id="inpdf${x.id}" value="${x.pdf_url||""}" placeholder="PDF URL" style="margin-bottom:0"></div>
+            <div style="grid-column:1/-1"><label class="fl">Description</label><textarea class="fi" id="ind${x.id}" style="min-height:60px;margin-bottom:0">${x.description||""}</textarea></div>
+          </div>
+          <div class="eac"><button class="btn-sv" onclick="sInit(${x.id})">💾 Save</button><button class="btn-ca" onclick="tE('in',${x.id})">Cancel</button></div>
+        </div>
+      </div>`).join("");
+    c=`<div class="as"><div class="at">✨ Initiatives — Add / Edit / Delete</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">Title</label><input class="fi" id="ni-t" placeholder="Initiative title"></div>
+      <div><label class="fl">Category/Sector</label><select class="fi" id="ni-c"><option>Health & Nutrition</option><option>Education</option><option>Agriculture</option><option>Basic Infrastructure</option><option>Social Development</option><option>Small Scale Units</option></select></div>
+      <div><label class="fl">Emoji</label><input class="fi" id="ni-e" value="✨" style="width:70px"></div>
+      <div><label class="fl">Photo URL</label><input class="fi" id="ni-ph" placeholder="Image URL"></div>
+      <div><label class="fl">PDF URL</label><input class="fi" id="ni-pdf" placeholder="PDF URL"></div>
+      <div><label class="fl">Tag</label><input class="fi" id="ni-tg" placeholder="e.g. Functional"></div>
+      <div style="grid-column:1/-1"><label class="fl">Description</label><textarea class="fi" id="ni-d" placeholder="Initiative description..." style="min-height:60px"></textarea></div>
+    </div>
+    <button class="btn-g" onclick="aInit()">+ Add Initiative</button>
+    <div style="margin-top:16px">${initRows||"<div style='color:var(--tx3);padding:20px;text-align:center'>No initiatives. Add above.</div>"}</div>
+    </div>`;}
+
+  if(adt==="transformation"){
+    const transRows=D.transformation.map(t2=>`
+      <div class="arow" id="tr-${t2.id}">
+        <div class="ai"><span style="font-weight:700">${t2.indicator||""}</span> <span style="font-size:10px;color:var(--tx3)">${t2.before||""} → ${t2.after||""}</span></div>
+        <div class="aa"><button class="btn-e" onclick="tE('tr',${t2.id})">✏️</button><button class="btn-e" onclick="dTrans(${t2.id})">🗑</button></div>
+        <div id="tr-e${t2.id}" style="display:none;width:100%;padding:10px 0">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <div><label class="fl">Indicator</label><input class="fi" id="tri${t2.id}" value="${t2.indicator||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Before 2023</label><input class="fi" id="trb${t2.id}" value="${t2.before||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">After 2026</label><input class="fi" id="tra${t2.id}" value="${t2.after||""}" style="margin-bottom:0"></div>
+          </div>
+          <div class="eac"><button class="btn-sv" onclick="sTrans(${t2.id})">💾 Save</button><button class="btn-ca" onclick="tE('tr',${t2.id})">Cancel</button></div>
+        </div>
+      </div>`).join("");
+    c=`<div class="as"><div class="at">🔄 Transformation — Before & After</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">Indicator Name</label><input class="fi" id="nt-i" placeholder="e.g. SAM Rate"></div>
+      <div><label class="fl">Before 2023</label><input class="fi" id="nt-b" placeholder="e.g. 2.06%"></div>
+      <div><label class="fl">After 2026</label><input class="fi" id="nt-a" placeholder="e.g. 0.10%"></div>
+    </div>
+    <button class="btn-g" onclick="aTrans()">+ Add</button>
+    <div style="margin-top:16px">${transRows||"<div style='color:var(--tx3);padding:20px;text-align:center'>No entries. Add above.</div>"}</div>
+    </div>`;}
+
+  if(adt==="highlights"){
+    const hlRows=D.highlights.map(h=>`
+      <div class="arow"><div class="ai"><span style="font-weight:700">${h.title}</span> <span style="color:var(--tx3);font-size:11px">${h.subtitle||""}</span></div>
+      <div class="aa"><button class="btn-e" onclick="dHL(${h.id})">🗑 Delete</button></div></div>`).join("");
+    c=`<div class="as"><div class="at">💡 Highlights — Add / Delete</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">Title</label><input class="fi" id="nh-t" placeholder="e.g. 1st Rank South Zone"></div>
+      <div><label class="fl">Subtitle</label><input class="fi" id="nh-s" placeholder="e.g. Sep 2025 · ₹1.5 Crore"></div>
+      <div><label class="fl">Category</label><select class="fi" id="nh-c"><option value="">General</option><option value="grant">Grant</option><option value="scheme">Scheme</option><option value="partner">Partner</option></select></div>
+    </div>
+    <button class="btn-g" onclick="aHL()">+ Add Highlight</button>
+    <div style="margin-top:16px">${hlRows||"<div style='color:var(--tx3);padding:20px;text-align:center'>No highlights. Add above.</div>"}</div>
+    </div>`;}
+
+  if(adt==="awards"){
+    const awRows=D.awards.sort((a,b)=>(b.year||0)-(a.year||0)).map(a2=>`
+      <div class="arow" id="aw-${a2.id}">
+        <div class="ai"><span style="font-size:20px">${a2.emoji||"🏆"}</span> <span style="font-weight:700">${a2.name}</span> <span style="color:var(--tx3);font-size:11px">${a2.year||""}</span></div>
+        <div class="aa"><button class="btn-e" onclick="tE('aw',${a2.id})">✏️</button><button class="btn-e" onclick="dAward(${a2.id})">🗑</button></div>
+        <div id="aw-e${a2.id}" style="display:none;width:100%;padding:10px 0">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <div><label class="fl">Award Name</label><input class="fi" id="awn${a2.id}" value="${a2.name||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Year</label><input class="fi" id="awy${a2.id}" value="${a2.year||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Emoji</label><input class="fi" id="awe${a2.id}" value="${a2.emoji||"🏆"}" style="margin-bottom:0;width:70px"></div>
+            <div><label class="fl">Description</label><input class="fi" id="awd${a2.id}" value="${a2.description||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Grant Info</label><input class="fi" id="awg${a2.id}" value="${a2.grant_info||""}" style="margin-bottom:0"></div>
+          </div>
+          <div class="eac"><button class="btn-sv" onclick="sAward(${a2.id})">💾 Save</button><button class="btn-ca" onclick="tE('aw',${a2.id})">Cancel</button></div>
+        </div>
+      </div>`).join("");
+    c=`<div class="as"><div class="at">🏆 Awards — Add / Edit / Delete</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">Award Name</label><input class="fi" id="na-n" placeholder="e.g. 1st Rank South Zone"></div>
+      <div><label class="fl">Year</label><input class="fi" id="na-y" placeholder="e.g. 2025"></div>
+      <div><label class="fl">Emoji</label><input class="fi" id="na-e" value="🏆"></div>
+      <div><label class="fl">Description</label><input class="fi" id="na-d" placeholder="Details"></div>
+      <div><label class="fl">Grant Amount</label><input class="fi" id="na-g" placeholder="e.g. ₹1.5 Crore"></div>
+    </div>
+    <button class="btn-g" onclick="aAward()">+ Add Award</button>
+    <div style="margin-top:16px">${awRows||"<div style='color:var(--tx3);padding:20px;text-align:center'>No awards. Add above.</div>"}</div>
+    </div>`;}
+
+  if(adt==="schemes"){
+    c=`<div class="as"><div class="at">📋 Schemes — Add / Edit</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">Scheme Name</label><input class="fi" id="asc-n" placeholder="e.g. PM Kisan Samman Nidhi"></div>
+      <div><label class="fl">Type</label><select class="fi" id="asc-t"><option>Central Govt</option><option>State — Telangana</option><option>Block Level</option></select></div>
+      <div><label class="fl">Beneficiaries</label><input class="fi" id="asc-b" placeholder="e.g. 1,247 farmers"></div>
+      <div><label class="fl">Benefit Amount</label><input class="fi" id="asc-a" placeholder="e.g. ₹6,000/year"></div>
+      <div style="grid-column:1/-1"><label class="fl">Description</label><textarea class="fi" id="asc-d" placeholder="Scheme details..." style="min-height:55px"></textarea></div>
+    </div>
+    <button class="btn-g" onclick="aScheme()">+ Add Scheme</button>
+    </div>`;}
+
+  if(adt==="tourism"){
+    c=`<div class="as"><div class="at">🏛️ Tourism — Edit Museum Info</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">Entry Fee</label><input class="fi" id="atm-fee" value="${g('museumFee')||'₹10 per person'}"></div>
+      <div><label class="fl">Timings</label><input class="fi" id="atm-time" value="${g('museumTimings')||'Tue–Sun · 9AM–5PM'}"></div>
+      <div><label class="fl">Location</label><input class="fi" id="atm-loc" value="${g('museumLocation')||'Narnoor Village, Adilabad'}"></div>
+      <div><label class="fl">Contact</label><input class="fi" id="atm-ph" value="${g('museumContact')||'+91 93919 14941'}"></div>
+      <div style="grid-column:1/-1"><label class="fl">Description</label><textarea class="fi" id="atm-desc" style="min-height:70px">${g('museumDesc')||'Narnoor Tribal Heritage Museum & Cultural Centre'}</textarea></div>
+    </div>
+    <button class="btn-g" onclick="saveTourism()">💾 Save Tourism Info</button>
+    </div>`;}
+
+  if(adt==="officers"){
+    const offRows=D.officers.map(o=>`
+      <div class="arow" id="of-${o.id}">
+        <div class="ai"><span style="font-size:20px">👤</span> <span style="font-weight:700">${o.name}</span> <span style="color:var(--tx3);font-size:11px">${o.role||""}</span></div>
+        <div class="aa"><button class="btn-e" onclick="tE('of',${o.id})">✏️</button><button class="btn-e" onclick="dOfficer(${o.id})">🗑</button></div>
+        <div id="of-e${o.id}" style="display:none;width:100%;padding:10px 0">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <div><label class="fl">Name</label><input class="fi" id="ofn${o.id}" value="${o.name||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Role / Designation</label><input class="fi" id="ofr${o.id}" value="${o.role||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Organisation</label><input class="fi" id="ofo${o.id}" value="${o.organisation||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Photo URL</label><input class="fi" id="ofph${o.id}" value="${o.photo_url||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Contact</label><input class="fi" id="ofc${o.id}" value="${o.contact||""}" style="margin-bottom:0"></div>
+          </div>
+          <div class="eac"><button class="btn-sv" onclick="sOfficer(${o.id})">💾 Save</button><button class="btn-ca" onclick="tE('of',${o.id})">Cancel</button></div>
+        </div>
+      </div>`).join("");
+    c=`<div class="as"><div class="at">👤 Officers — Add / Edit / Delete</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">Full Name</label><input class="fi" id="no-n" placeholder="Sri Rahul Rathod"></div>
+      <div><label class="fl">Role / Designation</label><input class="fi" id="no-r" placeholder="Programme Officer"></div>
+      <div><label class="fl">Organisation</label><input class="fi" id="no-o" placeholder="NITI Aayog ABP"></div>
+      <div><label class="fl">Photo URL</label><input class="fi" id="no-ph" placeholder="Photo URL"></div>
+      <div><label class="fl">Contact</label><input class="fi" id="no-c" placeholder="+91..."></div>
+    </div>
+    <button class="btn-g" onclick="aOfficer()">+ Add Officer</button>
+    <div style="margin-top:16px">${offRows||"<div style='color:var(--tx3);padding:20px;text-align:center'>No officers. Add above.</div>"}</div>
+    </div>`;}
+
+  if(adt==="visits"){
+    const visRows=D.visits.sort((a,b)=>new Date(b.date||0)-new Date(a.date||0)).map(v=>`
+      <div class="arow" id="vi-${v.id}">
+        <div class="ai"><span style="font-weight:700">${v.visitor_name}</span> <span style="color:var(--tx3);font-size:11px">· ${v.organisation||""} · ${v.date||""}</span></div>
+        <div class="aa"><button class="btn-e" onclick="tE('vi',${v.id})">✏️</button><button class="btn-e" onclick="dVisit(${v.id})">🗑</button></div>
+        <div id="vi-e${v.id}" style="display:none;width:100%;padding:10px 0">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <div><label class="fl">Visitor Name</label><input class="fi" id="vin${v.id}" value="${v.visitor_name||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Organisation</label><input class="fi" id="vio${v.id}" value="${v.organisation||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Date</label><input class="fi" type="date" id="vid${v.id}" value="${v.date||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Purpose</label><input class="fi" id="vip${v.id}" value="${v.purpose||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Photo URL</label><input class="fi" id="viph${v.id}" value="${v.photo_url||""}" style="margin-bottom:0"></div>
+          </div>
+          <div class="eac"><button class="btn-sv" onclick="sVisit(${v.id})">💾 Save</button><button class="btn-ca" onclick="tE('vi',${v.id})">Cancel</button></div>
+        </div>
+      </div>`).join("");
+    c=`<div class="as"><div class="at">🚗 Visits — Add / Edit / Delete</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">Visitor Name</label><input class="fi" id="nv-n" placeholder="e.g. Sri Biplab Nandy"></div>
+      <div><label class="fl">Organisation</label><input class="fi" id="nv-o" placeholder="e.g. NITI Aayog"></div>
+      <div><label class="fl">Date</label><input class="fi" type="date" id="nv-d"></div>
+      <div><label class="fl">Purpose</label><input class="fi" id="nv-p" placeholder="e.g. KPI Verification"></div>
+      <div><label class="fl">Photo URL</label><input class="fi" id="nv-ph" placeholder="Photo URL"></div>
+    </div>
+    <button class="btn-g" onclick="aVisit()">+ Add Visit</button>
+    <div style="margin-top:16px">${visRows||"<div style='color:var(--tx3);padding:20px;text-align:center'>No visits. Add above.</div>"}</div>
+    </div>`;}
+
+  if(adt==="products"){
+    const prodRows=D.products.sort((a,b)=>(b.id||0)-(a.id||0)).map(p=>`
+      <div class="arow" id="pr-${p.id}">
+        <div class="ai"><span style="font-weight:700">${p.name}</span> <span style="color:var(--tx3);font-size:11px">· ${p.price||""}</span></div>
+        <div class="aa"><button class="btn-e" onclick="tE('pr',${p.id})">✏️</button><button class="btn-e" onclick="dProd(${p.id})">🗑</button></div>
+        <div id="pr-e${p.id}" style="display:none;width:100%;padding:10px 0">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div><label class="fl">Product Name</label><input class="fi" id="prn${p.id}" value="${p.name||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Price</label><input class="fi" id="prp${p.id}" value="${p.price||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Photo URL</label><input class="fi" id="prph${p.id}" value="${p.photo_url||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Stock Status</label><select class="fi" id="prst${p.id}" style="margin-bottom:0"><option ${p.stock==="in"||!p.stock?"selected":""}>in</option><option ${p.stock==="out"?"selected":""}>out</option></select></div>
+            <div style="grid-column:1/-1"><label class="fl">Description</label><textarea class="fi" id="prd${p.id}" style="min-height:55px;margin-bottom:0">${p.description||""}</textarea></div>
+          </div>
+          <div class="eac"><button class="btn-sv" onclick="sProd(${p.id})">💾 Save</button><button class="btn-ca" onclick="tE('pr',${p.id})">Cancel</button></div>
+        </div>
+      </div>`).join("");
+    c=`<div class="as"><div class="at">🛒 Shop Products — Add / Edit / Delete</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">Product Name</label><input class="fi" id="np-n" placeholder="e.g. Mahua Ladoo"></div>
+      <div><label class="fl">Price</label><input class="fi" id="np-p" placeholder="e.g. ₹150 / 250g pack"></div>
+      <div><label class="fl">Photo URL</label><input class="fi" id="np-ph" placeholder="Image URL"></div>
+      <div><label class="fl">Stock</label><select class="fi" id="np-st"><option value="in">In Stock</option><option value="out">Out of Stock</option></select></div>
+      <div style="grid-column:1/-1"><label class="fl">Description</label><textarea class="fi" id="np-d" placeholder="Product description..." style="min-height:55px"></textarea></div>
+    </div>
+    <button class="btn-g" onclick="aProd()">+ Add Product</button>
+    <div style="margin-top:16px">${prodRows||"<div style='color:var(--tx3);padding:20px;text-align:center'>No products. Add above.</div>"}</div>
+    </div>`;}
+
+  if(adt==="media"){
+    const artRows=D.articles.sort((a,b)=>(b.id||0)-(a.id||0)).map(a2=>`
+      <div class="arow"><div class="ai"><span style="font-weight:700">${a2.title}</span> <span style="color:var(--tx3);font-size:11px">· ${a2.type||""}</span></div>
+      <div class="aa"><button class="btn-e" onclick="dArticle(${a2.id})">🗑</button></div></div>`).join("");
+    c=`<div class="as"><div class="at">📰 Media — Add Photos/Videos/Reports</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">Title</label><input class="fi" id="nm-t" placeholder="e.g. PM Award Ceremony Video"></div>
+      <div><label class="fl">Type</label><select class="fi" id="nm-ty"><option>Video</option><option>Photo</option><option>Report</option><option>Article</option><option>Press</option></select></div>
+      <div><label class="fl">URL (YouTube / Drive / Link)</label><input class="fi" id="nm-u" placeholder="https://..."></div>
+      <div><label class="fl">Photo URL (thumbnail)</label><input class="fi" id="nm-ph" placeholder="Thumbnail image URL"></div>
+    </div>
+    <button class="btn-g" onclick="aArticle()">+ Add Media</button>
+    <div style="margin-top:16px">${artRows||"<div style='color:var(--tx3);padding:20px;text-align:center'>No media. Add above.</div>"}</div>
+    </div>`;}
+
+  if(adt==="jobs"){
+    const jobRows=D.jobs.sort((a,b)=>(b.id||0)-(a.id||0)).map(j=>`
+      <div class="arow" id="jo-${j.id}">
+        <div class="ai"><span style="font-weight:700">${j.title}</span> <span style="color:var(--tx3);font-size:11px">· ${j.type||""} · Last: ${j.last_date||"—"}</span></div>
+        <div class="aa"><button class="btn-e" onclick="tE('jo',${j.id})">✏️</button><button class="btn-e" onclick="dJob(${j.id})">🗑</button></div>
+        <div id="jo-e${j.id}" style="display:none;width:100%;padding:10px 0">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <div><label class="fl">Title</label><input class="fi" id="jot${j.id}" value="${j.title||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Organisation</label><input class="fi" id="joo${j.id}" value="${j.organisation||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Type</label><select class="fi" id="joty${j.id}" style="margin-bottom:0"><option ${j.type==="Contract"?"selected":""}>Contract</option><option ${j.type==="Regular"?"selected":""}>Regular</option><option ${j.type==="Tender"?"selected":""}>Tender</option><option ${j.type==="Notice"?"selected":""}>Notice</option></select></div>
+            <div><label class="fl">Last Date</label><input class="fi" type="date" id="jold${j.id}" value="${j.last_date||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Location</label><input class="fi" id="jol${j.id}" value="${j.location||""}" style="margin-bottom:0"></div>
+            <div><label class="fl">Salary / Amount</label><input class="fi" id="jos${j.id}" value="${j.salary||""}" style="margin-bottom:0"></div>
+            <div style="grid-column:1/-1"><label class="fl">Description</label><textarea class="fi" id="jod${j.id}" style="min-height:55px;margin-bottom:0">${j.description||""}</textarea></div>
+          </div>
+          <div class="eac"><button class="btn-sv" onclick="sJob(${j.id})">💾 Save</button><button class="btn-ca" onclick="tE('jo',${j.id})">Cancel</button></div>
+        </div>
+      </div>`).join("");
+    c=`<div class="as"><div class="at">💼 Jobs, Tenders & Notices — Add / Edit</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+      <div><label class="fl">Title</label><input class="fi" id="nj-t" placeholder="e.g. Data Entry Operator"></div>
+      <div><label class="fl">Organisation</label><input class="fi" id="nj-o" placeholder="e.g. Block Admin, Narnoor"></div>
+      <div><label class="fl">Type</label><select class="fi" id="nj-ty"><option>Contract</option><option>Regular</option><option>Tender</option><option>Notice</option></select></div>
+      <div><label class="fl">Last Date</label><input class="fi" type="date" id="nj-ld"></div>
+      <div><label class="fl">Location</label><input class="fi" id="nj-l" placeholder="Narnoor"></div>
+      <div><label class="fl">Salary</label><input class="fi" id="nj-s" placeholder="e.g. ₹15,000/month"></div>
+      <div style="grid-column:1/-1"><label class="fl">Description</label><textarea class="fi" id="nj-d" placeholder="Job details..." style="min-height:55px"></textarea></div>
+    </div>
+    <button class="btn-g" onclick="aJob()">+ Add Job/Notice</button>
+    <div style="margin-top:16px">${jobRows||"<div style='color:var(--tx3);padding:20px;text-align:center'>No jobs. Add above.</div>"}</div>
+    </div>`;}
+
   if(adt==="creds")c=`
     <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #86efac;border-radius:var(--r2);padding:22px;max-width:500px;margin-bottom:22px">
       <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:800;color:var(--fd);margin-bottom:6px">🔐 Admin Credentials</div>
@@ -3442,6 +3746,35 @@ function getDefaultReply(m, isTe, isHi) {
   if(isHi) return "नारनूर के बारे में आपके प्रश्न का धन्यवाद! 🙏\n\nपूछ सकते हैं:\n🍯 माहुआ लड्डू ऑर्डर\n🏛️ संग्रहालय टिकट\n📊 उपलब्धियाँ\nया WhatsApp: +91 93919 14941";
   return "Thanks for your question about Narnoor! 🙏\n\nI can help with:\n🍯 Mahua Ladoo & products\n🏛️ Museum tickets\n📊 KPI achievements\n📋 Government schemes\n🗺️ How to reach Narnoor\n👤 Key officers\n\nOr contact directly: WhatsApp +91 93919 14941";
 }
+
+// ══ OFFICER CRUD ══
+async function aOfficer(){const n=v("no-n"),r=v("no-r"),o=v("no-o"),ph=v("no-ph"),c2=v("no-c");if(!n){alert("Enter name");return;}const res=await sP("officers",{name:n,role:r,organisation:o,photo_url:ph,contact:c2,sort_order:D.officers.length});if(res&&res[0]){D.officers.push(res[0]);toast("✓ Officer added");R();}}
+async function sOfficer(id){const n=v(`ofn${id}`),r=v(`ofr${id}`),o=v(`ofo${id}`),ph=v(`ofph${id}`),c2=v(`ofc${id}`);await sPa("officers",id,{name:n,role:r,organisation:o,photo_url:ph,contact:c2});D.officers=D.officers.map(x=>x.id===id?{...x,name:n,role:r,organisation:o,photo_url:ph,contact:c2}:x);toast("✓ Officer saved");R();}
+async function dOfficer(id){if(!confirm("Delete officer?"))return;await sDe("officers",id);D.officers=D.officers.filter(x=>x.id!==id);toast("🗑 Deleted");R();}
+
+// ══ VISIT CRUD ══
+async function aVisit(){const n=v("nv-n"),o=v("nv-o"),d=v("nv-d"),p=v("nv-p"),ph=v("nv-ph");if(!n){alert("Enter visitor name");return;}const res=await sP("official_visits",{visitor_name:n,organisation:o,date:d,purpose:p,photo_url:ph});if(res&&res[0]){D.visits.push(res[0]);toast("✓ Visit added");R();}}
+async function sVisit(id){const n=v(`vin${id}`),o=v(`vio${id}`),d=v(`vid${id}`),p=v(`vip${id}`),ph=v(`viph${id}`);await sPa("official_visits",id,{visitor_name:n,organisation:o,date:d,purpose:p,photo_url:ph});D.visits=D.visits.map(x=>x.id===id?{...x,visitor_name:n,organisation:o,date:d,purpose:p,photo_url:ph}:x);toast("✓ Visit saved");R();}
+async function dVisit(id){if(!confirm("Delete visit?"))return;await sDe("official_visits",id);D.visits=D.visits.filter(x=>x.id!==id);toast("🗑 Deleted");R();}
+
+// ══ ARTICLE/MEDIA CRUD ══
+async function aArticle(){const t=v("nm-t"),ty=v("nm-ty"),u=v("nm-u"),ph=v("nm-ph");if(!t){alert("Enter title");return;}const res=await sP("articles",{title:t,type:ty,url:u,photo_url:ph});if(res&&res[0]){D.articles.push(res[0]);toast("✓ Media added");R();}}
+async function dArticle(id){if(!confirm("Delete?"))return;await sDe("articles",id);D.articles=D.articles.filter(x=>x.id!==id);toast("🗑 Deleted");R();}
+
+// ══ AWARD CRUD ══
+async function aAward(){const n=v("na-n"),y=v("na-y"),e=v("na-e"),d=v("na-d"),g2=v("na-g");if(!n){alert("Enter award name");return;}const res=await sP("awards",{name:n,year:y,emoji:e,description:d,grant_info:g2,sort_order:D.awards.length});if(res&&res[0]){D.awards.push(res[0]);toast("✓ Award added");R();}}
+async function sAward(id){const n=v(`awn${id}`),y=v(`awy${id}`),e=v(`awe${id}`),d=v(`awd${id}`),g2=v(`awg${id}`);await sPa("awards",id,{name:n,year:y,emoji:e,description:d,grant_info:g2});D.awards=D.awards.map(x=>x.id===id?{...x,name:n,year:y,emoji:e,description:d,grant_info:g2}:x);toast("✓ Award saved");R();}
+async function dAward(id){if(!confirm("Delete award?"))return;await sDe("awards",id);D.awards=D.awards.filter(x=>x.id!==id);toast("🗑 Deleted");R();}
+
+// ══ TRANSFORMATION CRUD ══
+async function aTrans(){const i2=v("nt-i"),b=v("nt-b"),a2=v("nt-a");if(!i2){alert("Enter indicator");return;}const res=await sP("transformation",{indicator:i2,before:b,after:a2,sort_order:D.transformation.length});if(res&&res[0]){D.transformation.push(res[0]);toast("✓ Added");R();}}
+async function sTrans(id){const i2=v(`tri${id}`),b=v(`trb${id}`),a2=v(`tra${id}`);await sPa("transformation",id,{indicator:i2,before:b,after:a2});D.transformation=D.transformation.map(x=>x.id===id?{...x,indicator:i2,before:b,after:a2}:x);toast("✓ Saved");R();}
+async function dTrans(id){if(!confirm("Delete?"))return;await sDe("transformation",id);D.transformation=D.transformation.filter(x=>x.id!==id);toast("🗑 Deleted");R();}
+
+// ══ HIGHLIGHTS CRUD ══
+async function aHL(){const t=v("nh-t"),s2=v("nh-s"),c2=v("nh-c");if(!t){alert("Enter title");return;}const res=await sP("highlights",{title:t,subtitle:s2,category:c2,sort_order:D.highlights.length});if(res&&res[0]){D.highlights.push(res[0]);toast("✓ Highlight added");R();}}
+async function dHL(id){if(!confirm("Delete?"))return;await sDe("highlights",id);D.highlights=D.highlights.filter(x=>x.id!==id);toast("🗑 Deleted");R();}
+
 
 </script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
