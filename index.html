@@ -1164,7 +1164,19 @@ function pgHome(){
 
   <div class="salt" style="padding:46px 0"><div class="sec" style="padding-top:0;padding-bottom:0">
     <div style="text-align:center;margin-bottom:26px"><div class="stag" style="justify-content:center">${tr("nav_impact","Key Highlights")}</div><div class="sh">${tr("highlights_title","What Makes Narnoor Stand Out")}</div></div>
-    <div class="g3">${D.highlights.length?D.highlights.map(h=>`<div class="hl ${h.color==="saffron"?"hls":h.color==="gold"?"hlg":h.color==="forest"?"hlf":""}"><div class="hl-t">${h.title}</div><div class="hl-s">${h.subtitle}</div></div>`).join(""):`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--tx3)"><div style="font-size:40px;margin-bottom:12px">✨</div><div style="font-size:14px;font-weight:700;color:var(--tx)">Run SQL setup to load highlights data</div></div>`}</div>
+    <div class="g3"><!-- New Features Banner -->
+  <div style="background:linear-gradient(135deg,#052e16,#0a9396);border-radius:14px;padding:14px 18px;margin-bottom:20px;border:1px solid rgba(255,255,255,.1)">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <span style="font-size:22px">🆕</span>
+      <div style="flex:1;min-width:180px">
+        <div style="font-size:12px;font-weight:800;color:#fff;margin-bottom:5px">New Features Live on This Portal!</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          ${[["📊","KPI Dashboard","dashboard"],["🛰️","Gati Shakti Map","profile"],["📅","Timeline","awards"],["🗳️","Survey","grievance"],["🏭","Entrepreneurial Hub","initiatives"],["💼","Jobs","opp"]].map(([ic,lb,pg2])=>`<button onclick="go('${pg2}')" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25);padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap">${ic} ${lb}</button>`).join("")}
+        </div>
+      </div>
+    </div>
+  </div>
+  ${D.highlights.length?D.highlights.map(h=>`<div class="hl ${h.color==="saffron"?"hls":h.color==="gold"?"hlg":h.color==="forest"?"hlf":""}"><div class="hl-t">${h.title}</div><div class="hl-s">${h.subtitle}</div></div>`).join(""):`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--tx3)"><div style="font-size:40px;margin-bottom:12px">✨</div><div style="font-size:14px;font-weight:700;color:var(--tx)">Run SQL setup to load highlights data</div></div>`}</div>
   </div></div>
   <div class="sec">
     <div style="text-align:center;margin-bottom:26px"><div class="stag" style="justify-content:center">${tr("awards_sub","National Recognition")}</div><div class="sh">${tr("nav_awards","Awards")} & <span>${lang==="TE"?"విజయాలు":lang==="HI"?"उपलब्धियाँ":"Achievements"}</span></div></div>
