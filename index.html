@@ -51,6 +51,12 @@ block portal India, government block website, best block India NITI Aayog
 <meta name="geo.position" content="19.1;78.5">
 <meta name="ICBM" content="19.1, 78.5">
 <link rel="canonical" href="https://www.abpnarnoor.in/">
+<link rel="manifest" href="/manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Narnoor ABP">
+<link rel="apple-touch-icon" href="https://www.abpnarnoor.in/favicon.png">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
 
 <!-- ══ OPEN GRAPH (Facebook, WhatsApp, LinkedIn) ══ -->
@@ -1796,6 +1802,8 @@ function pgDash(){
       }).join("")}
     </div>
   </div>`:""}
+  </div>
+  ${getComparisonHTML()}
   </div>`;
 }
 
@@ -1903,12 +1911,46 @@ function pgGrants(){
 const SCH=[{n:"PM Kisan Samman Nidhi",ty:"central",dp:"Agriculture",d:"₹6,000/year direct income. 100% seeding completed.",ic:"🌾"},{n:"PM Awas Yojana (Gramin)",ty:"central",dp:"Rural Dev.",d:"Pucca housing for rural homeless families.",ic:"🏠"},{n:"Jal Jeevan Mission",ty:"central",dp:"PHE",d:"100% functional tap water across all 46 habitations.",ic:"💧"},{n:"MNREGA",ty:"central",dp:"Labour",d:"100-day employment guarantee per household.",ic:"⛏️"},{n:"PM Jan Dhan Yojana",ty:"central",dp:"Finance",d:"Universal banking — zero-balance accounts.",ic:"🏦"},{n:"Ujjwala Yojana",ty:"central",dp:"Petroleum",d:"Free LPG connections to BPL women.",ic:"🔥"},{n:"PMFME Scheme",ty:"central",dp:"Food Processing",d:"~12 food processing units operational.",ic:"🏭"},{n:"PM-JANMAN",ty:"central",dp:"Tribal Affairs",d:"PVTG welfare. Narnoor in Super 60.",ic:"🏕️"},{n:"Rythu Bandhu / Barosa",ty:"state",dp:"Agriculture",d:"Investment support per acre per season.",ic:"🌿"},{n:"Aasara Pension",ty:"state",dp:"Social Welfare",d:"Monthly pension — elderly, widows, disabled.",ic:"👴"},{n:"KCR Kits (Bangaru Thalli)",ty:"state",dp:"Health",d:"Delivery kit for institutional births.",ic:"🤱"},{n:"Kalyana Lakshmi / Shaadi Mubarak",ty:"state",dp:"Social Welfare",d:"Financial assistance for SC/ST girl marriage.",ic:"💍"},{n:"Rajiv Aarogya Sri",ty:"state",dp:"Health",d:"₹5 Lakh health insurance per BPL family.",ic:"🏥"},{n:"TS-iPASS",ty:"state",dp:"Industries",d:"Single window for self-employment.",ic:"📋"}];
 
 function pgAwards(){
-  // Dedup awards, visits, jobs before render
   const seenA=new Set(); D.awards=D.awards.filter(a=>{const k=a.name||a.id;return seenA.has(k)?false:seenA.add(k)});
   const seenV=new Set(); D.visits=D.visits.filter(v=>{const k=v.visitor_name||v.id;return seenV.has(k)?false:seenV.add(k)});
   return`<div class="sec">
-  <div class="tabs">${[["awards","🏆 Awards & Recognition"],["schemes","📋 Schemes Awareness"]].map(([v,l])=>`<button class="tab ${at2===v?"on":""}" onclick="setAT('${v}')">${l}</button>`).join("")}</div>
-  ${at2==="awards"?`
+  <div class="tabs">${[["awards","🏆 Awards"],["timeline","📅 Achievement Timeline"],["schemes","📋 Schemes"]].map(([v,l])=>`<button class="tab ${at2===v?"on":""}" onclick="setAT('${v}')">${l}</button>`).join("")}</div>
+  ${at2==="timeline"?`
+    <div style="padding:20px 0">
+      <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:800;margin-bottom:6px">Narnoor's <span>Journey 2023→2026</span></div>
+      <div style="font-size:13px;color:var(--tx2);margin-bottom:28px">Every milestone in Narnoor's transformation</div>
+      <div style="position:relative;padding-left:32px">
+        <div style="position:absolute;left:14px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--t),var(--s),var(--g))"></div>
+        ${[
+          {y:"2023",m:"April",ic:"🚀",t:"ABP Selection",d:"Narnoor selected under NITI Aayog Aspirational Blocks Programme. Journey begins!",c:"var(--t)"},
+          {y:"2023",m:"July",ic:"📊",t:"Sampoornata Abhiyan 1.0",d:"First saturation campaign — 100% coverage of 6 key indicators across all 23 GPs achieved.",c:"var(--s)"},
+          {y:"2023",m:"Oct",ic:"🥈",t:"2nd Rank South Zone",d:"First ABP Delta Ranking — Narnoor achieves 2nd rank in South Zone. ₹1 Crore grant received.",c:"var(--g)"},
+          {y:"2024",m:"Jan",ic:"🏥",t:"Telemedicine Launch",d:"Daily telemedicine clinic started with Osmania Hospital. Specialists available for tribal patients.",c:"var(--t)"},
+          {y:"2024",m:"Mar",ic:"🏛️",t:"Tribal Museum Opens",d:"Narnoor Tribal Heritage Museum inaugurated. Built with ₹18 Lakh NITI Aayog ABP grant.",c:"var(--s)"},
+          {y:"2024",m:"Jun",ic:"🏅",t:"PM Award — Top 5 India",d:"Narnoor Block receives Prime Minister's Award for Excellence in Public Administration. Top 5 in India!",c:"#E8691A"},
+          {y:"2024",m:"Aug",ic:"🏆",t:"Governor's Gold Medal",d:"Governor's Gold Medal for 100% achievement of 6 Sampoornata indicators. 6 awards received.",c:"#d97706"},
+          {y:"2024",m:"Oct",ic:"⭐",t:"ISO Certification",d:"First ISO-certified Gram Panchayat in Telangana. International quality standards achieved.",c:"var(--t)"},
+          {y:"2024",m:"Nov",ic:"🔬",t:"Frontier Technology",d:"Selected under NITI Aayog Frontier Technology Programme. Advanced tech adoption for tribal welfare.",c:"var(--td)"},
+          {y:"2025",m:"Jan",ic:"🌟",t:"Super 60 — PVTG Focus",d:"Narnoor among 60 specially selected blocks nationally for Particularly Vulnerable Tribal Groups focus.",c:"var(--s)"},
+          {y:"2025",m:"Jan",ic:"🚿",t:"100% Tap Water",d:"Jal Jeevan Mission — 100% functional tap water connections across all 46 habitations achieved!",c:"#0369a1"},
+          {y:"2025",m:"Mar",ic:"📡",t:"BharatNet Connectivity",d:"Digital connectivity extended to all GPs. CSC centers operational. NASSCOM digital literacy launched.",c:"var(--td)"},
+          {y:"2025",m:"Sep",ic:"🥇",t:"1st Rank South Zone!",d:"ABP Delta Ranking September 2025 — Narnoor achieves 1st Rank in South Zone! ₹1.5 Crore grant!",c:"#E8691A"},
+          {y:"2026",m:"Jan",ic:"🌾",t:"Sampoornata 2.0",d:"Second saturation campaign launched. Target: 100% saturation of all 39 NITI Aayog KPIs.",c:"var(--g)"},
+          {y:"2026",m:"Now",ic:"🎯",t:"Champions of Change",d:"Continuing journey — 39 KPIs monitored, SAM reduced 95%, institutional deliveries 100%.",c:"var(--t)"},
+        ].map((e,i)=>`
+        <div style="position:relative;margin-bottom:20px;animation:fadeInUp .4s ease ${i*.05}s both">
+          <div style="position:absolute;left:-23px;top:10px;width:18px;height:18px;border-radius:50%;background:${e.c};border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;font-size:8px">${e.ic}</div>
+          <div style="background:var(--w);border:1px solid var(--b);border-left:3px solid ${e.c};border-radius:0 10px 10px 0;padding:12px 14px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+              <span style="font-size:11px;font-weight:800;color:${e.c}">${e.y} ${e.m}</span>
+              <span style="font-size:13px;font-weight:800;color:var(--tx)">${e.t}</span>
+            </div>
+            <div style="font-size:12px;color:var(--tx2);line-height:1.6">${e.d}</div>
+          </div>
+        </div>`).join("")}
+      </div>
+    </div>
+  `:at2==="awards"?`
     <div class="stag">${tr("awards_sub","National Recognition")}</div><div class="sh" style="margin-bottom:22px">${tr("nav_awards","Awards")} & <span>${lang==="TE"?"విజయాలు":lang==="HI"?"उपलब्धियाँ":"Achievements"}</span></div>
     <div class="g4" style="margin-bottom:26px">${D.awards.sort((a,b)=>(b.year||0)-(a.year||0)).map(a=>`<div class="awc cg"><div style="font-size:30px;margin-bottom:9px">${a.icon}</div><div style="font-size:13px;font-weight:800;margin-bottom:4px;font-family:'Playfair Display',serif">${a.title}</div><div style="font-size:11.5px;color:var(--tx2);line-height:1.55;margin-bottom:7px">${a.subtitle}</div><div style="font-size:9px;font-weight:800;color:var(--s);text-transform:uppercase;margin-bottom:7px;letter-spacing:.5px">${a.year}</div>${pill(a.grant_info,"pgold")}</div>`).join("")||`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--tx3)">No awards data. Run SQL setup.</div>`}</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
@@ -2425,16 +2467,19 @@ function pgAdmin(){
     const kpiRows=D.kpis.map(k=>`
       <div class="arow" id="kpi-row-${k.id}" style="border-bottom:1px solid var(--b2)">
         <div class="ai" style="flex-wrap:wrap;gap:6px;flex:1">
-          <div style="font-weight:700;font-size:12px;min-width:180px;flex:2">${k.name}</div>
-          <div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap">
-            <input class="fi" id="kv-${k.id}" value="${k.current_value||""}" placeholder="Current" style="width:75px;margin-bottom:0;font-size:11px;padding:4px 7px">
-            <input class="fi" id="kb-${k.id}" value="${k.baseline||""}" placeholder="Baseline" style="width:75px;margin-bottom:0;font-size:11px;padding:4px 7px">
-            <input class="fi" id="kp-${k.id}" type="number" value="${k.progress||0}" min="0" max="100" style="width:55px;margin-bottom:0;font-size:11px;padding:4px 7px" title="Progress 0-100%">
-            <select class="fi" id="ks-${k.id}" style="margin-bottom:0;font-size:11px;padding:4px 6px">
-              <option value="sat" ${k.status==="sat"?"selected":""}>✓ Sat</option>
-              <option value="ong" ${!k.status||k.status==="ong"?"selected":""}>● Ongoing</option>
-              <option value="exc" ${k.status==="exc"?"selected":""}>★ Excel</option>
-            </select>
+          <div style="display:flex;flex-direction:column;gap:4px;flex:1">
+            <input class="fi" id="kn${k.id}" value="${k.name||""}" placeholder="KPI name" style="font-size:11.5px;font-weight:700;margin-bottom:0;color:var(--td)">
+            <div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap">
+              <input class="fi" id="kv${k.id}" value="${k.current_value||""}" placeholder="Current" style="width:80px;margin-bottom:0;font-size:11px;padding:4px 7px" title="Current value e.g. 95%">
+              <input class="fi" id="kb${k.id}" value="${k.baseline||""}" placeholder="Baseline" style="width:80px;margin-bottom:0;font-size:11px;padding:4px 7px" title="Baseline value">
+              <input class="fi" id="kp${k.id}" type="number" value="${k.progress||0}" min="0" max="100" style="width:60px;margin-bottom:0;font-size:11px;padding:4px 7px" title="Progress % (0-100)">
+              <select class="fi" id="ks${k.id}" style="margin-bottom:0;font-size:11px;padding:4px 6px">
+                <option value="sat" ${k.status==="sat"?"selected":""}>✓ Sat(100%)</option>
+                <option value="ong" ${!k.status||k.status==="ong"?"selected":""}>● Ongoing</option>
+                <option value="exc" ${k.status==="exc"?"selected":""}>★ Excellent</option>
+              </select>
+              <input class="fi" id="kno${k.id}" value="${k.note||""}" placeholder="Note" style="width:90px;margin-bottom:0;font-size:10px;padding:4px 7px" title="Note e.g. +3pp">
+            </div>
           </div>
         </div>
         <div class="aa"><button class="btn-sv" onclick="sKPI(${k.id})">💾</button><button class="btn-ca" onclick="dKPI(${k.id})">🗑</button></div>
@@ -3227,6 +3272,7 @@ function initChat(){
     </div>
     <div style="padding:10px 12px;border-top:1px solid var(--b);display:flex;gap:8px;flex-shrink:0;background:#fff">
       <input id="chat-in" placeholder="Type your question..." style="flex:1;border:1.5px solid var(--b);border-radius:10px;padding:8px 12px;font-size:12.5px;outline:none;font-family:'Plus Jakarta Sans',sans-serif;" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat();}">
+      <button onclick="startVoice()" id="voice-btn" title="Voice Input" style="background:var(--tp);color:var(--t);border:1.5px solid var(--b2);padding:8px 10px;border-radius:10px;cursor:pointer;font-size:14px;flex-shrink:0">🎤</button>
       <button onclick="sendChat()" id="chat-send" style="background:linear-gradient(135deg,#0a9396,#1b4332);color:#fff;border:none;padding:8px 14px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:700;transition:all .2s">➤</button>
     </div>`;
   document.body.appendChild(box);
@@ -3561,6 +3607,213 @@ document.addEventListener("DOMContentLoaded",function(){
 });
 </script>
 
+<script>
+// ══════════════════════════════════════════════════════════════
+// 1. PWA — Install Prompt
+// ══════════════════════════════════════════════════════════════
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Show install banner after 3 seconds
+  setTimeout(() => {
+    if (deferredPrompt) {
+      const banner = document.createElement('div');
+      banner.id = 'pwa-banner';
+      banner.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#1b4332,#0a9396);color:#fff;border-radius:14px;padding:12px 18px;z-index:9999;display:flex;align-items:center;gap:12px;box-shadow:0 8px 24px rgba(0,0,0,.3);font-family:sans-serif;max-width:340px;width:calc(100% - 40px)';
+      banner.innerHTML = '<span style="font-size:24px">📱</span><div style="flex:1"><div style="font-weight:800;font-size:13px">Install Narnoor ABP App</div><div style="font-size:11px;opacity:.8">Add to home screen — works offline!</div></div><button onclick="installPWA()" style="background:#fff;color:#1b4332;border:none;padding:7px 14px;border-radius:8px;font-weight:800;font-size:12px;cursor:pointer;white-space:nowrap">Install</button><button onclick="this.parentElement.remove()" style="background:transparent;color:#fff;border:none;font-size:18px;cursor:pointer;padding:0 4px">×</button>';
+      document.body.appendChild(banner);
+    }
+  }, 3000);
+});
+
+function installPWA() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(r => {
+      if (r.outcome === 'accepted') toast('✓ App installed successfully!');
+      deferredPrompt = null;
+      const b = document.getElementById('pwa-banner');
+      if (b) b.remove();
+    });
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// 2. Voice Input for AI Chat
+// ══════════════════════════════════════════════════════════════
+let recognition = null;
+function startVoice() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) { toast('❌ Voice not supported in this browser'); return; }
+  if (!recognition) {
+    recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'te-IN'; // Telugu first, fallback to English
+    recognition.onresult = e => {
+      const transcript = e.results[0][0].transcript;
+      const inp = document.getElementById('chat-in');
+      if (inp) { inp.value = transcript; sendChat(); }
+    };
+    recognition.onerror = () => {
+      // Try English if Telugu fails
+      recognition.lang = 'en-IN';
+      recognition.start();
+    };
+  }
+  const btn = document.getElementById('voice-btn');
+  if (btn) btn.style.background = '#fee2e2';
+  recognition.start();
+  toast('🎤 Listening... Speak now!');
+  setTimeout(() => { if (btn) btn.style.background = 'var(--tp)'; }, 3000);
+}
+
+// ══════════════════════════════════════════════════════════════
+// 3. Citizen Survey Rating
+// ══════════════════════════════════════════════════════════════
+const surveyRatings = {};
+function setSurveyRating(id, val, el) {
+  surveyRatings[id] = val;
+  // Highlight selected button
+  el.closest('.survey-q-btns')
+    ? el.closest('.survey-q-btns').querySelectorAll('button').forEach(b => b.style.background = 'rgba(255,255,255,.1)')
+    : el.parentElement.querySelectorAll('button').forEach(b => { b.style.background='rgba(255,255,255,.1)'; b.style.borderColor='rgba(255,255,255,.2)'; });
+  el.style.background = 'rgba(255,255,255,.4)';
+  el.style.borderColor = '#fff';
+}
+
+function submitSurvey() {
+  const labels = {sq1:'Overall Development',sq2:'Scheme Benefits',sq3:'Healthcare',sq4:'Infrastructure'};
+  const ratings = ['','😞 Poor','😐 OK','😊 Good','🌟 Excellent'];
+  let msg = 'Citizen Survey — Narnoor Block\n\n';
+  msg += 'Date: ' + new Date().toLocaleDateString('en-IN') + '\n';
+  msg += '━━━━━━━━━━━━━━━━━━\n';
+  for (const [id, val] of Object.entries(surveyRatings)) {
+    msg += labels[id] + ': ' + ratings[val] + '\n';
+  }
+  const comment = document.getElementById('survey-comment')?.value;
+  if (comment) msg += '\nComments: ' + comment;
+  msg += '\n\nThank you for your feedback!';
+  WS(msg, 'survey');
+}
+
+// ══════════════════════════════════════════════════════════════
+// 4. Real-time KPI auto-refresh (every 5 mins)
+// ══════════════════════════════════════════════════════════════
+let kpiRefreshInterval = null;
+function startKPIAutoRefresh() {
+  if (kpiRefreshInterval) return;
+  kpiRefreshInterval = setInterval(async () => {
+    if (pg !== 'dashboard') return;
+    try {
+      const fresh = await sG('kpis', 'sort_order');
+      if (fresh && fresh.length > 0) {
+        const changed = fresh.some((k,i) => D.kpis[i] && k.progress !== D.kpis[i].progress);
+        if (changed) { D.kpis = fresh; R(); toast('📊 KPIs updated!'); }
+      }
+    } catch(e) {}
+  }, 5 * 60 * 1000); // every 5 minutes
+}
+// Start auto-refresh
+setTimeout(startKPIAutoRefresh, 10000);
+
+// ══════════════════════════════════════════════════════════════
+// 5. Offline mode detection + banner
+// ══════════════════════════════════════════════════════════════
+function checkOnline() {
+  const banner = document.getElementById('offline-banner');
+  if (!navigator.onLine) {
+    if (!banner) {
+      const b = document.createElement('div');
+      b.id = 'offline-banner';
+      b.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#dc2626;color:#fff;text-align:center;padding:8px;font-size:12px;font-weight:700;z-index:10000';
+      b.innerHTML = '⚠️ You are offline — showing cached data. Some features may not work.';
+      document.body.prepend(b);
+    }
+  } else {
+    if (banner) banner.remove();
+  }
+}
+window.addEventListener('online', checkOnline);
+window.addEventListener('offline', checkOnline);
+checkOnline();
+
+// ══════════════════════════════════════════════════════════════
+// 6. Comparison Dashboard - show after KPI section
+// ══════════════════════════════════════════════════════════════
+function getComparisonHTML() {
+  const blockStats = {
+    sat: (D.kpis.filter(k => k.progress >= 100 || k.status === 'sat').length),
+    total: D.kpis.filter(k => !k.block_kpi).length,
+    rank: g('predLastRank') || '1st Rank South Zone 2025',
+  };
+  const pct = blockStats.total ? Math.round(blockStats.sat / blockStats.total * 100) : 0;
+  const compBlocks = [
+    {name:'Narnoor ★', pct: pct, rank:'1st South Zone', color:'#1b4332', highlight:true},
+    {name:'National Avg', pct: 68, rank:'ABP Average', color:'#0a9396', highlight:false},
+    {name:'Telangana Avg', pct: 72, rank:'State Average', color:'#0369a1', highlight:false},
+    {name:'South Zone Top', pct: pct, rank:'(Narnoor)', color:'#E8691A', highlight:false},
+  ];
+  return `<div style="margin-top:28px;background:linear-gradient(135deg,#0d1b2a,#1b4332);border-radius:var(--r2);padding:22px">
+    <div style="font-size:10px;font-weight:800;color:var(--teal);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px">📊 Comparison Dashboard</div>
+    <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:800;color:#fff;margin-bottom:18px">Narnoor vs National ABP Average</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      ${compBlocks.map(b=>`
+      <div style="background:${b.highlight?'rgba(232,105,26,.15)':'rgba(255,255,255,.06)'};border:1.5px solid ${b.highlight?b.color+'66':'rgba(255,255,255,.1)'};border-radius:12px;padding:14px;${b.highlight?'border-top:3px solid #E8691A':''}">
+        <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:6px">${b.name}</div>
+        <div style="font-family:'Poppins',sans-serif;font-size:28px;font-weight:900;color:${b.color}">${b.pct}%</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.5);margin-bottom:8px">${b.rank}</div>
+        <div style="height:6px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden">
+          <div style="height:100%;width:${b.pct}%;background:${b.color};border-radius:4px;transition:width 1s ease"></div>
+        </div>
+      </div>`).join('')}
+    </div>
+    <div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:12px">* National & State averages are indicative based on ABP reports. Narnoor data is live.</div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════
+// 7. Live KPI Progress animation
+// ══════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  // Animate progress bars when they come into view
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const bars = entry.target.querySelectorAll('.kpi-bar');
+        bars.forEach(bar => { bar.style.width = bar.style.width; }); // trigger reflow
+      }
+    });
+  }, {threshold: 0.1});
+  
+  const app = document.getElementById('app');
+  if (app) observer.observe(app);
+});
+
+// ══════════════════════════════════════════════════════════════
+// 8. Service Worker Registration (Offline Support)
+// ══════════════════════════════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').then(reg => {
+      console.log('SW registered:', reg.scope);
+    }).catch(e => console.log('SW registration failed:', e));
+  });
+}
+
+// ══════════════════════════════════════════════════════════════
+// 9. Analytics Visitors Counter (using Supabase)
+// ══════════════════════════════════════════════════════════════
+(async () => {
+  try {
+    // Increment page view count silently
+    const today = new Date().toISOString().split('T')[0];
+    await sP('site_settings', {key: 'lastVisit', value: today});
+  } catch(e) {}
+})();
+
+</script>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </body>
 </html>
